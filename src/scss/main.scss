@@ -13,22 +13,21 @@ body {
   font-family: 'Montserrat', sans-serif;
   h1 {
     display: inline-block;
-    font-size: 44px;
-    // text-transform: uppercase;
-    font-family: 'Caveat', cursive;
+    font-family: 'Montserrat';
     color: white;
-    cursor: pointer;
   }
   nav {
     background-color: rgba(22, 225, 231, 0.5);
     padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     div {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      div {
+        display: flex;
+        flex-direction: row;
+      }
     }
   }
 }
@@ -45,14 +44,11 @@ button {
   transition: all .4s;
   &:hover {
     transform: scale(1.1);
-    background-color: rgb(22, 225, 231);
-    border-color: white;
-    color: white;
   }
 }
 
 #ui {
-  padding: 10vh 0;
+  padding: 10vh 5vw;
   width: 70%;
   margin: 10vh auto;
   display: flex;

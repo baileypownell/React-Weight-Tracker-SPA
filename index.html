@@ -13,18 +13,12 @@
 
 <body>
   <main>
-    <nav>
-      <h1 onclick="onNavigate('/Weight-Tracker-SPA-Web-App/index.html'); return false;">Weight Tracker 2.0</h1>
-      <div>
-        <a href="#" onclick="onNavigate('/Weight-Tracker-SPA-Web-App/createUser'); return false;"><button>CREATE USER</button></a>
-        <a href="#" onclick="onNavigate('/Weight-Tracker-SPA-Web-App/logWeight'); return false;"><button>LOG YOUR WEIGHT</button></a>
-        <a href="#" onclick="onNavigate('/Weight-Tracker-SPA-Web-App/viewHistory'); return false;"><button>VIEW YOUR WEIGHT HISTORY</button></a>
-      </div>
+    <nav id="nav">
     </nav>
     <!-- based on the given route, content for each page of the SPA is rendered here -->
     <div id="app">
     </div>
   </main>
-  <script src="../dist/bundle.js"></script>
+  <script src="./dist/bundle.js"></script>
 </body>
 </html>
