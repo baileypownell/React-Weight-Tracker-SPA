@@ -28,6 +28,8 @@ module.exports = {
     ]
   },
    devServer: {
-     contentBase: __dirname + '/dist'
+     contentBase: __dirname + '/dist',
+     historyApiFallback: true,
+     hot: true
    }
 };

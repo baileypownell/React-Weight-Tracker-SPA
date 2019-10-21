@@ -1,6 +1,8 @@
 import React from 'react';
-import Content from './Content';
 
+import CreateAccount from './CreateAccount';
+import Home from './Home';
+import LogIn from './LogIn';
 
 import {
   Switch,
@@ -26,20 +28,6 @@ class Nav extends React.Component {
       </div>
     )
   }
-}
-
-
-
-function Home() {
-  return <Content><h1>It's never been <br/><span id="fancy">easier</span><br/> to track your progress</h1></Content>
-}
-
-function CreateAccount() {
-  return <Content><h1>This is the create account page</h1></Content>
-}
-
-function LogIn() {
-  return <Content><h1>This is the login page</h1></Content>
 }
 
 export default Nav;
