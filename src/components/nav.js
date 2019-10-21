@@ -26,7 +26,7 @@ class Nav extends React.Component {
   }
 }
 
-let string = 'This is the create account page';
+let string = 'This is the create account page yippppeeee ki ya yay!';
 let string2 = 'This is the login page';
 
 function CreateAccount() {

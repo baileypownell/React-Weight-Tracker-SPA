@@ -26,5 +26,8 @@ module.exports = {
         ],
       }
     ]
-  }
+  },
+   devServer: {
+     contentBase: __dirname + '/dist'
+   }
 };
