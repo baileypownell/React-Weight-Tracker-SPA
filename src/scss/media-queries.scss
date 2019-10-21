@@ -1,0 +1,17 @@
+@media only screen and (min-width: 600px) {
+  nav h1 {
+    font-size: 30px;
+  }
+  body nav div {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  label > h2 {
+    font-size: 22px;
+  }
+  form button {
+    font-size: 25px;
+  }
+}
