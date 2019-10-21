@@ -4,7 +4,7 @@ export default class Content extends React.Component {
   render() {
     return (
       <div id="ui">
-      {this.props.message}
+      {this.props.children}
       </div>
     )
   }
