@@ -26,5 +26,11 @@ module.exports = {
         ],
       }
     ]
-  }
+  },
+   devServer: {
+     publicPath: '/dist',
+     contentBase: './',
+     watchContentBase: true,
+     compress: true
+   }
 };
