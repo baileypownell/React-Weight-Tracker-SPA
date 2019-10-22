@@ -1,6 +1,7 @@
 import React from 'react';
 import Content from './Content';
 
+
 export default class LogIn extends React.Component {
   state = {
     email: '',
@@ -14,6 +15,7 @@ export default class LogIn extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.state);
+
   }
 
   render() {

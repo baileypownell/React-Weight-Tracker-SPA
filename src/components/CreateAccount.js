@@ -1,5 +1,8 @@
 import React from 'react';
 import Content from './Content';
+import firebase from './firebase';
+
+const userDatabase = fire.database();
 
 export default class CreateAccount extends React.Component {
   state = {
@@ -16,6 +19,7 @@ export default class CreateAccount extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.state);
+    userDatabase.ref('/users').push(this.state.email);
   }
   render() {
     return (
