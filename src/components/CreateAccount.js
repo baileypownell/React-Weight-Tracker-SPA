@@ -1,7 +1,7 @@
 import React from 'react';
 import Content from './Content';
-// import firebase from '../../firebase';
-
+import { Redirect } from 'react-router-dom'
+import Program from './Program';
 
 export default class CreateAccount extends React.Component {
   state = {
@@ -27,6 +27,12 @@ export default class CreateAccount extends React.Component {
       const errorCode = error.code;
       const errorMessage = error.message;
     });
+    // firebase.auth().onAuthStateChanged(user => {
+    //   if (user) {
+    //     return  <Redirect to='/Program' />
+    //   }
+    // });
+    history.push('/Program');
    }
   render() {
     return (

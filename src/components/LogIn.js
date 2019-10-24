@@ -14,8 +14,11 @@ export default class LogIn extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
-
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
   }
 
   render() {
