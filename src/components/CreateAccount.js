@@ -1,8 +1,7 @@
 import React from 'react';
 import Content from './Content';
-import firebase from './firebase';
+// import firebase from '../../firebase';
 
-const userDatabase = fire.database();
 
 export default class CreateAccount extends React.Component {
   state = {
@@ -18,9 +17,17 @@ export default class CreateAccount extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
-    userDatabase.ref('/users').push(this.state.email);
-  }
+    // firebase.firestore().collection('users').add({
+    //   firstName: this.state.firstName,
+    //   lastName: this.state.lastName,
+    //   email: this.state.email,
+    //   password: this.state.password
+    // })
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+   }
   render() {
     return (
       <Content>
@@ -36,7 +43,7 @@ export default class CreateAccount extends React.Component {
           <input type="email" name="email" id="email" onChange={this.handleChange}>
           </input>
           <label><h2>Password:</h2></label>
-          <input type="password" name="password" id="password" onChange={this.handleChange}>
+          <input type="text" name="password" id="password" onChange={this.handleChange}>
           </input>
           <button>SIGN UP <i class="fas fa-arrow-circle-right"></i></button>
         </form>
