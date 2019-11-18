@@ -17,22 +17,26 @@ export default class CreateAccount extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    // firebase.firestore().collection('users').add({
-    //   firstName: this.state.firstName,
-    //   lastName: this.state.lastName,
-    //   email: this.state.email,
-    //   password: this.state.password
-    // })
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then(() => {
+      this.props.history.replace('/Program')
+    })
+    .catch(function(error) {
       const errorCode = error.code;
       const errorMessage = error.message;
+      if (errorCode) {
+        console.log(errorCode);
+        if (errorCode === 'auth/invalid-email') {
+          alert('Your password is invalid.');
+        }
+        if (errorCode === 'auth/email-already-in-use') {
+          alert('An account already exists for that email.');
+        }
+      }
+      if (errorMessage) {
+        console.log(errorMessage);
+      }
     });
-    // firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     return  <Redirect to='/Program' />
-    //   }
-    // });
-    history.push('/Program');
    }
   render() {
     return (

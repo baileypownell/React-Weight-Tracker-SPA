@@ -5,7 +5,7 @@ export default class Program extends React.Component {
   render() {
     return (
       <Content>
-        <h1>Hello, {this.state.firstName}</h1>
+        <h1>Hello, Jerry</h1>
         <div>
           <h2>Record Weight <i class="fas fa-pencil-alt"></i></h2>
           <form>
