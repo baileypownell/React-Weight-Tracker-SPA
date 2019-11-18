@@ -3,9 +3,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const publicPath = path.join(__dirname, '..', 'dist');
-
-app.use(express.static(publicPath));
+app.use(express.static(__dirname + '/dist'));
 
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/index.html');
