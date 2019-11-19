@@ -1,11 +1,14 @@
 import React from 'react';
 import Content from './Content';
+// imports for connecting this component to Redux state store
+import { connect } from 'react-redux';
+import * as actionTypes from '../store/actions';
 
-export default class Program extends React.Component {
+class Program extends React.Component {
   render() {
     return (
       <Content>
-        <h1>Hello, Jerry</h1>
+        <h1>Hello, {this.props.firstName}</h1>
         <div>
           <h2>Record Weight <i class="fas fa-pencil-alt"></i></h2>
           <form>
@@ -27,3 +30,11 @@ export default class Program extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    firstName: state.user.firstName
+  }
+}
+
+export default connect(mapStateToProps)(Program);

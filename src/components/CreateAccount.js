@@ -37,6 +37,20 @@ export default class CreateAccount extends React.Component {
         console.log(errorMessage);
       }
     });
+    // then add the user to a user database, and not just authentication part of firebase
+    const db = firebase.firestore();
+    db.collection("users").add({
+      first: this.state.firstName,
+      last: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password
+    })
+    .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
    }
   render() {
     return (

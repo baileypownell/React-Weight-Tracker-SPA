@@ -1,8 +1,10 @@
 import React from 'react';
 import Content from './Content';
+// imports for connecting this component to Redux state store
+import { connect } from 'react-redux';
+import * as actionTypes from '../store/actions';
 
-
-export default class LogIn extends React.Component {
+class LogIn extends React.Component {
   state = {
     email: '',
     password: ''
@@ -16,6 +18,22 @@ export default class LogIn extends React.Component {
     e.preventDefault();
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
+      // reach out to firebase, grab the first name associated with the given email, and update redux state to store that first name
+      let userFirstName;
+      const db = firebase.firestore();
+      db.collection("users").get().then((snapshot) => {
+        for (let i = 0; i < snapshot.docs.length; i++) {
+          if (snapshot.docs[i].id == 'UAJouKdspzQMhNkO4VbaZlQi2OE2') {
+              //console.log(snapshot.docs[i].data().firstName);
+              userFirstName = snapshot.docs[i].data().firstName;
+
+              this.props.setUserFirstName(userFirstName);
+
+          }
+        }
+      });
+
+      this.props.setLoginStatusTrue();
       this.props.history.replace('/Program');
     })
     .catch(function(error) {
@@ -47,3 +65,13 @@ export default class LogIn extends React.Component {
     )
   }
 }
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUserFirstName: (firstName) => dispatch({type: actionTypes.SET_USER_FIRST_NAME, firstName: firstName}),
+    setLoginStatusTrue: () => dispatch({type: actionTypes.SET_USER_LOGGED_IN})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LogIn);
