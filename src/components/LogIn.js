@@ -18,32 +18,34 @@ class LogIn extends React.Component {
     e.preventDefault();
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
-      // reach out to firebase, grab the first name associated with the given email, and update redux state to store that first name
+      // reach out to firebase, get the UIID for the given email, find the first name associated with the given email in the "users" database, and update redux state to store that first name
       let userFirstName;
+      let currentUser = firebase.auth().currentUser;
+      let uid = currentUser.uid;
+      // connect to firebase database "users"
       const db = firebase.firestore();
       db.collection("users").get().then((snapshot) => {
         for (let i = 0; i < snapshot.docs.length; i++) {
-          if (snapshot.docs[i].id == 'UAJouKdspzQMhNkO4VbaZlQi2OE2') {
-              //console.log(snapshot.docs[i].data().firstName);
+          if (snapshot.docs[i].data().firebaseAuthID == uid) {
+              console.log(snapshot.docs[i].data().firebaseAuthID, uid);
               userFirstName = snapshot.docs[i].data().firstName;
-
-              this.props.setUserFirstName(userFirstName);
-
+              //this.props.setUserFirstName(userFirstName);
+              this.props.setLoginStatusTrue(userFirstName);
+              this.props.history.replace('/Program');
+              return;
           }
         }
-      });
-
-      this.props.setLoginStatusTrue();
-      this.props.history.replace('/Program');
+       }
+    );
     })
     .catch(function(error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       if (errorCode) {
-        console.log(errorCode);
+        console.log('Error code: ' + errorCode);
       }
       if (errorMessage) {
-        console.log(errorMessage);
+        console.log('Error message: ' + errorMessage);
       }
     });
   }
@@ -69,8 +71,7 @@ class LogIn extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUserFirstName: (firstName) => dispatch({type: actionTypes.SET_USER_FIRST_NAME, firstName: firstName}),
-    setLoginStatusTrue: () => dispatch({type: actionTypes.SET_USER_LOGGED_IN})
+    setLoginStatusTrue: (firstName) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName})
   }
 }
 

@@ -33,7 +33,8 @@ class Program extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    firstName: state.user.firstName
+    firstName: state.user.firstName,
+    userLoggedIn: state.userLoggedIn
   }
 }
 

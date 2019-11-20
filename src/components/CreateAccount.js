@@ -2,13 +2,18 @@ import React from 'react';
 import Content from './Content';
 import { Redirect } from 'react-router-dom'
 import Program from './Program';
+// imports for connecting this component to Redux state store
+import { connect } from 'react-redux';
+import * as actionTypes from '../store/actions';
 
-export default class CreateAccount extends React.Component {
+
+class CreateAccount extends React.Component {
   state = {
     email: '',
     password: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    firebaseAuthID: ''
   }
   handleChange = (e) => {
     this.setState({
@@ -19,6 +24,25 @@ export default class CreateAccount extends React.Component {
     e.preventDefault();
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
+      // connect firebase Auth to user database
+      let currentUser = firebase.auth().currentUser;
+      let uid = currentUser.uid;
+
+      const db = firebase.firestore();
+      db.collection("users").add({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password,
+        firebaseAuthID: uid
+      })
+      .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+      this.props.setLoginStatusTrue(this.state.firstName);
       this.props.history.replace('/Program')
     })
     .catch(function(error) {
@@ -36,20 +60,6 @@ export default class CreateAccount extends React.Component {
       if (errorMessage) {
         console.log(errorMessage);
       }
-    });
-    // then add the user to a user database, and not just authentication part of firebase
-    const db = firebase.firestore();
-    db.collection("users").add({
-      first: this.state.firstName,
-      last: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
     });
    }
   render() {
@@ -75,3 +85,11 @@ export default class CreateAccount extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoginStatusTrue: (firstName) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CreateAccount);
