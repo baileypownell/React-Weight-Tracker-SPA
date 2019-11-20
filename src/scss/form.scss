@@ -14,3 +14,27 @@ form {
     font-weight: bold;
   }
 }
+
+#weight-logger {
+  border-bottom: 2px solid white;
+  margin-bottom: 25px;
+  input {
+    width: 150px;
+    font-size: 40px;
+    text-align: center
+  }
+  h2 {
+    display: inline;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  #account-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > div {
+      width: 50%;
+    }
+  }
+}

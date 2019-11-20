@@ -5,6 +5,7 @@ import Program from './Program';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actionTypes from '../store/actions';
+import { withRouter } from 'react-router-dom';
 
 
 class CreateAccount extends React.Component {
@@ -37,7 +38,7 @@ class CreateAccount extends React.Component {
         firebaseAuthID: uid
       })
       .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
+          //console.log("Document written with ID: ", docRef.id);
       })
       .catch(function(error) {
           console.error("Error adding document: ", error);
@@ -92,4 +93,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(CreateAccount);
+export default connect(null, mapDispatchToProps)(withRouter(CreateAccount));

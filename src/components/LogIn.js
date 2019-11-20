@@ -4,6 +4,9 @@ import Content from './Content';
 import { connect } from 'react-redux';
 import * as actionTypes from '../store/actions';
 
+
+import { withRouter } from 'react-router-dom';
+
 class LogIn extends React.Component {
   state = {
     email: '',
@@ -27,12 +30,11 @@ class LogIn extends React.Component {
       db.collection("users").get().then((snapshot) => {
         for (let i = 0; i < snapshot.docs.length; i++) {
           if (snapshot.docs[i].data().firebaseAuthID == uid) {
-              console.log(snapshot.docs[i].data().firebaseAuthID, uid);
-              userFirstName = snapshot.docs[i].data().firstName;
-              //this.props.setUserFirstName(userFirstName);
-              this.props.setLoginStatusTrue(userFirstName);
-              this.props.history.replace('/Program');
-              return;
+            userFirstName = snapshot.docs[i].data().firstName;
+            //this.props.setUserFirstName(userFirstName);
+            this.props.setLoginStatusTrue(userFirstName);
+            this.props.history.replace('/Program');
+            return;
           }
         }
        }
@@ -75,4 +77,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(LogIn);
+export default connect(null, mapDispatchToProps)(withRouter(LogIn));

@@ -49,8 +49,8 @@ button {
 }
 
 #content {
-  padding: 5vw;
-  width: 70%;
+  padding: 3vw;
+  width: 80%;
   margin: 5vh auto;
   display: flex;
   flex-direction: column;
@@ -60,6 +60,9 @@ button {
   button {
     margin: 25px auto;
   }
+  i {
+    padding-left: 15px;
+  }
 }
 
 #fancy {
@@ -67,4 +70,27 @@ button {
   font-size: 70px;
 }
 
+
+#button-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  button {
+    margin: 0 10px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #content {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #content {
+    width: 50%;
+  }
+}
 button:focus {outline:0;}
