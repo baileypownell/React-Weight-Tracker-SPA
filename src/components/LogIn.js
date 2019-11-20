@@ -31,7 +31,6 @@ class LogIn extends React.Component {
         for (let i = 0; i < snapshot.docs.length; i++) {
           if (snapshot.docs[i].data().firebaseAuthID == uid) {
             userFirstName = snapshot.docs[i].data().firstName;
-            //this.props.setUserFirstName(userFirstName);
             this.props.setLoginStatusTrue(userFirstName);
             this.props.history.replace('/Program');
             return;

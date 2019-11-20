@@ -6,6 +6,7 @@ const initialState = {
     lastName: '',
     email: '',
     weightHistory: {},
+    todaysWeight: '',
     password: ''
   },
   userLoggedIn: false
@@ -29,10 +30,21 @@ const reducer = (state = initialState, action) => {
           lastName: '',
           email: '',
           weightHistory: {},
+          todaysWeight: '',
           password: ''
         },
         userLoggedIn: false
     };
+    case actionTypes.SET_TODAYS_WEIGHT:
+    console.log('reducer is running');
+    console.log(action);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          todaysWeight: action.todaysWeight
+        }
+      };
     default:
       return state;
   }
