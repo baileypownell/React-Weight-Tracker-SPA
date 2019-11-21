@@ -12,44 +12,49 @@ class Program extends React.Component {
   // update redux with new weight
   handleChange = (e) => {
     todaysWeight = e.target.value;
-    console.log(todaysWeight);
   }
 
   logWeight = (e) => {
     e.preventDefault();
     // update redux with todays weight
     this.props.updateTodaysWeight(parseInt(todaysWeight));
-    console.log(this.props.todaysWeight);
-    // get current user from redux eventually; this will be the firebaseAuthID
-    let currentUser = firebase.auth().currentUser;
-    // add the number to the user database
+    // then update firebase "users" database to hold today's new weight value
+    let currentUser = this.props.firebaseAuthID;
+    // find the user in the user database
+
     const db = firebase.firestore();
     db.collection("users").get().then((snapshot) => {
       for (let i = 0; i < snapshot.docs.length; i++) {
-        if (snapshot.docs[i].data().firebaseAuthID == currentUser.uid) {
+        if (snapshot.docs[i].data().firebaseAuthID == currentUser) {
+          let userID = snapshot.docs[i].id;
+          console.log(userID);
           weightsArray = snapshot.docs[i].data().weights;
-
           let updatedWeights = weightsArray.concat(this.props.todaysWeight);
-          console.log(updatedWeights);
-          db.collection("users").doc('CQ450NanETchc6YR41Uw').update({
+          db.collection("users").doc(userID).update({
              weights: updatedWeights
          })
+         // empty the input form
+         document.querySelector("#weight-logger form input").value = '';
           return;
         }
       }
     })
+
+
+
    }
 
   render() {
     return (
       <Content>
-        <h1>Hello, {this.props.firstName}</h1>
+        <h1 id="greeting">Hello, {this.props.firstName}</h1>
         <div id="weight-logger">
           <h2>Record Weight <i class="fas fa-pencil-alt"></i></h2>
           <form>
           <input onChange={this.handleChange} type="text"></input>
           <button onClick={this.logWeight}>LOG WEIGHT</button>
           </form>
+          {this.props.todaysWeight ? <h2>Today's Weight: {this.props.todaysWeight} lbs.</h2> : null }
         </div>
         <div id="account-options">
           <div>
@@ -74,6 +79,10 @@ class Program extends React.Component {
 const mapStateToProps = state => {
   return {
     firstName: state.user.firstName,
+    lastName: state.user.lastname,
+    email: state.user.email,
+    password: state.user.password,
+    firebaseAuthID: state.user.firebaseAuthID,
     todaysWeight: state.todaysWeight,
     userLoggedIn: state.userLoggedIn
   }

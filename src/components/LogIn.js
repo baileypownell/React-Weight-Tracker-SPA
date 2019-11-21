@@ -22,7 +22,7 @@ class LogIn extends React.Component {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
       // reach out to firebase, get the UIID for the given email, find the first name associated with the given email in the "users" database, and update redux state to store that first name
-      let userFirstName;
+      let userFirstName, userLastName, userEmail, userPassword, firebaseAuthID;
       let currentUser = firebase.auth().currentUser;
       let uid = currentUser.uid;
       // connect to firebase database "users"
@@ -31,7 +31,11 @@ class LogIn extends React.Component {
         for (let i = 0; i < snapshot.docs.length; i++) {
           if (snapshot.docs[i].data().firebaseAuthID == uid) {
             userFirstName = snapshot.docs[i].data().firstName;
-            this.props.setLoginStatusTrue(userFirstName);
+            userLastName = snapshot.docs[i].data().lastName;
+            userEmail = snapshot.docs[i].data().email;
+            userPassword = snapshot.docs[i].data().password;
+            firebaseAuthID = snapshot.docs[i].data().firebaseAuthID;
+            this.props.setLoginStatusTrue(userFirstName, userLastName, userEmail, userPassword, firebaseAuthID);
             this.props.history.replace('/Program');
             return;
           }
@@ -72,7 +76,7 @@ class LogIn extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusTrue: (firstName) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName})
+    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID})
   }
 }
 

@@ -14,7 +14,8 @@ class CreateAccount extends React.Component {
     password: '',
     firstName: '',
     lastName: '',
-    firebaseAuthID: ''
+    firebaseAuthID: '',
+    weights: []
   }
   handleChange = (e) => {
     this.setState({
@@ -28,14 +29,15 @@ class CreateAccount extends React.Component {
       // connect firebase Auth to user database
       let currentUser = firebase.auth().currentUser;
       let uid = currentUser.uid;
-
+      //let userFirstName, userLastName, userEmail, userPassword, firebaseAuthID;
       const db = firebase.firestore();
       db.collection("users").add({
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,
         password: this.state.password,
-        firebaseAuthID: uid
+        firebaseAuthID: uid,
+        weights: []
       })
       .then(function(docRef) {
           //console.log("Document written with ID: ", docRef.id);
@@ -43,7 +45,7 @@ class CreateAccount extends React.Component {
       .catch(function(error) {
           console.error("Error adding document: ", error);
       });
-      this.props.setLoginStatusTrue(this.state.firstName);
+      this.props.setLoginStatusTrue(this.state.firstName, this.state.lastName, this.state.email, this.state.password, uid);
       this.props.history.replace('/Program')
     })
     .catch(function(error) {
@@ -89,7 +91,7 @@ class CreateAccount extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusTrue: (firstName) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName})
+    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID})
   }
 }
 

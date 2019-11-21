@@ -5,11 +5,11 @@ const initialState = {
     firstName: '',
     lastName: '',
     email: '',
-    weightHistory: {},
-    todaysWeight: '',
-    password: ''
+    password: '',
+    firebaseAuthID: ''
   },
-  userLoggedIn: false
+  userLoggedIn: false,
+  todaysWeight: '',
 };
 
 
@@ -17,9 +17,14 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_USER_LOGGED_IN:
       return {
+        ...state,
         user: {
           ...state.user,
-          firstName: action.firstName
+          firstName: action.firstName,
+          lastname: action.lastName,
+          email: action.email,
+          password: action.password,
+          firebaseAuthID: action.firebaseAuthID
         },
         userLoggedIn: true
       };
@@ -29,21 +34,20 @@ const reducer = (state = initialState, action) => {
           firstName: '',
           lastName: '',
           email: '',
-          weightHistory: {},
           todaysWeight: '',
-          password: ''
+          password: '',
+          firebaseAuthID: ''
         },
-        userLoggedIn: false
+        userLoggedIn: false,
+        todaysWeight: '',
     };
     case actionTypes.SET_TODAYS_WEIGHT:
-    console.log('reducer is running');
-    console.log(action);
       return {
         ...state,
         user: {
-          ...state.user,
-          todaysWeight: action.todaysWeight
-        }
+          ...state.user
+        },
+        todaysWeight: action.todaysWeight
       };
     default:
       return state;
