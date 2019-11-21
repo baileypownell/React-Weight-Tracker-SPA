@@ -22,7 +22,7 @@ class LogIn extends React.Component {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
       // reach out to firebase, get the UIID for the given email, find the first name associated with the given email in the "users" database, and update redux state to store that first name
-      let userFirstName, userLastName, userEmail, userPassword, firebaseAuthID;
+      let userFirstName, userLastName, userEmail, userPassword, firebaseAuthID, weightHistory;
       let currentUser = firebase.auth().currentUser;
       let uid = currentUser.uid;
       // connect to firebase database "users"
@@ -35,7 +35,8 @@ class LogIn extends React.Component {
             userEmail = snapshot.docs[i].data().email;
             userPassword = snapshot.docs[i].data().password;
             firebaseAuthID = snapshot.docs[i].data().firebaseAuthID;
-            this.props.setLoginStatusTrue(userFirstName, userLastName, userEmail, userPassword, firebaseAuthID);
+            weightHistory = snapshot.docs[i].data().weights;
+            this.props.setLoginStatusTrue(userFirstName, userLastName, userEmail, userPassword, firebaseAuthID, weightHistory);
             this.props.history.replace('/Program');
             return;
           }
@@ -76,7 +77,7 @@ class LogIn extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID})
+    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID, weightHistory) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID, weightHistory: weightHistory})
   }
 }
 

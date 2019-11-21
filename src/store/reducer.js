@@ -10,6 +10,7 @@ const initialState = {
   },
   userLoggedIn: false,
   todaysWeight: '',
+  weightHistory: []
 };
 
 
@@ -26,7 +27,8 @@ const reducer = (state = initialState, action) => {
           password: action.password,
           firebaseAuthID: action.firebaseAuthID
         },
-        userLoggedIn: true
+        userLoggedIn: true,
+        weightHistory: action.weightHistory
       };
     case actionTypes.SET_USER_LOGGED_OUT:
       return {
@@ -40,6 +42,7 @@ const reducer = (state = initialState, action) => {
         },
         userLoggedIn: false,
         todaysWeight: '',
+        weightHistory: []
     };
     case actionTypes.SET_TODAYS_WEIGHT:
       return {

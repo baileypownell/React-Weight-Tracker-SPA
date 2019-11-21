@@ -3,6 +3,7 @@ import Content from './Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actionTypes from '../store/actions';
+import WeightHistory from './WeightHistory';
 
   let weightsArray;
   let todaysWeight;
@@ -45,6 +46,7 @@ class Program extends React.Component {
    }
 
   render() {
+    console.log(this.props.weightHistory);
     return (
       <Content>
         <h1 id="greeting">Hello, {this.props.firstName}</h1>
@@ -59,7 +61,15 @@ class Program extends React.Component {
         <div id="account-options">
           <div>
             <h2>Recent Weight Logs <i class="fas fa-history"></i></h2>
-            <button>VIEW MY ENTIRE HISTORY</button>
+            <div id="weight-history">
+              <div id="header">
+                <span>Weight</span>
+                <span>Date</span>
+              </div>
+              {this.props.weightHistory ? <WeightHistory weightHistory={this.props.weightHistory}/> : <p>You haven't recorded a weight yet.</p>}
+              <button>VIEW MORE</button>
+            </div>
+
           </div>
           <div>
             <h2>Account Settings <i class="fas fa-cog"></i></h2>
@@ -84,7 +94,8 @@ const mapStateToProps = state => {
     password: state.user.password,
     firebaseAuthID: state.user.firebaseAuthID,
     todaysWeight: state.todaysWeight,
-    userLoggedIn: state.userLoggedIn
+    userLoggedIn: state.userLoggedIn,
+    weightHistory: state.weightHistory
   }
 }
 
