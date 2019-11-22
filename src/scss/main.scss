@@ -94,7 +94,9 @@ button {
   flex-direction: column;
   padding: 10px;
   border-radius: 10px;
-  > div {
+  > #header {
+    padding-bottom: 10px;
+    font-weight: bold;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -102,10 +104,7 @@ button {
       text-transform: uppercase;
     }
   }
-  #header {
-    padding-bottom: 10px;
-    font-weight: bold;
-  }
+
   .row {
     display: flex;
     flex-direction: row;
@@ -117,6 +116,7 @@ button {
     background-color: #3ad8d9;
     color: white;
     margin: 20px 0 0 0;
+    width: 100%;
     &:hover {
       border: 2px solid #3ad8d9;
       background-color: white;
