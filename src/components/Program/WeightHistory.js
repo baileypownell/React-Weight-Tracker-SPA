@@ -13,8 +13,6 @@ class WeightHistory extends React.Component {
   }
 
   showLimitedRecs = (iterator) => {
-    console.log('showLimitedRecs running');
-    console.log(this.props.weightHistory.length);
     let weightsToShow = [];
     // sort by newest to show, based on the seconds property of the date object
     let allWeightsRecorded = this.props.weightHistory;
@@ -33,11 +31,11 @@ class WeightHistory extends React.Component {
     for (let i = 0; i < iterator; i++) {
       weightsToShow.push(sortedAllWeightsRecorded[i]);
     }
-    console.log('weightsToShow variable is' + weightsToShow);
+
     this.setState({
       weightsToShow: weightsToShow
     });
-    console.log(this.state);
+
   }
 
   componentDidMount() {
@@ -45,14 +43,12 @@ class WeightHistory extends React.Component {
     if (this.props.weightHistory.length > 5) {
       iterator = 5;
     } else {
-      iterator = allWeightsRecorded.length;
+      iterator = this.props.weightHistory.length;
     }
-    console.log('component did mount');
     this.showLimitedRecs(iterator);
   }
 
   showMore = () => {
-    console.log('showMore running', this.props.weightHistory.length);
     let weightsToShow = [];
     // sort by newest to show, based on the seconds property of the date object
     let allWeightsRecorded = this.props.weightHistory;
@@ -82,7 +78,6 @@ class WeightHistory extends React.Component {
         <div id="data-row">
           {this.state.weightsToShow.map((weight) => {
             let date = (new Date(weight.date.date.seconds * 1000)).toString();
-
             let dateStringArray = date.split(' ');
             let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
 

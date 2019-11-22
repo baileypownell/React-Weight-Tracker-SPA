@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
         },
         userLoggedIn: false,
         todaysWeight: '',
-        weightHistory: []
+        weightHistory: null
     };
     case actionTypes.SET_TODAYS_WEIGHT:
       return {

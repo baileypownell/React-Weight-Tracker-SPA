@@ -1,0 +1,122 @@
+
+#weight-logger {
+  border-bottom: 2px solid white;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  input {
+    width: 150px;
+    font-size: 40px;
+    text-align: center
+  }
+  h2 {
+    display: inline;
+  }
+}
+
+#weight-history {
+  background-color: white;
+  color: #3ad8d9;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  > #header {
+    padding-bottom: 10px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > span {
+      text-transform: uppercase;
+    }
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 3px 0;
+    border-bottom: 1px solid #3ad8d9;
+  }
+  button {
+    background-color: #3ad8d9;
+    color: white;
+    margin: 20px 0 0 0;
+    width: 100%;
+    &:hover {
+      border: 2px solid #3ad8d9;
+      background-color: white;
+      color: #3ad8d9;
+    }
+  }
+}
+
+#weight-history,
+#button-div {
+  box-shadow: 10px 10px 40px white;
+}
+
+#data-row {
+  flex-direction: column!important;
+}
+
+.button-disabled {
+  opacity: 0.75;
+  cursor: auto;
+  &:hover {
+    background-color: white;
+    color: #3ad8d9;
+    border-color: #3ad8d9;
+  }
+}
+
+#account-options {
+  align-items: flex-start;
+  > div {
+    margin: 0 10px;
+  }
+}
+
+
+#button-div {
+  background-color: white;
+  border-radius: 15px;
+  color: #3ad8d9;
+  padding: 20px;
+  > div > h3 {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.change-account-setting {
+  background-color:  #3ad8d9;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+  color: white;
+  display: none;
+  box-shadow: 5px 5px 20px #3ad8d9;
+  input {
+    margin: 0;
+  }
+  button {
+    margin: 20px 0 0 0 !important;
+    width: 100%;
+  }
+}
+
+
+#button-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  button {
+    margin: 0 10px;
+  }
+}
+
+.visible {
+  display: block;
+}

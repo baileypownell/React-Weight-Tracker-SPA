@@ -1,9 +1,26 @@
-@import 'form';
-@import 'media-queries';
+@import 'UI/Form';
+@import 'UI/Input';
+@import 'UI/Button';
+@import 'LogInOrSignUp';
+@import 'Content';
+@import 'Home';
+@import 'Program';
+
+@import 'Media-queries';
+
+
 * {
   margin: 0;
   box-sizing: border-box;
 }
+
+
+button:focus,
+input {
+  outline:0;
+}
+
+
 body {
   background: url("https://res.cloudinary.com/djad06sng/image/upload/v1569694963/graphic-node-iLKK0eFTywU-unsplash.jpg"), rgba(232, 156, 26, 0.3);
   min-height: 100vh;
@@ -30,124 +47,3 @@ body {
     padding: 8px 0;
   }
 }
-
-button {
-  margin: 10px;
-  padding: 15px;
-  color: rgb(22, 225, 231);
-  background-color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 18px;
-  border: 2px solid rgb(22, 225, 231);
-  transition: all .4s;
-  &:hover {
-    color: white;
-    background-color: rgba(22, 225, 231, 0.5);
-    border-color: white;
-  }
-}
-
-#content {
-  padding: 3vw;
-  width: 80%;
-  margin: 5vh auto;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  background-color: rgba(22, 225, 231, 0.7);
-  border-radius: 50px;
-  #greeting {
-    padding: 20px 0;
-    font-family: 'Caveat', cursive;
-    font-size: 70px;
-  }
-  button {
-    margin: 25px auto;
-  }
-  i {
-    padding-left: 15px;
-  }
-}
-
-#fancy {
-  font-family: 'Caveat', cursive;
-  font-size: 70px;
-}
-
-
-#button-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: nowrap;
-  width: 100%;
-  button {
-    margin: 0 10px;
-  }
-}
-
-#weight-history {
-  background-color: white;
-  color: #3ad8d9;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  border-radius: 10px;
-  > #header {
-    padding-bottom: 10px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    > span {
-      text-transform: uppercase;
-    }
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 3px 0;
-    border-bottom: 1px solid #3ad8d9;
-  }
-  button {
-    background-color: #3ad8d9;
-    color: white;
-    margin: 20px 0 0 0;
-    width: 100%;
-    &:hover {
-      border: 2px solid #3ad8d9;
-      background-color: white;
-      color: #3ad8d9;
-    }
-  }
-}
-
-#data-row {
-  flex-direction: column!important;
-}
-
-.button-disabled {
-  opacity: 0.75;
-  cursor: auto;
-  &:hover {
-    background-color: white;
-    color: #3ad8d9;
-    border-color: #3ad8d9;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  #content {
-    width: 60%;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  #content {
-    width: 50%;
-  }
-}
-button:focus {outline:0;}

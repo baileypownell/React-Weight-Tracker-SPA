@@ -14,7 +14,7 @@ import {
 import CreateAccount from './components/CreateAccount';
 import Home from './components/Home';
 import LogIn from './components/LogIn';
-import Program from './components/Program';
+import Program from './components/Program/Program';
 import LogInOrSignUp from './components/LogInOrSignUp';
 
 import './scss/main.scss';

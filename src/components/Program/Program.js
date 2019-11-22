@@ -1,9 +1,14 @@
 import React from 'react';
-import Content from './Content';
+
+import Content from '../Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actions';
+import * as actionTypes from '../../store/actions';
 import WeightHistory from './WeightHistory';
+import ChangeName from './ChangeName';
+import ChangeEmail from './ChangeEmail';
+import ChangePassword from './ChangePassword';
+import DeleteAccount from './DeleteAccount';
 
   let weightsArray;
   let todaysWeight;
@@ -17,7 +22,7 @@ class Program extends React.Component {
   // update redux with new weight
   handleChange = (e) => {
     todaysWeight = e.target.value;
-    if (document.querySelector("#weight-logger form input").value.length > 2) {
+    if (document.querySelector("#weight-logger form input").value.length > 1) {
       this.setState({
         formInputEmpty: false
       });
@@ -30,7 +35,7 @@ class Program extends React.Component {
 
   logWeight = (e) => {
     e.preventDefault();
-    if (document.querySelector("#weight-logger form input").value.length > 2) {
+    if (document.querySelector("#weight-logger form input").value.length > 1) {
       // update redux with todays weight
       this.props.updateTodaysWeight(parseInt(todaysWeight));
       //update redux weightHistory with todays weight
@@ -88,10 +93,10 @@ class Program extends React.Component {
           <div>
             <h2>Account Settings <i class="fas fa-cog"></i></h2>
             <div id="button-div">
-              <button>CHANGE MY NAME</button>
-              <button>CHANGE MY EMAIL</button>
-              <button>CHANGE MY PASSWORD</button>
-              <button>DELETE MY ACCOUNT</button>
+              <ChangeName/>
+              <ChangeEmail/>
+              <ChangePassword/>
+              <DeleteAccount/>
             </div>
           </div>
         </div>

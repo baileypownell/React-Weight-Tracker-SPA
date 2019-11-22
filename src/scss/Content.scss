@@ -1,0 +1,22 @@
+#content {
+  padding: 3vw;
+  width: 80%;
+  margin: 5vh auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: rgba(22, 225, 231, 0.7);
+  border-radius: 50px;
+  #greeting {
+    padding: 20px 0;
+    font-family: 'Caveat', cursive;
+    font-size: 70px;
+    text-shadow: 3px 3px 25px white;
+  }
+  button {
+    margin: 25px auto;
+  }
+  i {
+    padding-left: 15px;
+  }
+}
