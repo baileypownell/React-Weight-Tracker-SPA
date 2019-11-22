@@ -21,16 +21,16 @@ class Program extends React.Component {
     this.props.updateTodaysWeight(parseInt(todaysWeight));
     // then update firebase "users" database to hold today's new weight value
     let currentUser = this.props.firebaseAuthID;
-    // find the user in the user database
 
     const db = firebase.firestore();
     db.collection("users").get().then((snapshot) => {
       for (let i = 0; i < snapshot.docs.length; i++) {
         if (snapshot.docs[i].data().firebaseAuthID == currentUser) {
           let userID = snapshot.docs[i].id;
-          console.log(userID);
           weightsArray = snapshot.docs[i].data().weights;
-          let updatedWeights = weightsArray.concat(this.props.todaysWeight);
+          let updatedWeights = weightsArray.concat({
+            date: "now",
+            weight: this.props.todaysWeight});
           db.collection("users").doc(userID).update({
              weights: updatedWeights
          })

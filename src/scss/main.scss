@@ -5,8 +5,8 @@
   box-sizing: border-box;
 }
 body {
-  min-height: 100vh;
   background: url("https://res.cloudinary.com/djad06sng/image/upload/v1569694963/graphic-node-iLKK0eFTywU-unsplash.jpg"), rgba(232, 156, 26, 0.3);
+  min-height: 100vh;
   background-blend-mode: hard-light;
   background-position: center;
   background-size: cover;
@@ -123,6 +123,10 @@ button {
       color: #3ad8d9;
     }
   }
+}
+
+#data-row {
+  flex-direction: column!important;
 }
 
 @media screen and (min-width: 1200px) {
