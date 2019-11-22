@@ -129,6 +129,16 @@ button {
   flex-direction: column!important;
 }
 
+.button-disabled {
+  opacity: 0.75;
+  cursor: auto;
+  &:hover {
+    background-color: white;
+    color: #3ad8d9;
+    border-color: #3ad8d9;
+  }
+}
+
 @media screen and (min-width: 1200px) {
   #content {
     width: 60%;

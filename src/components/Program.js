@@ -10,43 +10,57 @@ import WeightHistory from './WeightHistory';
 
 class Program extends React.Component {
 
+  state = {
+    formInputEmpty: true
+  }
+
   // update redux with new weight
   handleChange = (e) => {
     todaysWeight = e.target.value;
+    if (document.querySelector("#weight-logger form input").value.length > 2) {
+      this.setState({
+        formInputEmpty: false
+      });
+    } else {
+      this.setState({
+        formInputEmpty: true
+      });
+    }
   }
 
   logWeight = (e) => {
     e.preventDefault();
-    // update redux with todays weight
-    this.props.updateTodaysWeight(parseInt(todaysWeight));
-    // then update firebase "users" database to hold today's new weight value
-    let currentUser = this.props.firebaseAuthID;
+    if (document.querySelector("#weight-logger form input").value.length > 2) {
+      // update redux with todays weight
+      this.props.updateTodaysWeight(parseInt(todaysWeight));
+      //update redux weightHistory with todays weight
 
-    const db = firebase.firestore();
-    db.collection("users").get().then((snapshot) => {
-      for (let i = 0; i < snapshot.docs.length; i++) {
-        if (snapshot.docs[i].data().firebaseAuthID == currentUser) {
-          let userID = snapshot.docs[i].id;
-          weightsArray = snapshot.docs[i].data().weights;
-          let updatedWeights = weightsArray.concat({
-            date: "now",
-            weight: this.props.todaysWeight});
-          db.collection("users").doc(userID).update({
-             weights: updatedWeights
-         })
-         // empty the input form
-         document.querySelector("#weight-logger form input").value = '';
-          return;
+      // then update firebase "users" database to hold today's new weight value
+      let currentUser = this.props.firebaseAuthID;
+
+      const db = firebase.firestore();
+      db.collection("users").get().then((snapshot) => {
+        for (let i = 0; i < snapshot.docs.length; i++) {
+          if (snapshot.docs[i].data().firebaseAuthID == currentUser) {
+            let date = new Date();
+            let userID = snapshot.docs[i].id;
+            weightsArray = snapshot.docs[i].data().weights;
+            let updatedWeights = weightsArray.concat({
+              date: {date},
+              weight: this.props.todaysWeight});
+            db.collection("users").doc(userID).update({
+               weights: updatedWeights
+           })
+           // empty the input form
+           document.querySelector("#weight-logger form input").value = '';
+           return;
+          }
         }
-      }
-    })
-
-
-
+      })
+    }
    }
 
   render() {
-    console.log(this.props.weightHistory);
     return (
       <Content>
         <h1 id="greeting">Hello, {this.props.firstName}</h1>
@@ -54,7 +68,7 @@ class Program extends React.Component {
           <h2>Record Weight <i class="fas fa-pencil-alt"></i></h2>
           <form>
           <input onChange={this.handleChange} type="text"></input>
-          <button onClick={this.logWeight}>LOG WEIGHT</button>
+          <button onClick={this.logWeight} className={this.state.formInputEmpty ? "button-disabled" : null}>LOG WEIGHT</button>
           </form>
           {this.props.todaysWeight ? <h2>Today's Weight: {this.props.todaysWeight} lbs.</h2> : null }
         </div>
@@ -66,7 +80,7 @@ class Program extends React.Component {
                 <span>Weight</span>
                 <span>Date</span>
               </div>
-              {this.props.weightHistory ? <WeightHistory weightHistory={this.props.weightHistory}/> : <p>You haven't recorded a weight yet.</p>}
+              {this.props.weightHistory ? <WeightHistory weightHistory={this.props.weightHistory} todaysWeight={todaysWeight}/> : <p>You haven't recorded a weight yet.</p>}
               <button>VIEW MORE</button>
             </div>
 
