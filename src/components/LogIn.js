@@ -30,6 +30,7 @@ class LogIn extends React.Component {
       db.collection("users").get().then((snapshot) => {
         for (let i = 0; i < snapshot.docs.length; i++) {
           if (snapshot.docs[i].data().firebaseAuthID == uid) {
+            console.log("snapshot" + snapshot.docs[i].data());
             userFirstName = snapshot.docs[i].data().firstName;
             userLastName = snapshot.docs[i].data().lastName;
             userEmail = snapshot.docs[i].data().email;
@@ -37,6 +38,8 @@ class LogIn extends React.Component {
             firebaseAuthID = snapshot.docs[i].data().firebaseAuthID;
             weightHistory = snapshot.docs[i].data().weights;
             this.props.setLoginStatusTrue(userFirstName, userLastName, userEmail, userPassword, firebaseAuthID, weightHistory);
+            console.log(localStorage.token, localStorage.userId)
+            this.props.setUserTokenAndID(localStorage.token, localStorage.userId);
             this.props.history.replace('/Program');
             return;
           }
@@ -65,7 +68,7 @@ class LogIn extends React.Component {
           <input type="email" name="email" id="email" onChange={this.handleChange}>
           </input>
           <label><h2>Password:</h2></label>
-          <input type="text" name="password" id="password" onChange={this.handleChange}>
+          <input type="password" name="password" id="password" onChange={this.handleChange}>
           </input>
           <button>LOG IN <i class="fas fa-arrow-circle-right"></i></button>
         </form>
@@ -77,7 +80,8 @@ class LogIn extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID, weightHistory) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID, weightHistory: weightHistory})
+    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID, weightHistory) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID, weightHistory: weightHistory}),
+    setUserTokenAndID: (idToken, userId) => dispatch({type: actionTypes.SET_USER_TOKEN_AND_ID, idToken: idToken, userId: userId})
   }
 }
 

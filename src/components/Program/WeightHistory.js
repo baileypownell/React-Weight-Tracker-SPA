@@ -80,17 +80,16 @@ class WeightHistory extends React.Component {
       <div>
         <div id="data-row">
           {this.state.weightsToShow.map((weight) => {
-                      let date = (new Date(weight.date.date.seconds * 1000)).toString();
-                      let dateStringArray = date.split(' ');
-                      let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
-
-                      return <Weight
-                        key={weight.date.date.seconds}
-                        weight={weight.weight}
-                        date={dateString}
-                        />
-                    })
-                  }
+            let date = (new Date(weight.date.date.seconds * 1000)).toString();
+            let dateStringArray = date.split(' ');
+            let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
+            return <Weight
+              key={weight.date.date.seconds}
+              weight={weight.weight}
+              date={dateString}
+            />
+            })
+          }
         </div>
         <button onClick={this.showMore}>VIEW MORE</button>
       </div>

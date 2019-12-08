@@ -27,8 +27,8 @@ class ChangePassword extends React.Component {
         <h3 onClick={this.showChangePassword}>CHANGE MY PASSWORD</h3><i class="fas fa-caret-down"></i>
         <div className={this.state.passwordChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="passwordChange">
           <h3>New Password:</h3>
-          <input type="text"></input>
-          <button>SUBMIT</button>
+
+          <button onClick={() => this.props.changePassword("bailey.pownell@gmail.com")}>SUBMIT</button>
         </div>
       </div>
     )
@@ -44,7 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changePassword: (todaysWeight) => dispatch({type: actionTypes.SET_TODAYS_WEIGHT, todaysWeight: todaysWeight})
+    changePassword: (email) => dispatch({type: actionTypes.CHANGE_PASSWORD, email: email})
   }
 }
 

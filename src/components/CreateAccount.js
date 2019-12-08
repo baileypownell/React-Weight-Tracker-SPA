@@ -80,7 +80,7 @@ class CreateAccount extends React.Component {
           <input type="email" name="email" id="email" onChange={this.handleChange}>
           </input>
           <label><h2>Password:</h2></label>
-          <input type="text" name="password" id="password" onChange={this.handleChange}>
+          <input type="password" name="password" id="password" onChange={this.handleChange}>
           </input>
           <button>SIGN UP <i class="fas fa-arrow-circle-right"></i></button>
         </form>
