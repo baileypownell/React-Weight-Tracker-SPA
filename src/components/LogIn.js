@@ -11,13 +11,16 @@ import { withRouter } from 'react-router-dom';
 class LogIn extends React.Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    errorMessage: ''
   }
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
   }
+
+
   handleSubmit = (e) => {
     e.preventDefault();
     let payload = {
@@ -38,13 +41,16 @@ class LogIn extends React.Component {
       this.props.getUserData(localId);
       this.props.history.replace('/Program');
     })
-    .catch(function(error) {
+    .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       if (errorCode) {
-        console.log('Error code: ' + errorCode);
+        //console.log('Error code: ' + errorCode);
       }
       if (errorMessage) {
+        this.setState((prevState) => ({
+          errorMessage: errorMessage
+        }))
         console.log('Error message: ' + errorMessage);
       }
     });
@@ -52,6 +58,33 @@ class LogIn extends React.Component {
   }
 
   render() {
+    let errorMessage = null;
+    if (this.state.errorMessage) {
+      let messageToUser = '';
+      if (this.state.errorMessage === 'INVALID_EMAIL') {
+        messageToUser = 'The email is invalid.';
+      } else if (this.state.errorMessage === 'EMAIL_NOT_FOUND') {
+        messageToUser = 'There is no account associated with this email.';
+      } else if (this.state.errorMessage === 'INVALID_PASSWORD') {
+        messageToUser = 'The password is invalid';
+      } else if (this.state.errorMessage === 'USER_DISABLED') {
+        messageToUser = 'The user has been disabled.';
+      } else if (this.state.errorMessage === 'OPERATION_NOT_ALLOWED') {
+        messageToUser = 'Password sign-in is disabled for this project.';
+      } else if (this.state.errorMessage === 'EMAIL_EXISTS') {
+        messageToUser = 'The email address is already in use by another account.';
+      } else if (this.state.errorMessage === 'WEAK_PASSWORD') {
+        messageToUser = 'The password must be 6 characters long or more.';
+      } else if (this.state.errorMessage === 'USER_NOT_FOUND') {
+        messageToUser = 'There is no user record corresponding to this identifier. The user may have been deleted.';
+      } else {
+        messageToUser = "There has been an error."
+      }
+      errorMessage = (
+        <h3>{messageToUser}</h3>
+      )
+    }
+
     return (
       <Content>
         <h1>LOG IN</h1>
@@ -64,10 +97,12 @@ class LogIn extends React.Component {
           </input>
           <button>LOG IN <i class="fas fa-arrow-circle-right"></i></button>
         </form>
+        {errorMessage}
       </Content>
     )
   }
 }
+
 
 
 const mapDispatchToProps = dispatch => {

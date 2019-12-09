@@ -15,7 +15,8 @@ const initialState = {
   localId: '',
   refreshToken: '',
   todaysWeight: '',
-  weightHistory: []
+  weightHistory: [],
+  error: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,7 +50,8 @@ const reducer = (state = initialState, action) => {
         refreshToken: '',
         userLoggedIn: false,
         todaysWeight: '',
-        weightHistory: null
+        weightHistory: null,
+        error: ''
     }
     case actionTypes.SET_USER_DATA:
       return {
