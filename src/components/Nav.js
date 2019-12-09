@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actions';
+import * as actionTypes from '../store/actionTypes';
 
 import { withRouter } from 'react-router-dom';
 

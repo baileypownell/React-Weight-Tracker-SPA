@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import Program from './Program/Program';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actions';
+import * as actions from '../store/actionCreators';
 import { withRouter } from 'react-router-dom';
 
 
@@ -91,7 +91,7 @@ class CreateAccount extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID})
+    createAccount: (firstName, lastName, email, password) => dispatch(actions.createAccount(firstName, lastName, email, password))
   }
 }
 

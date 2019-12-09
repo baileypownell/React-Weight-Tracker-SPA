@@ -1,7 +1,7 @@
 import React from 'react';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionTypes from '../../store/actionTypes';
 
 class DeleteAccount extends React.Component {
 

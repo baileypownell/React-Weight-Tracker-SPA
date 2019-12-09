@@ -2,7 +2,7 @@ import React from 'react';
 import Content from './Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actions';
+import * as actionTypes from '../store/actionTypes';
 
 
 class Home extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actions from '../../store/actionCreators';
 
 class ChangeEmail extends React.Component {
 
@@ -45,14 +45,13 @@ class ChangeEmail extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.user.email,
-    idToken: localStorage.token
+    email: state.user.email
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeEmail: (idToken, newEmail) => dispatch({type: actionTypes.CHANGE_EMAIL, idToken: idToken, newEmail: newEmail})
+    changeEmail: (idToken, newEmail) => dispatch(actions.changeEmail(idToken, newEmail))
   }
 }
 

@@ -2,8 +2,9 @@ import React from 'react';
 import Content from './Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actions';
-
+import * as actionTypes from '../store/actionTypes';
+import * as actions from '../store/actionCreators';
+import axios from 'axios';
 
 import { withRouter } from 'react-router-dom';
 
@@ -19,33 +20,23 @@ class LogIn extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .then(() => {
-      // reach out to firebase, get the UIID for the given email, find the first name associated with the given email in the "users" database, and update redux state to store that first name
-      let userFirstName, userLastName, userEmail, userPassword, firebaseAuthID, weightHistory;
-      let currentUser = firebase.auth().currentUser;
-      let uid = currentUser.uid;
-      // connect to firebase database "users"
-      const db = firebase.firestore();
-      db.collection("users").get().then((snapshot) => {
-        for (let i = 0; i < snapshot.docs.length; i++) {
-          if (snapshot.docs[i].data().firebaseAuthID == uid) {
-            console.log("snapshot" + snapshot.docs[i].data());
-            userFirstName = snapshot.docs[i].data().firstName;
-            userLastName = snapshot.docs[i].data().lastName;
-            userEmail = snapshot.docs[i].data().email;
-            userPassword = snapshot.docs[i].data().password;
-            firebaseAuthID = snapshot.docs[i].data().firebaseAuthID;
-            weightHistory = snapshot.docs[i].data().weights;
-            this.props.setLoginStatusTrue(userFirstName, userLastName, userEmail, userPassword, firebaseAuthID, weightHistory);
-            console.log(localStorage.token, localStorage.userId)
-            this.props.setUserTokenAndID(localStorage.token, localStorage.userId);
-            this.props.history.replace('/Program');
-            return;
-          }
-        }
-       }
-    );
+    let payload = {
+      email: this.state.email,
+      password: this.state.password,
+      returnSecureToken: true
+    }
+    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    .then(response => {
+      console.log(response);
+      //update Redux state
+      let email = response.data.email;
+      let expiresIn = response.data.expiresIn;
+      let idToken = response.data.idToken;
+      let localId = response.data.localId;
+      let refreshToken = response.data.refreshToken;
+      this.props.login(email, expiresIn, idToken, localId, refreshToken);
+      this.props.getUserData(localId);
+      this.props.history.replace('/Program');
     })
     .catch(function(error) {
       const errorCode = error.code;
@@ -57,6 +48,7 @@ class LogIn extends React.Component {
         console.log('Error message: ' + errorMessage);
       }
     });
+
   }
 
   render() {
@@ -80,8 +72,8 @@ class LogIn extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusTrue: (firstName, lastName, email, password, firebaseAuthID, weightHistory) => dispatch({type: actionTypes.SET_USER_LOGGED_IN, firstName: firstName, lastName: lastName, email: email, password: password, firebaseAuthID: firebaseAuthID, weightHistory: weightHistory}),
-    setUserTokenAndID: (idToken, userId) => dispatch({type: actionTypes.SET_USER_TOKEN_AND_ID, idToken: idToken, userId: userId})
+    login: (email, expiresIn, idToken, localId, refreshToken) => dispatch(actions.loginUser(email, expiresIn, idToken, localId, refreshToken)),
+    getUserData: (localId) => dispatch(actions.getUserDataAsync(localId))
   }
 }
 
