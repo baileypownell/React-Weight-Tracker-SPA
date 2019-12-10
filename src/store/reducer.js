@@ -79,9 +79,23 @@ const reducer = (state = initialState, action) => {
           email: action.email,
           firstName: action.firstName,
           lastName: action.lastName,
-          firebaseAuthID: action.firebaseAuthID
-        }
+          firebaseAuthID: action.firebaseAuthID,
+        },
+        userLoggedIn: true,
+        expiresIn: action.expiresIn,
+        idToken: action.idToken,
+        localId: action.localId,
+        refreshToken: action.refreshToken
       };
+    case actionTypes.CHANGE_NAME:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          firstName: action.firstName,
+          lastName: action.lastName
+        }
+      }
     case actionTypes.CHANGE_PASSWORD:
       return {
         ...state,
@@ -94,9 +108,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          email: action.newEmail,
-          idToken: action.idToken
-        }
+          email: action.newEmail
+        },
+        idToken: action.idToken
       }
     default:
       return state;

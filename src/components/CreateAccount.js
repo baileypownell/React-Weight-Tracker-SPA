@@ -18,29 +18,25 @@ class CreateAccount extends React.Component {
     weights: [],
     errorMessage: ''
   }
+
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
   }
 
-  createAccount = (firstName, lastName, email, localId) => {
-    console.log('here');
-    const db = firebase.firestore();
-      db.collection("users").add({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        firebaseAuthID: localId,
-        weights: []
-      })
+  // log out the user if they reach this page and are signed in already
+  componentDidMount() {
+    if (this.props.userLoggedIn) {
+      this.props.logout();
+    }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
       email: this.state.email,
-      password: this.state.email,
+      password: this.state.password,
       returnSecureToken: true
     }
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
@@ -52,18 +48,25 @@ class CreateAccount extends React.Component {
       let idToken = response.data.idToken;
       let localId = response.data.localId;
       let refreshToken = response.data.refreshToken;
-      this.props.login(email, expiresIn, idToken, localId, refreshToken);
-      //console.log(this.state.firstName, this.state.lastName, email, localId)
-      this.createAccount(this.state.firstName, this.state.lastName, email, localId);
-      this.props.createAccount(this.state.firstName, this.state.lastName, email, localId);
+
+      const db = firebase.firestore();
+        db.collection("users").doc(localId).set({
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          email: this.state.email,
+          firebaseAuthID: localId,
+          weights: []
+        })
+      // then update redux by logging in and creating account
+      this.props.createAccount(this.state.firstName, this.state.lastName, email, localId, expiresIn, idToken, refreshToken);
       this.props.history.replace('/Program');
     })
-    // .catch((error) => {
-    //   console.log('Error: ', error.response.data.error);
-    //   this.setState((prevState) => ({
-    //     errorMessage: error.response.data.error.message
-    //   }))
-    // });
+    .catch((error) => {
+      console.log('Error: ', error.response.data.error);
+      this.setState((prevState) => ({
+        errorMessage: error.response.data.error.message
+      }))
+    });
    }
 
   render() {
@@ -109,11 +112,17 @@ class CreateAccount extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    createAccount: (firstName, lastName, email, firebaseAuthID) => dispatch(actions.createAccount(firstName, lastName, email, firebaseAuthID)),
-    login: (email, expiresIn, idToken, localId, refreshToken) => dispatch(actions.loginUser(email, expiresIn, idToken, localId, refreshToken))
+    userLoggedIn: state.userLoggedIn
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(CreateAccount));
+const mapDispatchToProps = dispatch => {
+  return {
+    createAccount: (firstName, lastName, email, localId, expiresIn, idToken, refreshToken) => dispatch(actions.createAccount(firstName, lastName, email, localId, expiresIn, idToken, refreshToken)),
+    logout: () => dispatch(actions.logoutUser())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateAccount));

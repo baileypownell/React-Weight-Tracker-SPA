@@ -93,7 +93,7 @@ class Program extends React.Component {
           <div>
             <h2>Account Settings <i class="fas fa-cog"></i></h2>
             <div id="button-div">
-              <ChangeName/>
+              // <ChangeName/>
               <ChangeEmail/>
               <ChangePassword/>
               <DeleteAccount/>

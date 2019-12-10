@@ -63,10 +63,6 @@ class LogIn extends React.Component {
         messageToUser = 'The user has been disabled.';
       } else if (this.state.errorMessage === 'OPERATION_NOT_ALLOWED') {
         messageToUser = 'Password sign-in is disabled for this project.';
-      } else if (this.state.errorMessage === 'EMAIL_EXISTS') {
-        messageToUser = 'The email address is already in use by another account.';
-      } else if (this.state.errorMessage === 'WEAK_PASSWORD') {
-        messageToUser = 'The password must be 6 characters long or more.';
       } else if (this.state.errorMessage === 'USER_NOT_FOUND') {
         messageToUser = 'There is no user record corresponding to this identifier. The user may have been deleted.';
       } else if (this.state.errorMessage === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
