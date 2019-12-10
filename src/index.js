@@ -12,6 +12,7 @@ import {
   Link
 } from "react-router-dom";
 
+
 // for presisting redux store through page refreshes
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';

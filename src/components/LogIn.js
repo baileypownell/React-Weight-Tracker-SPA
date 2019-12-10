@@ -42,19 +42,11 @@ class LogIn extends React.Component {
       this.props.history.replace('/Program');
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode) {
-        //console.log('Error code: ' + errorCode);
-      }
-      if (errorMessage) {
-        this.setState((prevState) => ({
-          errorMessage: errorMessage
-        }))
-        console.log('Error message: ' + errorMessage);
-      }
+      console.log('Error: ', error.response.data.error);
+      this.setState((prevState) => ({
+        errorMessage: error.response.data.error.message
+      }))
     });
-
   }
 
   render() {
@@ -77,6 +69,8 @@ class LogIn extends React.Component {
         messageToUser = 'The password must be 6 characters long or more.';
       } else if (this.state.errorMessage === 'USER_NOT_FOUND') {
         messageToUser = 'There is no user record corresponding to this identifier. The user may have been deleted.';
+      } else if (this.state.errorMessage === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+        mesageToUser = "You've entered your password incorrectly too many times. Wait before trying to re-authenticate."
       } else {
         messageToUser = "There has been an error."
       }

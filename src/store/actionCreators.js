@@ -1,7 +1,30 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
+export const createAccount = (firstName, lastName, email, firebaseAuthID) => {
+  return {
+    type: actionTypes.CREATE_ACCOUNT,
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    firebaseAuthID: firebaseAuthID
+  }
+}
 
+// export const createAccountAsync = (firstName, lastName, email, firebaseAuthID) => {
+//   return dispatch => {
+//     console.log('here');
+//     const db = firebase.firestore();
+//       db.collection("users").add({
+//         firstName: firstName,
+//         lastName: lastName,
+//         email: email,
+//         firebaseAuthID: firebaseAuthID,
+//         weights: []
+//       })
+//     dispatch(createAcount(firstName, lastName, email, firebaseAuthID))
+//   }
+// }
 
 export const loginUser = (email, expiresIn, idToken, localId, refreshToken) => {
   return {
@@ -58,11 +81,17 @@ export const logoutUser = () => {
   }
 }
 
-export const createAccount = () => {
-  return {
-    type: actionTypes.CREATE_ACCOUNT
+//thunk
+export const logoutUserAsync = () => {
+  return dispatch => {
+    firebase.auth().signOut().then(() => {
+      // change redux state
+      dispatch(logoutUser());
+    })
   }
 }
+
+
 
 const changeEmailAsync = (idToken, newEmail) => {
   return {

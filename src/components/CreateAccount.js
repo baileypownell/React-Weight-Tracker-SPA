@@ -6,7 +6,7 @@ import Program from './Program/Program';
 import { connect } from 'react-redux';
 import * as actions from '../store/actionCreators';
 import { withRouter } from 'react-router-dom';
-
+import axios from 'axios';
 
 class CreateAccount extends React.Component {
   state = {
@@ -15,57 +15,76 @@ class CreateAccount extends React.Component {
     firstName: '',
     lastName: '',
     firebaseAuthID: '',
-    weights: []
+    weights: [],
+    errorMessage: ''
   }
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .then(() => {
-      // connect firebase Auth to user database
-      let currentUser = firebase.auth().currentUser;
-      let uid = currentUser.uid;
-      //let userFirstName, userLastName, userEmail, userPassword, firebaseAuthID;
-      const db = firebase.firestore();
+
+  createAccount = (firstName, lastName, email, localId) => {
+    console.log('here');
+    const db = firebase.firestore();
       db.collection("users").add({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email,
-        password: this.state.password,
-        firebaseAuthID: uid,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        firebaseAuthID: localId,
         weights: []
       })
-      .then(function(docRef) {
-          //console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      });
-      this.props.setLoginStatusTrue(this.state.firstName, this.state.lastName, this.state.email, this.state.password, uid);
-      this.props.history.replace('/Program')
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      email: this.state.email,
+      password: this.state.email,
+      returnSecureToken: true
+    }
+    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    .then(response => {
+      console.log(response);
+      //update Redux state
+      let email = response.data.email;
+      let expiresIn = response.data.expiresIn;
+      let idToken = response.data.idToken;
+      let localId = response.data.localId;
+      let refreshToken = response.data.refreshToken;
+      this.props.login(email, expiresIn, idToken, localId, refreshToken);
+      //console.log(this.state.firstName, this.state.lastName, email, localId)
+      this.createAccount(this.state.firstName, this.state.lastName, email, localId);
+      this.props.createAccount(this.state.firstName, this.state.lastName, email, localId);
+      this.props.history.replace('/Program');
     })
-    .catch(function(error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode) {
-        console.log(errorCode);
-        if (errorCode === 'auth/invalid-email') {
-          alert('Your password is invalid.');
-        }
-        if (errorCode === 'auth/email-already-in-use') {
-          alert('An account already exists for that email.');
-        }
-      }
-      if (errorMessage) {
-        console.log(errorMessage);
-      }
-    });
+    // .catch((error) => {
+    //   console.log('Error: ', error.response.data.error);
+    //   this.setState((prevState) => ({
+    //     errorMessage: error.response.data.error.message
+    //   }))
+    // });
    }
+
   render() {
+    let errorMessage = null;
+    if (this.state.errorMessage) {
+      let messageToUser = '';
+      if (this.state.errorMessage === 'INVALID_EMAIL') {
+        messageToUser = 'The email is invalid.';
+      } else if (this.state.errorMessage === 'INVALID_PASSWORD') {
+        messageToUser = 'The password is invalid';
+      } else if (this.state.errorMessage === 'EMAIL_EXISTS') {
+        messageToUser = 'The email address is already in use by another account.';
+      } else if (this.state.errorMessage === 'WEAK_PASSWORD') {
+        messageToUser = 'The password must be 6 characters long or more.';
+      } else {
+        messageToUser = "There has been an error."
+      }
+      errorMessage = (
+        <h3>{messageToUser}</h3>
+      )
+    }
     return (
       <Content>
         <h1>CREATE AN ACCOUNT</h1>
@@ -84,6 +103,7 @@ class CreateAccount extends React.Component {
           </input>
           <button>SIGN UP <i class="fas fa-arrow-circle-right"></i></button>
         </form>
+        {errorMessage}
       </Content>
     )
   }
@@ -91,7 +111,8 @@ class CreateAccount extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createAccount: (firstName, lastName, email, password) => dispatch(actions.createAccount(firstName, lastName, email, password))
+    createAccount: (firstName, lastName, email, firebaseAuthID) => dispatch(actions.createAccount(firstName, lastName, email, firebaseAuthID)),
+    login: (email, expiresIn, idToken, localId, refreshToken) => dispatch(actions.loginUser(email, expiresIn, idToken, localId, refreshToken))
   }
 }
 

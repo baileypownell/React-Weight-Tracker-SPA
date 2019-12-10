@@ -2,18 +2,16 @@ import React from 'react';
 import { Link } from "react-router-dom";
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actionTypes';
-
+//import * as actionTypes from '../store/actionTypes';
+import * as actions from '../store/actionCreators';
 import { withRouter } from 'react-router-dom';
 
 
 class Nav extends React.Component {
 
-  logoutUser = () => {
-    firebase.auth().signOut().then(() => {
-      this.props.setLoginStatusFalse();
-      this.props.history.push('/');
-    })
+  logout = () => {
+    this.props.logoutUser();
+    this.props.history.push('/');
   }
 
   render() {
@@ -22,9 +20,9 @@ class Nav extends React.Component {
           <Link to="/"><h1>Weight Tracker 2.0</h1></Link>
           <div>
             <Link to="/createAccount"><button>CREATE ACCOUNT</button></Link>
-            {this.props.userLoggedIn ? <button onClick={this.logoutUser}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>}
-
+            {this.props.userLoggedIn ? <button onClick={this.logout}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>}
           </div>
+          {}
         </nav>
     )
   }
@@ -32,7 +30,7 @@ class Nav extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginStatusFalse: () => dispatch({type: actionTypes.SET_USER_LOGGED_OUT})
+    logoutUser: () => dispatch(actions.logoutUserAsync())
   }
 }
 

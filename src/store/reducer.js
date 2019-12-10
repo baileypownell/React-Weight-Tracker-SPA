@@ -71,6 +71,17 @@ const reducer = (state = initialState, action) => {
         },
         todaysWeight: action.todaysWeight
       };
+    case actionTypes.CREATE_ACCOUNT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          email: action.email,
+          firstName: action.firstName,
+          lastName: action.lastName,
+          firebaseAuthID: action.firebaseAuthID
+        }
+      };
     case actionTypes.CHANGE_PASSWORD:
       return {
         ...state,
