@@ -45,7 +45,6 @@ export const getUserDataAsync = (localId) => {
     const db = firebase.firestore();
     db.collection("users").doc(localId).get().then((doc) => {
       if (doc.exists) {
-       console.log("Document data:", doc.data());
        firstName = doc.data().firstName;
        lastName = doc.data().lastName;
        weightHistory = doc.data().weights;
@@ -79,13 +78,13 @@ export const logoutUserAsync = () => {
   }
 }
 
-// export const changeName = (firstName, lastName) => {
-//   return {
-//     type: actionTypes.CHANGE_NAME,
-//     firstName: action.firstName,
-//     lastName: action.lastName
-//   }
-// }
+export const changeName = (firstName, lastName) => {
+  return {
+    type: actionTypes.CHANGE_NAME,
+    firstName: action.firstName,
+    lastName: action.lastName
+  }
+}
 
 
 

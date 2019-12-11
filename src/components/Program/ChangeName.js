@@ -29,16 +29,16 @@ class ChangeName extends React.Component {
     }
   }
 
-  // changeName = () => {
-  //   // update "users" database
-  //   const db = firebase.firestore();
-  //     db.collection("users").doc('"' + this.props.localId + '"').set({
-  //       firstName: this.state.firstName,
-  //       lastName: this.state.lastName
-  //     })
-  //   //update Redux
-  //   this.props.changeName(this.state.firstName, this.state.lastName);
-  // }
+  changeName = () => {
+    // update "users" database
+    const db = firebase.firestore();
+      db.collection("users").doc(this.props.localId).set({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName
+      }, { merge: true })
+    //update Redux
+    this.props.changeName(this.state.firstName, this.state.lastName);
+  }
 
   render() {
     return (
@@ -49,7 +49,7 @@ class ChangeName extends React.Component {
           <input type="text" onChange={this.handleChange}></input>
           <h3>New last name:</h3>
           <input type="text" onChange={this.handleChange}></input>
-          <button >SUBMIT</button>
+          <button onClick={this.changeName}>SUBMIT</button>
         </div>
       </div>
     )
