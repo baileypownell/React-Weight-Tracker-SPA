@@ -68,6 +68,12 @@ export const logoutUser = () => {
   }
 }
 
+export const deleteUser = () => {
+  return {
+    type: actionTypes.DELETE_USER
+  }
+}
+
 //thunk
 export const logoutUserAsync = () => {
   return dispatch => {
@@ -78,14 +84,19 @@ export const logoutUserAsync = () => {
   }
 }
 
-export const changeName = (firstName, lastName) => {
+export const changeFirstName = (firstName) => {
   return {
-    type: actionTypes.CHANGE_NAME,
-    firstName: action.firstName,
-    lastName: action.lastName
+    type: actionTypes.CHANGE_FIRST_NAME,
+    firstName: firstName
   }
 }
 
+export const changeLastName = (lastName) => {
+  return {
+    type: actionTypes.CHANGE_LAST_NAME,
+    lastName: lastName
+  }
+}
 
 
 export const changeEmail = (idToken, newEmail) => {

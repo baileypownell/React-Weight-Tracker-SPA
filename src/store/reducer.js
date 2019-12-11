@@ -53,6 +53,24 @@ const reducer = (state = initialState, action) => {
         weightHistory: null,
         error: ''
     }
+    case actionTypes.DELETE_USER:
+      return {
+        ...state,
+        user: {
+          firstName: '',
+          lastName: '',
+          email: '',
+          firebaseAuthID: ''
+        },
+        expiresIn: '',
+        idToken: '',
+        localId: '',
+        refreshToken: '',
+        userLoggedIn: false,
+        todaysWeight: '',
+        weightHistory: null,
+        error: ''
+    }
     case actionTypes.SET_USER_DATA:
       return {
         ...state,
@@ -87,15 +105,22 @@ const reducer = (state = initialState, action) => {
         localId: action.localId,
         refreshToken: action.refreshToken
       };
-    case actionTypes.CHANGE_NAME:
+    case actionTypes.CHANGE_FIRST_NAME:
       return {
         ...state,
         user: {
           ...state.user,
-          firstName: action.firstName,
-          lastName: action.lastName
+          firstName: action.firstName
         }
       }
+      case actionTypes.CHANGE_LAST_NAME:
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            lastName: action.lastName
+          }
+        }
     case actionTypes.CHANGE_PASSWORD:
       return {
         ...state,

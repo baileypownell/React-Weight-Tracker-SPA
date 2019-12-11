@@ -38,11 +38,8 @@ class ChangeEmail extends React.Component {
       email: newEmail,
       returnSecureToken: true
     }
-    console.log('Payload = ', payloadEmail)
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadEmail)
     .then(response => {
-      console.log('Response from axios post request: ', response);
-      console.log('Response from axios post request: ', response.data.email);
       // then, update Redux
       this.props.changeEmail(idToken, newEmail);
       this.setState({
@@ -62,7 +59,7 @@ class ChangeEmail extends React.Component {
   render() {
     return (
       <div>
-        <h3 onClick={this.showChangeEmail}>CHANGE MY EMAIL</h3><i class="fas fa-caret-down"></i>
+        <h3 onClick={this.showChangeEmail}>CHANGE MY EMAIL</h3><i className={this.state.emailChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
         <div
           className={this.state.emailChangeDivVisible ? "visible change-account-setting" : "change-account-setting"}
           id="emailChange">

@@ -36,34 +36,30 @@ class Program extends React.Component {
   logWeight = (e) => {
     e.preventDefault();
     if (document.querySelector("#weight-logger form input").value.length > 1) {
+      let weightHistory;
       // update redux with todays weight
       this.props.updateTodaysWeight(parseInt(todaysWeight));
-      //update redux weightHistory with todays weight
-
       // then update firebase "users" database to hold today's new weight value
-      let currentUser = this.props.firebaseAuthID;
-
       const db = firebase.firestore();
-      db.collection("users").get().then((snapshot) => {
-        for (let i = 0; i < snapshot.docs.length; i++) {
-          if (snapshot.docs[i].data().firebaseAuthID == currentUser) {
-            let date = new Date();
-            let userID = snapshot.docs[i].id;
-            weightsArray = snapshot.docs[i].data().weights;
-            let updatedWeights = weightsArray.concat({
-              date: {date},
-              weight: this.props.todaysWeight});
-            db.collection("users").doc(userID).update({
-               weights: updatedWeights
-           })
-           // empty the input form
-           document.querySelector("#weight-logger form input").value = '';
-           return;
-          }
-        }
+      // first store the current weights in an array...
+      db.collection("users").doc(this.props.localId).get().then((doc) => {
+        weightHistory = doc.data().weights;
+        console.log("Weight History from firebase", weightHistory);
+        let date = new Date();
+        console.log(weightHistory)
+        let updatedWeights = weightHistory.concat({
+          date: {date},
+          weight: this.props.todaysWeight});
+        db.collection("users").doc(this.props.localId).update({
+          weights: updatedWeights});
       })
+      .catch(err => {
+        console.log(err)
+      });
+      document.querySelector("#weight-logger form input").value = '';
+      return;
+      }
     }
-   }
 
 
   render() {
@@ -93,7 +89,7 @@ class Program extends React.Component {
           <div>
             <h2>Account Settings <i class="fas fa-cog"></i></h2>
             <div id="button-div">
-              // <ChangeName/>
+              <ChangeName/>
               <ChangeEmail/>
               <ChangePassword/>
               <DeleteAccount/>
@@ -114,7 +110,8 @@ const mapStateToProps = state => {
     firebaseAuthID: state.user.firebaseAuthID,
     todaysWeight: state.todaysWeight,
     userLoggedIn: state.userLoggedIn,
-    weightHistory: state.weightHistory
+    weightHistory: state.weightHistory,
+    localId: state.localId
   }
 }
 

@@ -1,12 +1,16 @@
 import React from 'react';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actionTypes';
+import axios from 'axios';
 
 class ChangePassword extends React.Component {
 
   state = {
-    passwordChangeDivVisible: false
+    passwordChangeDivVisible: false,
+    newPassword: '',
+    passwordEmailSent: false,
+    passwordResetError: false,
+    passwordResetErrorMessage: ''
   }
 
   showChangePassword = () => {
@@ -21,14 +25,43 @@ class ChangePassword extends React.Component {
     }
   }
 
+  setNewPassword = (e) => {
+    this.setState({
+      newPassword: e.target.value
+    })
+  }
+
+  changePassword = () => {
+    const payloadPassword = {
+      requestType: 'PASSWORD_RESET',
+      email: this.props.email
+    }
+    console.log(payloadPassword)
+    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
+    .then(response => {
+      console.log(response);
+      this.setState({
+        passwordEmailSent: true
+      })
+    })
+    .catch(error => {
+      console.log('Error: ', error.response.data.error);
+      this.setState({
+        passwordResetError: true,
+        passwordResetErrorMessage: error.response.data.error
+      })
+    });
+  }
+
   render() {
     return (
       <div>
-        <h3 onClick={this.showChangePassword}>CHANGE MY PASSWORD</h3><i class="fas fa-caret-down"></i>
+        <h3 onClick={this.showChangePassword}>CHANGE MY PASSWORD</h3><i className={this.state.passwordChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
         <div className={this.state.passwordChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="passwordChange">
-          <h3>New Password:</h3>
-
-          <button onClick={() => this.props.changePassword("bailey.pownell@gmail.com")}>SUBMIT</button>
+          <h3>Click the button below to receive an email with a link to reset your password.</h3>
+          <button onClick={this.changePassword}>RESET PASSWORD</button>
+          {this.state.passwordEmailSent ? <h3 className="result">Check your email for a link to reset your password.</h3> : null}
+          {this.state.passwordResetError ? <h3 className="result">{this.state.passwordResetErrorMessage}</h3> : null}
         </div>
       </div>
     )
@@ -38,14 +71,9 @@ class ChangePassword extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    password: state.user.password
+    idToken: state.idToken,
+    email: state.user.email
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changePassword: (email) => dispatch({type: actionTypes.CHANGE_PASSWORD, email: email})
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
+export default connect(mapStateToProps)(ChangePassword);

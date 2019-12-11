@@ -40,7 +40,6 @@ class WeightHistory extends React.Component {
   }
 
   componentDidMount() {
-    console.log('component mounted');
     let iterator = undefined;
     if (this.props.weightHistory.length > 5) {
       iterator = 5;
