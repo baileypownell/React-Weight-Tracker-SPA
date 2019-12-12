@@ -78,6 +78,14 @@ class WeightHistory extends React.Component {
     return (
       <div>
         <div id="data-row">
+          {this.props.todaysWeight ?
+            <Weight
+              key="today"
+              weight={this.props.todaysWeight}
+              date="Today"
+              />
+            : null
+          }
           {this.state.weightsToShow.map((weight) => {
             let date = (new Date(weight.date.date.seconds * 1000)).toString();
             let dateStringArray = date.split(' ');
@@ -98,7 +106,8 @@ class WeightHistory extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    weightHistory: state.weightHistory
+    weightHistory: state.weightHistory,
+    todaysWeight: state.todaysWeight
   }
 }
 

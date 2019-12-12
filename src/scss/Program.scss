@@ -78,6 +78,12 @@
   > div {
     margin: 0 10px;
   }
+  i {
+    font-size: 30px;
+  }
+  h2 {
+    padding: 30px 0;
+  }
 }
 
 
@@ -135,9 +141,6 @@
   right: 10px;
 }
 
-#passwordChange h3 {
-  padding: 40px 40px 8px 40px;
-}
 
 #confirmationModal {
   position: fixed;

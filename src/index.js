@@ -36,7 +36,13 @@ const persistedReducer = persistReducer(persistConfig, reducer)
 // const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 // initialize the redux store
-let store = createStore(persistedReducer, compose( applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+// let store = createStore(persistedReducer, compose( applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(persistedReducer, composeEnhancers(
+  applyMiddleware(thunk)
+));
+
 let persistor = persistStore(store)
 
 ReactDOM.render(

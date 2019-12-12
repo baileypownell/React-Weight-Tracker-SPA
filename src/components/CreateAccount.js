@@ -90,18 +90,18 @@ class CreateAccount extends React.Component {
     }
     return (
       <Content>
-        <h1>CREATE AN ACCOUNT</h1>
+        <h2>CREATE AN ACCOUNT</h2>
         <form onSubmit={this.handleSubmit}>
-          <label><h2>First Name:</h2></label>
+          <label><h3>First Name:</h3></label>
           <input type="text" name="first_name" id="firstName" onChange={this.handleChange}>
           </input>
-          <label><h2>Last Name:</h2></label>
+          <label><h3>Last Name:</h3></label>
           <input type="text" name="last_name" id="lastName" onChange={this.handleChange}>
           </input>
-          <label><h2>Email:</h2></label>
+          <label><h3>Email:</h3></label>
           <input type="email" name="email" id="email" onChange={this.handleChange}>
           </input>
-          <label><h2>Password:</h2></label>
+          <label><h3>Password:</h3></label>
           <input type="password" name="password" id="password" onChange={this.handleChange}>
           </input>
           <button>SIGN UP <i class="fas fa-arrow-circle-right"></i></button>

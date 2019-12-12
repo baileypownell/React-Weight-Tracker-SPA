@@ -82,7 +82,7 @@ class Program extends React.Component {
                 <span>Weight</span>
                 <span>Date</span>
               </div>
-              {this.props.weightHistory ? <WeightHistory  todaysWeight={todaysWeight}/> : <p>You haven't recorded a weight yet.</p>}
+              {this.props.weightHistory ? <WeightHistory/> : <p>You haven't recorded a weight yet.</p>}
             </div>
 
           </div>

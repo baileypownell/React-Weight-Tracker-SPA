@@ -77,12 +77,12 @@ class LogIn extends React.Component {
 
     return (
       <Content>
-        <h1>LOG IN</h1>
+        <h2>LOG IN</h2>
         <form onSubmit={this.handleSubmit}>
-          <label><h2>Email:</h2></label>
+          <label><h3>Email:</h3></label>
           <input type="email" name="email" id="email" onChange={this.handleChange}>
           </input>
-          <label><h2>Password:</h2></label>
+          <label><h3>Password:</h3></label>
           <input type="password" name="password" id="password" onChange={this.handleChange}>
           </input>
           <button>LOG IN <i class="fas fa-arrow-circle-right"></i></button>
