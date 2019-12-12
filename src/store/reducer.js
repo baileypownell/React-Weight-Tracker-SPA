@@ -14,7 +14,7 @@ const initialState = {
   idToken: '',
   localId: '',
   refreshToken: '',
-  todaysWeight: '',
+  todaysWeight: null,
   weightHistory: [],
   error: ''
 };
@@ -79,7 +79,8 @@ const reducer = (state = initialState, action) => {
           firstName: action.firstName,
           lastName: action.lastName,
         },
-        weightHistory: action.weightHistory
+        weightHistory: action.weightHistory,
+        todaysWeight: action.todaysWeight
       };
     case actionTypes.SET_TODAYS_WEIGHT:
       return {

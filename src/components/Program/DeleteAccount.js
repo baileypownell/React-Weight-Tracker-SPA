@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import * as actions from '../../store/actionCreators';
+import { withRouter } from 'react-router-dom';
 
 class DeleteAccount extends React.Component {
 
@@ -12,29 +13,16 @@ class DeleteAccount extends React.Component {
   }
 
   showDeleteAccount = () => {
-    if (this.state.deleteAccountChangeDivVisible) {
-      this.setState({
-        deleteAccountChangeDivVisible: false
-      })
-    } else {
-      this.setState({
-        deleteAccountChangeDivVisible: true
-      })
-    }
+      this.setState(prevState => ({
+        deleteAccountChangeDivVisible: !prevState.deleteAccountChangeDivVisible
+      }))
   }
 
-  confirm = () => {
-    this.setState({
-      confirmationDivVisible: true
-    })
+  toggleDelete = () => {
+    this.setState(prevState => ({
+      confirmationDivVisible: !prevState.confirmationDivVisible
+    }))
   }
-
-  reverseConfirm = () => {
-    this.setState({
-      confirmationDivVisible: false
-    })
-  }
-
 
   deleteAccount = () => {
     let payload = {
@@ -47,18 +35,18 @@ class DeleteAccount extends React.Component {
       const db = firebase.firestore();
       let localId = this.props.localId;
         db.collection("users").doc(localId).delete().then(() => {
-          console.log('user deleted');
+          //console.log('user deleted');
         }).catch((error) => {
           console.log('Error: ', error.response.data.error);
         })
-      // then clear Redux
-      this.props.deleteUser();
-      // redirect
-      this.props.history.push('/');
     })
     .catch(error => {
       console.log('Error: ', error.response.data.error);
     });
+    // then clear Redux
+    this.props.deleteUser();
+    // redirect
+    this.props.history.push('/');
   }
 
   render() {
@@ -67,7 +55,7 @@ class DeleteAccount extends React.Component {
         <h1>Are you sure you want to delete your account?</h1>
         <div>
           <button onClick={this.deleteAccount}>YES</button>
-          <button onClick={this.reverseConfirm}>NO</button>
+          <button onClick={this.toggleDelete}>NO</button>
         </div>
       </div>
     )
@@ -75,7 +63,7 @@ class DeleteAccount extends React.Component {
       <div>
         <h3 onClick={this.showDeleteAccount}>DELETE ACCOUNT</h3><i className={this.state.deleteAccountChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
         <div className={this.state.deleteAccountChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="deleteAccount">
-          <button onClick={this.confirm}>DELTE ACCOUNT</button>
+          <button onClick={this.toggleDelete}>DELETE ACCOUNT</button>
         </div>
         {this.state.confirmationDivVisible ? confirmationModal : null}
       </div>
@@ -97,4 +85,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps)(DeleteAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DeleteAccount));

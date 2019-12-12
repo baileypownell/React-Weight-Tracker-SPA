@@ -3,7 +3,7 @@ import React from 'react';
 import Content from '../Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actionTypes';
+import * as actions from '../../store/actionCreators';
 import WeightHistory from './WeightHistory';
 import ChangeName from './ChangeName';
 import ChangeEmail from './ChangeEmail';
@@ -45,25 +45,25 @@ class Program extends React.Component {
 
   logWeight = (e) => {
     e.preventDefault();
+    // there needs to be a check to see if there has been a weight entered in the past 24 hours... redux todaysWeight should be set from database and only allowed to be updated if null
     if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
       let weightHistory;
       // update redux with todays weight
       this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
       // then update firebase "users" database to hold today's new weight value
       const db = firebase.firestore();
-      // first store the current weights in an array...
       db.collection("users").doc(this.props.localId).get().then((doc) => {
         weightHistory = doc.data().weights;
         let date = new Date();
         let updatedWeights = weightHistory.concat({
           date: {date},
-          weight: this.props.todaysWeight});
+          weight: this.state.todaysWeight});
         db.collection("users").doc(this.props.localId).update({
           weights: updatedWeights});
-      })
+        })
       .catch(err => {
         console.log(err)
-      });
+      })
       document.querySelector("#weight-logger form input").value = '';
       return;
     } else {
@@ -81,38 +81,41 @@ class Program extends React.Component {
   }
 
   updateTodaysWeight = () => {
-    // update redux
-    this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
-    // then update firebase "users" database to hold today's new weight value
-    const db = firebase.firestore();
-    db.collection("users").doc(this.props.localId).get().then((doc) => {
-      let weightHistory = doc.data().weights;
-      // delete last item
-      weightHistory.pop();
-      let date = new Date();
-      let updatedWeights = weightHistory.concat({
-        date: {date},
-        weight: this.props.todaysWeight});
-      db.collection("users").doc(this.props.localId).update({
-        weights: updatedWeights});
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    .then(() => {
-      // then make the API call again and pass the result to WeightHistory as props
+    if (document.querySelector("#editModal input").value.length < 1) {
+      return;
+    } else {
+      // update redux
+      this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
+      this.setState(prevState => ({
+        weightUpdated: !prevState.weightUpdated
+      }))
+      // update firebase "users" database to hold today's new weight value
+      const db = firebase.firestore();
       db.collection("users").doc(this.props.localId).get().then((doc) => {
-        console.log(doc.data().weights);
-        this.setState({
-          latestData: doc.data().weights
-        })
+        let weightHistory = doc.data().weights;
+        // delete last item
+        weightHistory.pop();
+        let date = new Date();
+        let updatedWeights = weightHistory.concat({
+          date: {date},
+          weight: this.state.todaysWeight});
+        db.collection("users").doc(this.props.localId).update({
+          weights: updatedWeights});
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .then(() => {
+        // then make the API call again and pass the result to WeightHistory as props
+        // db.collection("users").doc(this.props.localId).get().then((doc) => {
+        //   console.log(doc.data().weights);
+        //   this.setState({
+        //     latestData: doc.data().weights
+        //   })
+        // });
       });
-    });
-    document.querySelector("#editModal input").value = '';
-    this.setState(prevState => ({
-      weightUpdated: !prevState.weightUpdated
-    }))
-    return;
+      document.querySelector("#editModal input").value = '';
+    }
   }
 
 
@@ -137,7 +140,7 @@ class Program extends React.Component {
           <input onChange={this.handleChange} type="text"></input>
           <div>
             <button onClick={this.logWeight} className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled" : null}>LOG WEIGHT</button>
-            <button onClick={this.toggleEditor}>Edit today's weight</button>
+            <button onClick={this.props.todaysWeight ? this.toggleEditor : undefined} className={this.props.todaysWeight > 0 ? null : "button-disabled"}>Edit today's weight</button>
           </div>
           </form>
           {this.state.editorVisible ? editor : null}
@@ -186,7 +189,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateTodaysWeight: (todaysWeight) => dispatch({type: actionTypes.SET_TODAYS_WEIGHT, todaysWeight: todaysWeight})
+    updateTodaysWeight: (todaysWeight) => dispatch(actions.setTodaysWeight(todaysWeight))
   }
 }
 
