@@ -6,9 +6,6 @@
 @import 'Home';
 @import 'Program';
 
-@import 'Media-queries';
-
-
 * {
   margin: 0;
   box-sizing: border-box;
@@ -42,9 +39,15 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    h1 {
+      display: inline-block;
+      font-size: 20px;
+      min-width: 190px;
+    }
       button {
         margin: 5px;
         padding: 10px;
+        font-size: 14px;
       }
       > div {
         display: flex;
@@ -54,3 +57,5 @@ body {
     padding: 8px 0;
   }
 }
+
+@import 'media-queries';

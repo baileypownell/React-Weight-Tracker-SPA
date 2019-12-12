@@ -56,7 +56,7 @@ class ChangePassword extends React.Component {
   render() {
     return (
       <div>
-        <h3 onClick={this.showChangePassword}>CHANGE MY PASSWORD</h3><i className={this.state.passwordChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
+        <h3 onClick={this.showChangePassword}>UPDATE PASSWORD</h3><i className={this.state.passwordChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
         <div className={this.state.passwordChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="passwordChange">
           <h3>Click the button below to receive an email with a link to reset your password.</h3>
           <button onClick={this.changePassword}>RESET PASSWORD</button>

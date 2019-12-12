@@ -11,6 +11,10 @@
   h2 {
     display: inline;
   }
+  button {
+    font-size: 18px;
+    margin: 10px 0;
+  }
 }
 .result {
   padding: 10px 0;
@@ -23,7 +27,8 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 15px;
+  margin-bottom: 30px;
   > #header {
     padding-bottom: 10px;
     font-weight: bold;
@@ -40,6 +45,7 @@
     justify-content: space-between;
     margin: 3px 0;
     border-bottom: 1px solid #3ad8d9;
+    font-size: 20px;
   }
   button {
     background-color: #3ad8d9;
@@ -79,10 +85,10 @@
     margin: 0 10px;
   }
   i {
-    font-size: 30px;
+    font-size: 20px;
   }
   h2 {
-    padding: 30px 0;
+    font-size: 20px;
   }
 }
 
@@ -95,6 +101,9 @@
   > div > h3 {
     display: inline-block;
     cursor: pointer;
+  }
+  i {
+    padding-left: 10px;
   }
 }
 
@@ -141,8 +150,21 @@
   right: 10px;
 }
 
+#deleteAccount {
+  margin-bottom: 0px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
+  box-shadow: none;
+  button {
+    margin-top: 0px!important;
+  }
+}
 
-#confirmationModal {
+
+#confirmationModal,
+#editModal {
+  padding: 5vw;
   position: fixed;
   top: 0;
   width: 100vw;
@@ -157,4 +179,26 @@
   h1 {
     color: rgb(22,225,231);
   }
+  button {
+    width: 80%;
+    margin: 5px 0;
+    font-size: 25px;
+    background-color: #16e1e7;
+    border-color: white;
+    color: white;
+    &:hover {
+      background-color: white;
+      color: #16e1e7;
+      border-color: #16e1e7;
+    }
+  }
+  .fa-times-circle {
+    font-size: 40px;
+    right: 20px;
+  }
+}
+
+#errorRec {
+  display: inline-block;
+  padding: 0 3vw;
 }

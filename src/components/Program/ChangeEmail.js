@@ -59,7 +59,7 @@ class ChangeEmail extends React.Component {
   render() {
     return (
       <div>
-        <h3 onClick={this.showChangeEmail}>CHANGE MY EMAIL</h3><i className={this.state.emailChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
+        <h3 onClick={this.showChangeEmail}>UPDATE EMAIL</h3><i className={this.state.emailChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
         <div
           className={this.state.emailChangeDivVisible ? "visible change-account-setting" : "change-account-setting"}
           id="emailChange">

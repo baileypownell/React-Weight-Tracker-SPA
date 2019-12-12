@@ -65,7 +65,7 @@ class ChangeName extends React.Component {
 
     return (
       <div>
-        <h3 onClick={this.showChangeName}>CHANGE MY NAME</h3><i className={this.state.nameChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
+        <h3 onClick={this.showChangeName}>UPDATE NAME</h3><i className={this.state.nameChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
         <div className={this.state.nameChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="nameChange">
           <h3>New first name:</h3>
           <input type="text" id="firstName" onChange={this.handleChange}></input>

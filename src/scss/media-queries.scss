@@ -1,12 +1,24 @@
 @media only screen and (min-width: 600px) {
-  nav {
-    button {
-      margin: 5px;
-      padding: 10px;
+  body {
+    nav {
+       button {
+         font-size: 20px;
+      //   margin: 5px;
+          padding: 15px;
+      }
+      h1 {
+        font-size: 30px;
+      }
     }
   }
   body nav div {
     flex-direction: row;
+  }
+  #content {
+    width: 80%;
+    #greeting {
+      font-size: 60px;
+    }
   }
 }
 
@@ -14,12 +26,13 @@
   #header {
     font-size: 22px;
   }
-  #weight-history .row {
-    font-size: 18px;
+  #button-div > div > h3 {
+    font-size: 22px;
   }
-  // button {
-  //   font-size: 25px;
-  // }
+  button {
+    font-size: 22px;
+    margin: 10px auto;
+  }
 }
 
 @media screen and (min-width: 900px) {
@@ -30,6 +43,25 @@
     > div {
       width: 50%;
     }
+    h2 {
+      font-size: 25px;
+    }
+  }
+  #content {
+    padding: 3vw;
+    #greeting {
+      font-size: 75px;
+    }
+  }
+  #weight-logger button {
+    font-size: 25px;
+    margin: 5px 0;
+  }
+  #weight-history .row {
+    font-size: 22px;
+  }
+  #content form label h3 {
+    font-size: 22px;
   }
 }
 
@@ -60,6 +92,6 @@
 
 @media screen and (min-width: 1200px) {
   #content {
-    width: 60%;
+    width: 70%;
   }
 }
