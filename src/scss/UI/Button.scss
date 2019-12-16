@@ -14,3 +14,13 @@ button {
     border-color: white;
   }
 }
+
+button.time-period {
+  display: inline-block;
+  width: auto!important;
+  margin: 0 5px!important;
+  &:focus {
+    background-color: white;
+    color: rgb(22, 225, 231);
+  }
+}

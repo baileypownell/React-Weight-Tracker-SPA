@@ -26,12 +26,11 @@ export const loginUser = (email, expiresIn, idToken, localId, refreshToken) => {
   }
 }
 
-export const setUserData = (firstName, lastName, weightHistory, todaysWeight) => {
+export const setUserData = (firstName, lastName, todaysWeight) => {
   return {
     type: actionTypes.SET_USER_DATA,
     firstName: firstName,
     lastName: lastName,
-    weightHistory: weightHistory,
     todaysWeight: todaysWeight
   }
 }
@@ -58,21 +57,8 @@ export const getUserDataAsync = (localId) => {
         }
         firstName = doc.data().firstName;
         lastName = doc.data().lastName;
-        function compare(a, b) {
-          const secondsA = a.date.date.seconds;
-          const secondsB = b.date.date.seconds;
-          let comparison = 0;
-         if (secondsA < secondsB) {
-           comparison = 1;
-         } else if (secondsA > secondsB) {
-           comparison = -1;
-         }
-         return comparison;
-        }
-        let sortedAllWeightsRecorded = doc.data().weights.sort(compare);
-        weightHistory = sortedAllWeightsRecorded;
         // now update Redux
-        dispatch(setUserData(firstName, lastName, weightHistory, todaysWeight));
+        dispatch(setUserData(firstName, lastName, todaysWeight));
         // return;
         } else {
         // doc.data() will be undefined in this case

@@ -17,8 +17,7 @@ class Program extends React.Component {
     todaysWeight: 0,
     errorMessage: false,
     editorVisible: false,
-    weightUpdated: false,
-    latestData: null
+    weightUpdated: false
   }
 
   // update redux with new weight
@@ -101,19 +100,10 @@ class Program extends React.Component {
           weight: this.state.todaysWeight});
         db.collection("users").doc(this.props.localId).update({
           weights: updatedWeights});
-      })
+        })
       .catch(err => {
         console.log(err)
       })
-      .then(() => {
-        // then make the API call again and pass the result to WeightHistory as props
-        // db.collection("users").doc(this.props.localId).get().then((doc) => {
-        //   console.log(doc.data().weights);
-        //   this.setState({
-        //     latestData: doc.data().weights
-        //   })
-        // });
-      });
       document.querySelector("#editModal input").value = '';
     }
   }
@@ -154,9 +144,8 @@ class Program extends React.Component {
                 <span>Weight</span>
                 <span>Date</span>
               </div>
-              {this.props.weightHistory ? <WeightHistory latestData={this.state.latestData}/> : <p>You haven't recorded a weight yet.</p>}
+              <WeightHistory shouldUpdate={this.state.weightUpdated}/>
             </div>
-
           </div>
           <div>
             <h2>Account Settings <i class="fas fa-cog"></i></h2>
@@ -182,7 +171,6 @@ const mapStateToProps = state => {
     firebaseAuthID: state.user.firebaseAuthID,
     todaysWeight: state.todaysWeight,
     userLoggedIn: state.userLoggedIn,
-    weightHistory: state.weightHistory,
     localId: state.localId
   }
 }

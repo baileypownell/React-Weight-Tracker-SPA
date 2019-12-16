@@ -15,7 +15,6 @@ const initialState = {
   localId: '',
   refreshToken: '',
   todaysWeight: null,
-  weightHistory: [],
   error: ''
 };
 
@@ -32,8 +31,7 @@ const reducer = (state = initialState, action) => {
         idToken: action.idToken,
         localId: action.localId,
         refreshToken: action.refreshToken,
-        userLoggedIn: true,
-        weightHistory: action.weightHistory
+        userLoggedIn: true
       };
     case actionTypes.SET_USER_LOGGED_OUT:
       return {
@@ -50,7 +48,6 @@ const reducer = (state = initialState, action) => {
         refreshToken: '',
         userLoggedIn: false,
         todaysWeight: '',
-        weightHistory: null,
         error: ''
     }
     case actionTypes.DELETE_USER:
@@ -68,7 +65,6 @@ const reducer = (state = initialState, action) => {
         refreshToken: '',
         userLoggedIn: false,
         todaysWeight: '',
-        weightHistory: null,
         error: ''
     }
     case actionTypes.SET_USER_DATA:
@@ -79,7 +75,6 @@ const reducer = (state = initialState, action) => {
           firstName: action.firstName,
           lastName: action.lastName,
         },
-        weightHistory: action.weightHistory,
         todaysWeight: action.todaysWeight
       };
     case actionTypes.SET_TODAYS_WEIGHT:

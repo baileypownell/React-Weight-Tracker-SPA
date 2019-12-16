@@ -27,9 +27,8 @@ module.exports = {
       }
     ]
   },
-   devServer: {
-     contentBase: __dirname + '/dist',
-     historyApiFallback: true,
+  devServer: {
+     contentBase: __dirname,
      hot: true
-   }
+ }
 };
