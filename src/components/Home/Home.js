@@ -1,8 +1,10 @@
 import React from 'react';
-import Content from './Content';
+import Content from '../Content/Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actionTypes from '../store/actionTypes';
+import * as actionTypes from '../../store/actionTypes';
+
+import './Home.scss';
 
 
 class Home extends React.Component {
@@ -19,7 +21,7 @@ class Home extends React.Component {
     return (
       <Content>
         <h1>It's never been <br/><span id="fancy">easier</span><br/> to track your progress</h1>
-        <button onClick={this.directUser}>LOG YOUR WEIGHT <i class="fas fa-weight"></i></button>
+        <button onClick={this.directUser}>LOG YOUR WEIGHT <i className="fas fa-weight"></i></button>
       </Content>
     )
   }

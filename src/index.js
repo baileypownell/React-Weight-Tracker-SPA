@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import reducer from './store/reducer';
-import Nav from './components/Nav';
+import Nav from './components/Nav/Nav';
 import {
   BrowserRouter,
   Switch,
@@ -18,11 +18,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
-import CreateAccount from './components/CreateAccount';
-import Home from './components/Home';
-import LogIn from './components/LogIn';
+import CreateAccount from './components/CreateAccount/CreateAccount';
+import Home from './components/Home/Home';
+import LogIn from './components/LogIn/LogIn';
 import Program from './components/Program/Program';
-import LogInOrSignUp from './components/LogInOrSignUp';
+import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp';
 
 import './scss/main.scss';
 

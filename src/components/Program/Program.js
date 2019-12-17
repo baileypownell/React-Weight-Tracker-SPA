@@ -4,11 +4,12 @@ import Content from '../Content';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators';
-import WeightHistory from './WeightHistory';
-import ChangeName from './ChangeName';
-import ChangeEmail from './ChangeEmail';
-import ChangePassword from './ChangePassword';
-import DeleteAccount from './DeleteAccount';
+
+import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs';
+import AccountSettings from './AccountSettings/AccountSettings';
+import LineGraph from './LineGraph/LineGraph';
+
+import './Program.scss';
 
 class Program extends React.Component {
 
@@ -112,7 +113,7 @@ class Program extends React.Component {
   render() {
     let editor = (
       <div id="editModal">
-        <i onClick={this.toggleEditor} class="fas fa-times-circle"></i>
+        <i onClick={this.toggleEditor} className="fas fa-times-circle"></i>
         <h1>Update today's weight:</h1>
         <div>
           <input onChange={this.handleUpdateChange} type="text"></input>
@@ -125,7 +126,7 @@ class Program extends React.Component {
       <Content>
         <h1 id="greeting">Hello, {this.props.firstName}</h1>
         <div id="weight-logger">
-          <h2>Record Weight <i class="fas fa-pencil-alt"></i></h2>
+          <h2>Record Weight <i className="fas fa-pencil-alt"></i></h2>
           <form>
           <input onChange={this.handleChange} type="text"></input>
           <div>
@@ -137,25 +138,9 @@ class Program extends React.Component {
           {this.props.todaysWeight ? <h2>Today's Weight: {this.props.todaysWeight} lbs.</h2> : null }
         </div>
         <div id="account-options">
-          <div>
-            <h2>Recent Weight Logs <i class="fas fa-history"></i></h2>
-            <div id="weight-history">
-              <div id="header">
-                <span>Weight</span>
-                <span>Date</span>
-              </div>
-              <WeightHistory shouldUpdate={this.state.weightUpdated}/>
-            </div>
-          </div>
-          <div>
-            <h2>Account Settings <i class="fas fa-cog"></i></h2>
-            <div id="button-div">
-              <ChangeName/>
-              <ChangeEmail/>
-              <ChangePassword/>
-              <DeleteAccount/>
-            </div>
-          </div>
+          <RecentWeightLogs/>
+          <LineGraph/>
+          <AccountSettings/>
         </div>
       </Content>
     )

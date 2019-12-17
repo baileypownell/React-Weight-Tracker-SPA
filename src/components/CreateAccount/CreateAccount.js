@@ -1,10 +1,10 @@
 import React from 'react';
-import Content from './Content';
+import Content from '../Content';
 import { Redirect } from 'react-router-dom'
 import Program from './Program/Program';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-import * as actions from '../store/actionCreators';
+import * as actions from '../../store/actionCreators';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
@@ -104,7 +104,7 @@ class CreateAccount extends React.Component {
           <label><h3>Password:</h3></label>
           <input type="password" name="password" id="password" onChange={this.handleChange}>
           </input>
-          <button>SIGN UP <i class="fas fa-arrow-circle-right"></i></button>
+          <button>SIGN UP <i className="fas fa-arrow-circle-right"></i></button>
         </form>
         {errorMessage}
       </Content>

@@ -1,7 +1,7 @@
 import React from 'react';
-import LogIn from './LogIn';
-import CreateAccount from './CreateAccount';
-
+import LogIn from '../LogIn/LogIn';
+import CreateAccount from './CreateAccount/CreateAccount';
+import '../LogInOrSignUp.scss';
 
 
 class LogInOrSignUp extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
-import Weight from './Weight';
-import LineGraph from './LineGraph';
+import Weight from './Weight/Weight';
+
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 
@@ -85,20 +85,13 @@ class WeightHistory extends React.Component {
     return (
       <div>
         <div id="data-row">
-          {this.props.todaysWeight ?
-            <Weight
-              key="Today"
-              weight={this.props.todaysWeight}
-              date="Today"
-            />
-          : null}
           {this.state.noHistory ? <p>You haven't recorded a weight yet.</p> :
            this.state.entireSortedWeightHistory.map((weight) => {
             let date = (new Date(weight.date.date.seconds * 1000)).toString();
             let dateStringArray = date.split(' ');
             let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
             return <Weight
-              key={weight.date.date.seconds}
+              id={weight.date.date.seconds}
               weight={weight.weight}
               date={dateString}
             />
@@ -106,7 +99,6 @@ class WeightHistory extends React.Component {
       }
         </div>
         <button onClick={this.showMore}>VIEW MORE</button>
-        <LineGraph entireSortedWeightHistory={this.state.entireSortedWeightHistory}/>
       </div>
       )
   }

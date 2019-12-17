@@ -15,9 +15,10 @@ button {
   }
 }
 
-button.time-period {
+#graph .time-period button {
   display: inline-block;
   width: auto!important;
+  padding: 10px;
   margin: 0 5px!important;
   &:focus {
     background-color: white;
