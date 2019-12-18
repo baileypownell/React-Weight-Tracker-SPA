@@ -103,6 +103,10 @@
   }
   .fa-times-circle {
     font-size: 40px;
-    right: 20px;
+    right: 30px;
+    transition: transform .2s;
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 }

@@ -1,38 +1,42 @@
 import React from 'react';
 import './LineGraph.scss';
+// imports for connecting this component to Redux state store
+import { connect } from 'react-redux';
 
-export default class LineGraph extends React.Component {
+class LineGraph extends React.Component {
 
   state = {
-    graphTimePeriod: null
+    graphTimePeriod: 'week'
   }
 
   setGraphTimePeriod = (e) => {
-    this.setState({
-      graphTimePeriod: e.target.value
-    })
+    // use this if statement so that componentDidMount() can run
+    if (e) {
+      this.setState({
+        graphTimePeriod: e.target.value
+      })
+    }
     let labels = [];
     let data = [];
     if (this.state.graphTimePeriod === 'week') {
-      for (let i = 7; i > 0; i--) {
-        // first make sure each value is within a week of now
-        let now = new Date();
-        console.log(now);
-        let exactlyWeekFromNow = now.getDate() - 7;
-        console.log(exactlyWeekFromNow);
-        let exactlyWeekFromNowSeconds = now.setDate(exactlyWeekFromNow);
-        console.log("exactly a week ago", exactlyWeekFromNowSeconds);
-        console.log("data date:", this.state.entireSortedWeightHistory[i].date.date.seconds);
-        // if (this.state.entireSortedWeightHistory[i].date.date.seconds > exactlyWeekFromNowSeconds) {
-        //   let date = new Date(this.props.entireSortedWeightHistory[i].date.date.seconds * 1000);
-        //   let day = date.toUTCString().split(' ')[1];
-        //   let month = date.toUTCString().split(' ')[2];
-        //   let fullDate = [month, day].join(' ');
-        //   labels.push(fullDate);
-        //   data.push(this.props.entireSortedWeightHistory[i].weight)
-        // }
+      // get all of the entries from the past 7 days (there are 7 or less) and put them into data array
+      for (let i = 0; i <= 7; i++) {
+        // first make sure each value is within a week of now in seconds
+        const now = new Date()
+        const secondsSinceEpoch = Math.round(now.getTime() / 1000)
+        let exactlyWeekAgo = secondsSinceEpoch - 604800;
+        //console.log("exactly a week ago", exactlyWeekAgo);
+        //console.log(this.props.entireSortedWeightHistory[i].date.date.seconds)
+        // compare seconds from exactly a week ago to seconds of the record, and only go on if the seconds of the record are greater than the seconds of exactly a week in the past
+        if (this.props.entireSortedWeightHistory[i].date.date.seconds > exactlyWeekAgo) {
+          let date = new Date(this.props.entireSortedWeightHistory[i].date.date.seconds * 1000);
+          let day = date.toUTCString().split(' ')[1];
+          let month = date.toUTCString().split(' ')[2];
+          let fullDate = [month, day].join(' ');
+          labels.push(fullDate);
+          data.push(this.props.entireSortedWeightHistory[i].weight)
+        }
       }
-      console.log(data)
     } else if (this.state.graphTimePeriod === 'month') {
 
     } else if (this.state.graphTimePeriod === 'year') {
@@ -66,6 +70,11 @@ export default class LineGraph extends React.Component {
     });
   }
 
+  // necessary so we don't have an ugly empty graph
+  componentDidMount() {
+    this.setGraphTimePeriod();
+  }
+
   render() {
     return (
       <div className="white-box">
@@ -82,3 +91,11 @@ export default class LineGraph extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    entireSortedWeightHistory: state.user.weightHistory
+  }
+}
+
+export default connect(mapStateToProps)(LineGraph);

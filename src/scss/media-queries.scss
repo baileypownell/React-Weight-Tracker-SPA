@@ -33,65 +33,74 @@
     font-size: 22px;
     margin: 10px auto;
   }
+  .back-forth {
+    padding: 5px;
+  }
 }
-//
-// @media screen and (min-width: 900px) {
-//   #account-options {
-//     display: flex;
-//     justify-content: center;
-//     align-items: flex-start;
-//     > div {
-//       width: 50%;
-//     }
-//     h2 {
-//       font-size: 25px;
-//     }
-//   }
-//   #content {
-//     padding: 3vw;
-//     #greeting {
-//       font-size: 75px;
-//     }
-//   }
-//   #weight-logger button {
-//     font-size: 25px;
-//     margin: 5px 0;
-//   }
-//   #weight-history .row {
-//     font-size: 22px;
-//   }
-//   #content form label h3 {
-//     font-size: 22px;
-//   }
-// }
-//
-// @media screen and (min-width: 1000px) {
-//   #directUser {
-//     width: 75%;
-//     display: flex;
-//     > div {
-//       width: 50%;
-//       > div {
-//         width: 100%;
-//       }
-//     h1 {
-//       font-size: 25px;
-//     }
-//     form {
-//       padding: 0 10px;
-//     }
-//   }
-// }
-//   #OR {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     width: 150px!important;
-//   }
-// }
-//
-// @media screen and (min-width: 1200px) {
-//   #content {
-//     width: 70%;
-//   }
-// }
+
+
+@media screen and (min-width: 900px) {
+  #account-options {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    h2 {
+      font-size: 25px;
+    }
+    .white-box {
+      width: 48%;
+    }
+    #AccountSettings {
+      width: 100%;
+    }
+  }
+  #content {
+    padding: 3vw;
+    #greeting {
+      font-size: 75px;
+    }
+  }
+  #weight-logger button {
+    font-size: 25px;
+    margin: 5px 0;
+  }
+  #weight-history .row {
+    font-size: 22px;
+  }
+  #content form label h3 {
+    font-size: 22px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  #directUser {
+    width: 75%;
+    display: flex;
+    > div {
+      width: 50%;
+      > div {
+        width: 100%;
+      }
+    h1 {
+      font-size: 25px;
+    }
+    form {
+      padding: 0 10px;
+    }
+  }
+}
+  #OR {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px!important;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #content {
+    width: 70%;
+  }
+}

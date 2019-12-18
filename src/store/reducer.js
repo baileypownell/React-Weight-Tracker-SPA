@@ -8,6 +8,7 @@ const initialState = {
     lastName: '',
     email: '',
     firebaseAuthID: '',
+    weightHistory: []
   },
   userLoggedIn: false,
   expiresIn: '',
@@ -40,7 +41,8 @@ const reducer = (state = initialState, action) => {
           firstName: '',
           lastName: '',
           email: '',
-          firebaseAuthID: ''
+          firebaseAuthID: '',
+          weightHistory: []
         },
         expiresIn: '',
         idToken: '',
@@ -57,7 +59,8 @@ const reducer = (state = initialState, action) => {
           firstName: '',
           lastName: '',
           email: '',
-          firebaseAuthID: ''
+          firebaseAuthID: '',
+          weightHistory: []
         },
         expiresIn: '',
         idToken: '',
@@ -132,6 +135,14 @@ const reducer = (state = initialState, action) => {
           email: action.newEmail
         },
         idToken: action.idToken
+      }
+    case actionTypes.SET_WEIGHT_HISTORY:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          weightHistory: action.weightHistory
+        }
       }
     default:
       return state;

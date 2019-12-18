@@ -5,7 +5,7 @@ import Content from '../Content/Content';
 import { connect } from 'react-redux';
 
 
-import Weightlogger from './WeightLogger/WeightLogger';
+
 import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs';
 import AccountSettings from './AccountSettings/AccountSettings';
 import LineGraph from './LineGraph/LineGraph';
@@ -18,9 +18,11 @@ const Program = (props) => {
     <Content>
       <h1 id="greeting">Hello, {props.firstName}</h1>
       <WeightLogger/>
-      <RecentWeightLogs/>
-      <LineGraph/>
-      <AccountSettings/>
+      <div id="account-options">
+        <RecentWeightLogs todaysWeight={props.todaysWeight} />
+        <LineGraph/>
+        <AccountSettings/>
+      </div>
     </Content>
   )
 }
@@ -28,6 +30,7 @@ const Program = (props) => {
 const mapStateToProps = state => {
   return {
     firstName: state.user.firstName,
+    todaysWeight: state.todaysWeight
   }
 }
 

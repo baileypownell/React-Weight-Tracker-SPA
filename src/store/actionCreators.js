@@ -157,3 +157,10 @@ export const changePassword = () => {
     });
   }
 }
+
+export const setWeightHistory = (weightHistory) => {
+  return {
+    type: actionTypes.SET_WEIGHT_HISTORY,
+    weightHistory: weightHistory
+  }
+}

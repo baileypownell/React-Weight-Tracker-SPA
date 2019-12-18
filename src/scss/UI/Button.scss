@@ -10,13 +10,15 @@ button {
   transition: all .4s;
   &:hover {
     color: white;
-    background-color: rgba(22, 225, 231, 0.5);
-    border-color: white;
+    background-color: rgba(22, 225, 231, 1);
+    border-color: rgba(22, 225, 231, 1);
   }
 }
 
-#graph .time-period button {
+.time-period {
   display: inline-block;
+  background-color: rgb(22, 225, 231);
+  color: white;
   width: auto!important;
   padding: 10px;
   margin: 0 5px!important;
@@ -35,3 +37,11 @@ button {
     border-color: #3ad8d9;
   }
 }
+
+.back-forth {
+    margin: 0;
+    width: 50%;
+    padding: 0px;
+    margin-top: 5px;
+    font-size: 25px;
+  }

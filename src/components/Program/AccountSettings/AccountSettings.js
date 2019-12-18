@@ -9,7 +9,7 @@ import './AccountSettings.scss';
 
 const AccountSettings = () => {
   return (
-    <div className="white-box">
+    <div className="white-box" id="AccountSettings">
       <h2>Account Settings <i className="fas fa-cog"></i></h2>
       <div id="button-div">
         <ChangeName/>
