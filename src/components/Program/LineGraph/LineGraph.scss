@@ -3,3 +3,12 @@
   color: #3ad8d9!important;
   border-color: #3ad8d9!important;
 }
+
+#canvas-parent {
+  position: relative;
+  width: 100%;
+}
+
+#myChart {
+  position: absolute;
+}

@@ -7,7 +7,6 @@ import reducer from './store/reducer';
 import Nav from './components/Nav/Nav';
 import {
   BrowserRouter,
-  Switch,
   Route,
   Link
 } from "react-router-dom";
@@ -31,12 +30,6 @@ const persistConfig = {
   storage,
 }
 const persistedReducer = persistReducer(persistConfig, reducer)
-
-// // initialize the redux store
-// const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
-// initialize the redux store
-// let store = createStore(persistedReducer, compose( applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(persistedReducer, composeEnhancers(

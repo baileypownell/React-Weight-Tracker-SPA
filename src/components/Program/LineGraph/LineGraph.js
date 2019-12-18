@@ -68,7 +68,7 @@ export default class LineGraph extends React.Component {
 
   render() {
     return (
-      <div id="graph">
+      <div className="white-box">
         <h2>Your weight over the past: </h2>
         <div>
           <button value="week" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "week" ? "time-period selected": "time-period"}>week</button>

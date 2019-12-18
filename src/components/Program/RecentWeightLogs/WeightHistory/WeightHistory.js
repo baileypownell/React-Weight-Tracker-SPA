@@ -73,14 +73,6 @@ class WeightHistory extends React.Component {
     this.getUserWeightHistory();
   }
 
-  // componentDidUpdate(prevProps) {
-  //   console.log('componentDidUpdate()')
-  //   if (this.props.shouldUpdate !== prevProps.shouldUpdate) {
-  //     console.log('componentDidUpdate() inside if statement')
-  //     this.getUserWeightHistory();
-  //   }
-  // }
-
   render() {
     return (
       <div>

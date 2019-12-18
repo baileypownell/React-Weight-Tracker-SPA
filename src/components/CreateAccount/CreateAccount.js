@@ -1,7 +1,7 @@
 import React from 'react';
-import Content from '../Content';
+import Content from '../Content/Content';
 import { Redirect } from 'react-router-dom'
-import Program from './Program/Program';
+import Program from '../Program/Program';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators';

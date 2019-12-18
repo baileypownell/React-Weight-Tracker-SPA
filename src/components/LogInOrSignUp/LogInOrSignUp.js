@@ -1,7 +1,8 @@
 import React from 'react';
+import Content from '../Content/Content';
 import LogIn from '../LogIn/LogIn';
-import CreateAccount from './CreateAccount/CreateAccount';
-import '../LogInOrSignUp.scss';
+import CreateAccount from '../CreateAccount/CreateAccount';
+import './LogInOrSignUp.scss';
 
 
 class LogInOrSignUp extends React.Component {
@@ -17,7 +18,7 @@ class LogInOrSignUp extends React.Component {
         <div>
           <CreateAccount/>
         </div>
-    </div>
+      </div>
     )
   }
 }

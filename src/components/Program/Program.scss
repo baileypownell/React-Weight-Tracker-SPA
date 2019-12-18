@@ -21,7 +21,28 @@
 }
 
 
-#weight-history {
+
+#weightsHeader {
+  padding-bottom: 10px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  > span {
+    text-transform: uppercase;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 3px 0;
+  border-bottom: 1px solid #3ad8d9;
+  font-size: 20px;
+}
+
+.white-box {
   background-color: white;
   color: #3ad8d9;
   display: flex;
@@ -29,121 +50,12 @@
   padding: 10px;
   border-radius: 15px;
   margin-bottom: 30px;
-  > #header {
-    padding-bottom: 10px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    > span {
-      text-transform: uppercase;
-    }
-  }
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 3px 0;
-    border-bottom: 1px solid #3ad8d9;
-    font-size: 20px;
-  }
-  button {
-    background-color: #3ad8d9;
-    color: white;
-    margin: 20px 0 0 0;
-    width: 100%;
-    &:hover {
-      border: 2px solid #3ad8d9;
-      background-color: white;
-      color: #3ad8d9;
-    }
-  }
-}
-
-#graph {
-  background-color: white;
-  color: #3ad8d9;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  border-radius: 15px;
-  margin-bottom: 30px;
-}
-
-#weight-history,
-#button-div,
-#graph {
   box-shadow: 10px 10px 40px white;
-    margin-bottom: 5vh;
+  margin-bottom: 5vh;
 }
 
 #data-row {
   flex-direction: column!important;
-}
-
-.button-disabled {
-  opacity: 0.75;
-  cursor: auto;
-  &:hover {
-    background-color: white;
-    color: #3ad8d9;
-    border-color: #3ad8d9;
-  }
-}
-
-#account-options {
-  align-items: flex-start;
-  i {
-    font-size: 20px;
-  }
-  h2 {
-    font-size: 20px;
-  }
-}
-
-
-#button-div {
-  background-color: white;
-  border-radius: 15px;
-  color: #3ad8d9;
-  padding: 20px;
-  > div > h3 {
-    display: inline-block;
-    cursor: pointer;
-  }
-  i {
-    padding-left: 10px;
-  }
-}
-
-.change-account-setting {
-  position: relative;
-  background-color:  #3ad8d9;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  padding: 10px;
-  color: white;
-  display: none;
-  box-shadow: 5px 5px 20px #3ad8d9;
-  input {
-    margin: 0;
-  }
-  button {
-    margin: 20px 0 0 0 !important;
-    width: 100%;
-  }
-}
-
-
-#button-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: nowrap;
-  width: 100%;
-  button {
-    margin: 0 10px;
-  }
 }
 
 .visible {
@@ -158,18 +70,6 @@
   top: 10px;
   right: 10px;
 }
-
-#deleteAccount {
-  margin-bottom: 0px;
-  background-color: white;
-  border-radius: 0px;
-  padding: 0px;
-  box-shadow: none;
-  button {
-    margin-top: 0px!important;
-  }
-}
-
 
 #confirmationModal,
 #editModal {
@@ -205,18 +105,4 @@
     font-size: 40px;
     right: 20px;
   }
-}
-
-#errorRec {
-  display: inline-block;
-  padding: 0 3vw;
-}
-
-#canvas-parent {
-  position: relative;
-  width: 100%;
-}
-
-#myChart {
-  position: absolute;
 }

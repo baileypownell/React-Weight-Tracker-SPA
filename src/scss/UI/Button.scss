@@ -25,3 +25,13 @@ button {
     color: rgb(22, 225, 231);
   }
 }
+
+.button-disabled {
+  opacity: 0.75;
+  cursor: auto;
+  &:hover {
+    background-color: white;
+    color: #3ad8d9;
+    border-color: #3ad8d9;
+  }
+}

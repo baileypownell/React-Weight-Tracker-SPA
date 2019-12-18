@@ -85,7 +85,7 @@ class LogIn extends React.Component {
           <label><h3>Password:</h3></label>
           <input type="password" name="password" id="password" onChange={this.handleChange}>
           </input>
-          <button>LOG IN <i class="fas fa-arrow-circle-right"></i></button>
+          <button>LOG IN <i className="fas fa-arrow-circle-right"></i></button>
         </form>
         {errorMessage}
       </Content>
