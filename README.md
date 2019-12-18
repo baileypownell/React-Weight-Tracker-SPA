@@ -6,7 +6,7 @@ Web app with user database that tracks your weight. Built with React, Firebase, 
 
 ### View it here: https://weight-tracker-react.herokuapp.com/
 
-![mobile][mobile.PNG)
+![mobile](mobile.PNG)
 
 ![homepage](homescreen.PNG)
 
