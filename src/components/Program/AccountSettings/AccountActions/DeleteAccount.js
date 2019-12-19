@@ -8,14 +8,7 @@ import { withRouter } from 'react-router-dom';
 class DeleteAccount extends React.Component {
 
   state = {
-    deleteAccountChangeDivVisible: false,
     confirmationDivVisible: false
-  }
-
-  showDeleteAccount = () => {
-      this.setState(prevState => ({
-        deleteAccountChangeDivVisible: !prevState.deleteAccountChangeDivVisible
-      }))
   }
 
   toggleDelete = () => {
@@ -61,10 +54,9 @@ class DeleteAccount extends React.Component {
     )
     return (
       <div>
-        <h3 onClick={this.showDeleteAccount}>DELETE ACCOUNT</h3><i className={this.state.deleteAccountChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
-        <div className={this.state.deleteAccountChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="deleteAccount">
-          <button onClick={this.toggleDelete}>DELETE ACCOUNT</button>
-        </div>
+
+          <button id="deleteAccount" onClick={this.toggleDelete}>DELETE ACCOUNT</button>
+
         {this.state.confirmationDivVisible ? confirmationModal : null}
       </div>
     )

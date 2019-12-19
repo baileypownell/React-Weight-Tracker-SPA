@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\node_modules",
+    "\\node_modules\\wordwrap",
+    "\\node_modules\\wordwrap\\test",
+    "\\src",
+    "\\src\\tests"
+  ],
+  "SelectedNode": "\\src\\tests\\new.test.js",
+  "PreviewInSolutionExplorer": false
+}

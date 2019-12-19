@@ -8,7 +8,9 @@ import Nav from './components/Nav/Nav';
 import {
   BrowserRouter,
   Route,
-  Link
+  Link,
+  Switch,
+  Redirect
 } from "react-router-dom";
 
 
@@ -42,12 +44,15 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-        <Nav/>
-        <Route exact={true} path="/" component={Home}/>
-        <Route path="/createAccount" component={CreateAccount}/>
-        <Route path="/logIn" component={LogIn}/>
-        <Route path="/Program" component={Program}/>
-        <Route path="/LogInOrSignUp" component={LogInOrSignUp}/>
+        <Nav />
+        <Switch>
+            <Route exact={true} path="/" component={Home}/>
+            <Route path="/createAccount" component={CreateAccount}/>
+            <Route path="/logIn" component={LogIn}/>
+            <Route path="/Program" component={Program}/>
+            <Route path="/LogInOrSignUp" component={LogInOrSignUp} />
+            <Redirect to="/" />
+        </Switch>
       </BrowserRouter>
     </PersistGate>
   </Provider>,
