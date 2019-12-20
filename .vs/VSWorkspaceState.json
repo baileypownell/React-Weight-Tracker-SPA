@@ -1,12 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\node_modules",
-    "\\node_modules\\wordwrap",
-    "\\node_modules\\wordwrap\\test",
     "\\src",
+    "\\src\\components",
+    "\\src\\components\\Program",
+    "\\src\\components\\Program\\LineGraph",
     "\\src\\tests"
   ],
-  "SelectedNode": "\\src\\tests\\new.test.js",
+  "SelectedNode": "\\src\\components\\Program\\LineGraph\\LineGraph.js",
   "PreviewInSolutionExplorer": false
 }
