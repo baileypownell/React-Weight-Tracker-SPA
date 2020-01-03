@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
-// need to remove after outsourcing to redux thunk...
-import axios from 'axios';
+
 
 const initialState = {
   user: {
@@ -88,7 +87,16 @@ const reducer = (state = initialState, action) => {
         },
         todaysWeight: action.todaysWeight
       };
-    case actionTypes.CREATE_ACCOUNT:
+    case actionTypes.EDIT_TODAYS_WEIGHT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          weightHistory: action.updatedWeights
+        },
+        todaysWeight: action.todaysWeight
+      };
+  case actionTypes.CREATE_ACCOUNT:
       return {
         ...state,
         user: {

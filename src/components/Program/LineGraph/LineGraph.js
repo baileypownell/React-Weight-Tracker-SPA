@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 class LineGraph extends React.Component {
 
   state = {
-      graphTimePeriod: 'week',
+      graphTimePeriod: '',
       labels: [],
       data: []
   }
@@ -15,9 +15,9 @@ class LineGraph extends React.Component {
     setGraphTimePeriod = (e) => {
         // use this if statement so that componentDidMount() can run
         if (e) {
-            this.setState({
-                graphTimePeriod: e.target.value
-            }, () => { this.graphData() } )
+          this.setState({
+            graphTimePeriod: e.target.value
+          }, () => { this.graphData() } )
         } else {
             this.graphData();
         }
@@ -55,20 +55,19 @@ class LineGraph extends React.Component {
 
     graphData = () => {
         if (this.state.graphTimePeriod === 'week') {
-            let labels = [];
-            let data = [];
-            let newerThanAWeek = [];
-            for (let i = 0; i < this.props.entireSortedWeightHistory.length-1; i++) {
-                const now = new Date()
-                const secondsSinceEpoch = Math.round(now.getTime() / 1000);
-                let exactlyWeekAgo = secondsSinceEpoch - 604800;
-                if (this.props.entireSortedWeightHistory[i].date.date.seconds > exactlyWeekAgo) {
-                    newerThanAWeek.push(this.props.entireSortedWeightHistory[i]);
-                } else {
-                    return;
-                }
+          let labels = [];
+          let data = [];
+          let newerThanAWeek = [];
+          for (let i = 0; i < this.props.entireSortedWeightHistory.length-1; i++) {
+              console.log(this.props.entireSortedWeightHistory[i])
+              const now = new Date()
+              const secondsSinceEpoch = Math.round(now.getTime() / 1000);
+              let exactlyWeekAgo = secondsSinceEpoch - 604800;
+              if (this.props.entireSortedWeightHistory[i].date.date.seconds > exactlyWeekAgo) {
+                newerThanAWeek.push(this.props.entireSortedWeightHistory[i]);
+              }
             }
-            console.log(newerThanAWeek)
+
             newerThanAWeek.forEach((item) => {
                 data.push(item.weight);
                 let date = new Date(item.date.date.seconds * 1000);
@@ -77,26 +76,23 @@ class LineGraph extends React.Component {
 
             labels.reverse();
             data.reverse();
-            
+
             let labelsParsed = [];
             labels.forEach(date => {
                 let day = date.toUTCString().split(' ')[1];
                 let month = date.toUTCString().split(' ')[2];
                 let fulldate = [month, day].join(' ');
                 labelsParsed.push(fulldate);
-            })   
+            })
             this.setState({
                 labels: labelsParsed,
                 data: data
             }, () => { this.drawChart() });
         } else if (this.state.graphTimePeriod === 'month') {
-            console.log("the time period is month")
             let labels = [];
             let data = [];
             let newerThanAMonth = [];
-            console.log("length of props is: ", this.props.entireSortedWeightHistory.length)
             for (let i = 0; i < this.props.entireSortedWeightHistory.length; i++) {
-                console.log(this.props.entireSortedWeightHistory[i])
                 const now = new Date()
                 const secondsSinceEpoch = Math.round(now.getTime() / 1000);
                 let exactly30daysAgo = secondsSinceEpoch - 2592000;
@@ -128,7 +124,6 @@ class LineGraph extends React.Component {
                 data: data
             }, () => { this.drawChart() });
         } else if (this.state.graphTimePeriod === 'year') {
-            console.log("the time period is year")
             let labels = [];
             let labelsParsed = [];
             let data = [];
@@ -158,21 +153,13 @@ class LineGraph extends React.Component {
                 let fullDate = [month, day].join(' ');
                 labelsParsed.push(fullDate);
             })
- 
+
             this.setState({
                 labels: labelsParsed,
                 data: data
             }, () => this.drawChart())
-        }       
+        }
     }
-    
-    
-  
-
-  // necessary so we don't have an ugly empty graph
-  componentDidMount() {
-    this.setGraphTimePeriod();
-  }
 
   render() {
     return (
@@ -183,9 +170,11 @@ class LineGraph extends React.Component {
           <button value="month" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "month" ? "time-period selected" : "time-period" }>month</button>
           <button value="year" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "year" ? "time-period selected" : "time-period"}>year</button>
         </div>
-        <div id="canvas-parent">
-          <canvas id="myChart" width="400" height="400"></canvas>
-        </div>
+          {this.state.graphTimePeriod === '' ? <h3>(Choose a time frame)</h3> :
+            <div id="canvas-parent">
+              <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+          }
       </div>
     )
   }

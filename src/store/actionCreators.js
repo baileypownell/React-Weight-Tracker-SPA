@@ -52,7 +52,7 @@ export const getUserDataAsync = (localId) => {
         let dateLast = lastWeightEntry.date.date.seconds;
         let now = Date.now()/1000;
         let timeElapsed = now - dateLast;
-        if (timeElapsed < 1440) {
+        if (timeElapsed < 86400) {
           todaysWeight = lastWeightEntry.weight;
         }
         firstName = doc.data().firstName;
@@ -128,7 +128,6 @@ export const changeEmailAsync = (idToken, newEmail) => {
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadEmail)
     .then(response => {
       console.log(response);
-      //dispatch(changeEmail(idToken, newEmail));
       alert('Your email has been successfully updated to:', response.data.email);
     })
     .catch(err => {
@@ -137,10 +136,19 @@ export const changeEmailAsync = (idToken, newEmail) => {
   }
 }
 
+
 export const setTodaysWeight = (todaysWeight) => {
   return {
     type: actionTypes.SET_TODAYS_WEIGHT,
     todaysWeight: todaysWeight
+  }
+}
+
+export const editTodaysWeight = (todaysWeight, updatedWeights) => {
+  return {
+    type: actionTypes.EDIT_TODAYS_WEIGHT,
+    todaysWeight: todaysWeight,
+    updatedWeights: updatedWeights
   }
 }
 

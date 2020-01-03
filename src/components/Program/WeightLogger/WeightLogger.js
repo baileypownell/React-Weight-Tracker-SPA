@@ -14,7 +14,6 @@ class WeightLogger extends React.Component {
     weightUpdated: false
   }
 
-  // update redux with new weight
   handleChange = (e) => {
     if (document.querySelector("#weight-logger form input").value.length > 1) {
       this.setState({
@@ -42,6 +41,7 @@ class WeightLogger extends React.Component {
     // check to see if there has been a weight entered in the past 24 hours... redux todaysWeight should be set from database and only allowed to be updated if null
     if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
       let weightHistory;
+
       // update redux with todays weight
       this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
       // then update firebase "users" database to hold today's new weight value
@@ -71,8 +71,16 @@ class WeightLogger extends React.Component {
     if (document.querySelector("#editModal input").value.length < 1) {
       return;
     } else {
-      // update redux
-      this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
+      let allWeights = this.props.weightHistory;
+      let recordToUpdate = allWeights[0];
+      recordToUpdate.weight = this.state.todaysWeight;
+      console.log("recordToUpdate: ", recordToUpdate);
+      allWeights.shift();
+      console.log("updatedWeights without the most recent: ", allWeights);
+      let updatedWeights = allWeights.unshift(recordToUpdate);
+      console.log("the updated weights we want to send to redux are: ", allWeights)
+      // update redux in 2 places
+      this.props.editTodaysWeight(parseInt(this.state.todaysWeight), allWeights);
       this.setState(prevState => ({
           weightUpdated: !prevState.weightUpdated
         }))
@@ -100,7 +108,8 @@ class WeightLogger extends React.Component {
   toggleEditor = (e) => {
     e.preventDefault();
     this.setState(prevState => ({
-      editorVisible: !prevState.editorVisible
+      editorVisible: !prevState.editorVisible,
+      weightUpdated: false
     }))
   }
 
@@ -137,13 +146,15 @@ class WeightLogger extends React.Component {
 const mapStateToProps = state => {
   return {
     todaysWeight: state.todaysWeight,
-    localId: state.localId
+    localId: state.localId,
+    weightHistory: state.user.weightHistory
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateTodaysWeight: (todaysWeight) => dispatch(actions.setTodaysWeight(todaysWeight))
+    updateTodaysWeight: (todaysWeight) => dispatch(actions.setTodaysWeight(todaysWeight, updatedWeights)),
+    editTodaysWeight: (todaysWeight, updatedWeights) => dispatch(actions.editTodaysWeight(todaysWeight, updatedWeights))
   }
 }
 

@@ -52,6 +52,9 @@
   margin-bottom: 30px;
   box-shadow: 10px 10px 40px white;
   margin-bottom: 5vh;
+  h3 {
+    padding-top: 2vw;
+  }
 }
 
 #data-row {
@@ -73,6 +76,7 @@
 
 #confirmationModal,
 #editModal {
+  z-index: 100;
   padding: 5vw;
   position: fixed;
   top: 0;

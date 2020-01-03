@@ -30,9 +30,7 @@ button {
   opacity: 0.75;
   cursor: auto;
   &:hover {
-    background-color: white;
-    color: #3ad8d9;
-    border-color: #3ad8d9;
+    transform: none;
   }
 }
 
