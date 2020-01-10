@@ -153,7 +153,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateTodaysWeight: (todaysWeight) => dispatch(actions.setTodaysWeight(todaysWeight, updatedWeights)),
+    updateTodaysWeight: (todaysWeight) => dispatch(actions.setTodaysWeight(todaysWeight)),
     editTodaysWeight: (todaysWeight, updatedWeights) => dispatch(actions.editTodaysWeight(todaysWeight, updatedWeights))
   }
 }

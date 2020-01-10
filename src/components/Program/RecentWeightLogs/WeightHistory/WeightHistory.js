@@ -51,6 +51,7 @@ class WeightHistory extends React.Component {
     }
   }
 
+  // the function called when the page is loaded in turn calls this function, if there are 11 or more records
   assimilateRecords = (weightHistory) => {
     let extraRecordsArray = [];
     // first assimilate all extra records
@@ -63,7 +64,8 @@ class WeightHistory extends React.Component {
     // then compile into a grander data structure, each item 10 in length
     // first 0 and 10, then 10 and 20, then 20 and 30, etc., so we need to find the max number to go to, which is the length of extraRecords.
     let maxIteration = extraRecords.length;
-    console.log("the maxIteration is ", maxIteration)
+    console.log("the maxIteration is ", maxIteration);
+
     const addToStateArray = (a, b) => {
       let tempArray = [];
       for (let i = a; i < b; i++) {
@@ -71,8 +73,9 @@ class WeightHistory extends React.Component {
           tempArray.push(extraRecords[i]);
         }
       }
-      extraRecordsArray.push(tempArray)
+      extraRecordsArray.push(tempArray);
     }
+
     if (maxIteration < 10) {
       addToStateArray(0, maxIteration);
       console.log("the extraRecordsArray is equal to: ", extraRecordsArray);
@@ -113,6 +116,7 @@ class WeightHistory extends React.Component {
     })
   }
 
+  // called when the page is loaded
   getUserWeightHistory = () => {
     function compare(a, b) {
       const secondsA = a.date.date.seconds;
@@ -153,20 +157,6 @@ class WeightHistory extends React.Component {
       });
   }
 
-  // showPriorRecs = () => {
-  //     this.state.extraRecords.map((array) => {
-  //       for ( let i = 0; i < this.state.extraRecords.length; i++ ) {
-  //        let date = (new Date(array[0].date.date.seconds * 1000)).toString();
-  //        let dateStringArray = date.split(' ');
-  //        let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
-  //        return <Weight
-  //          id={array[0].date.date.seconds}
-  //          weight={array[0].weight}
-  //          date={dateString}
-  //        />
-  //    }
-  //  })
-  // }
 
   componentDidMount() {
     this.getUserWeightHistory();
@@ -187,7 +177,7 @@ class WeightHistory extends React.Component {
             let dateStringArray = date.split(' ');
             let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
             return <Weight
-              id={weight.date.date.seconds}
+              key={weight.date.date.seconds}
               weight={weight.weight}
               date={dateString}
             />
@@ -195,8 +185,8 @@ class WeightHistory extends React.Component {
       }
         {this.state.showingMore ?
           <>
-          <button className="back-forth"><i class="fas fa-chevron-left"></i></button>
-          <button onClick={this.goForward} className="back-forth"><i class="fas fa-chevron-right"></i></button>
+          <button className="back-forth"><i className="fas fa-chevron-left"></i></button>
+          <button onClick={this.goForward} className="back-forth"><i className="fas fa-chevron-right"></i></button>
           </>
           : null }
         {this.state.showingPrior ?
