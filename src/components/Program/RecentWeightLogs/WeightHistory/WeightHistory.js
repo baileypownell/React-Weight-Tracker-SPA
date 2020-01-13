@@ -1,6 +1,5 @@
 import React from 'react';
 import Weight from './Weight/Weight';
-import PriorRecords from './PriorRecords/PriorRecords'
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actionCreators';
@@ -8,10 +7,7 @@ import * as actions from '../../../../store/actionCreators';
 
 class WeightHistory extends React.Component {
 
-  // limitedForDisplay should remain as is for optimization; we should only make an array of subarrays if the length of the data we get back in the API is greater than 10 records. Thus, we should handle extra records in the API call.
-
-
-  // the goal here is to use limitedForDisplay to always equal the current record set we are viewing as determined by the back and forth arrow buttons.
+  // limitedForDisplay always equals the current record set we are viewing as determined by the back and forth arrow buttons.
 
   // recordsByTens will be a complete data set (array) of all records divided into arrays, each ten in length. We use the back and forth arrows to increment and decrement which array of ten records we are viewing.
 
@@ -20,7 +16,6 @@ class WeightHistory extends React.Component {
     limitedForDisplay: [],
     noHistory: true,
     showingMore: false,
-    showingPrior: false,
     extraRecordPosition: 0,
     recordsByTens: []
   }
@@ -60,15 +55,13 @@ class WeightHistory extends React.Component {
 
   // the function called when the page is loaded in turn calls this function
   buildMasterRecordSet = (weightHistory) => {
-    console.log('buildMasterRecordSet weightHistory is equal to: ', weightHistory)
     let recordsByTensArray = [];
     let recordsByTens = [];
     weightHistory.forEach(rec => {
       recordsByTens.push(rec)
     });
 
-    // then compile into a grander data structure, each item 10 in length
-    // first 0 through 9, then 10 through 19, then 20 through 29, etc., so we need to find the max number to go to, which is the length of recordsByTens.
+    // then compile into a grander data structure, each item 10 in length (first 0 through 9, then 10 through 19, then 20 through 29, etc., so we need to find the max number to go to, which is the length of recordsByTens)
     let maxIteration = recordsByTens.length;
 
     const addToStateArray = (a, b) => {
@@ -101,23 +94,21 @@ class WeightHistory extends React.Component {
 
 
   goForward = () => {
-    if (this.state.showingPrior === true) {
+    if (this.state.extraRecordPosition < this.state.recordsByTens.length-1) {
       this.setState(prevState => ({
-          extraRecordPosition: prevState.extraRecordPosition+1
-        }))
-    } else {
-      this.setState(prevState => ({
-          showingPrior: !prevState.showingPrior,
-          limitedForDisplay: prevState.recordsByTens[1],
-          extraRecordPosition: prevState.extraRecordPosition+1
+          extraRecordPosition: prevState.extraRecordPosition+1,
+          limitedForDisplay: prevState.recordsByTens[this.state.extraRecordPosition+1]
         }))
     }
   }
 
   goBack = () => {
-    this.setState(prevState => ({
-      extraRecordPosition: prevState.extraRecordPosition-1
-    }))
+    if (this.state.extraRecordPosition > 0) {
+      this.setState(prevState => ({
+        extraRecordPosition: prevState.extraRecordPosition-1,
+        limitedForDisplay: prevState.recordsByTens[this.state.extraRecordPosition-1]
+      }))
+    }
   }
 
   // called when the page is loaded
@@ -168,8 +159,9 @@ class WeightHistory extends React.Component {
   render() {
     return (
       <div>
+
         <div id="data-row">
-          {this.props.todaysWeight && !this.state.showingPrior ? <Weight
+          {this.props.todaysWeight && this.state.extraRecordPosition === 0 ? <Weight
             id="today"
             weight={this.props.todaysWeight}
             date="Today"
@@ -186,16 +178,20 @@ class WeightHistory extends React.Component {
             />
         })
       }
-
-
-       {this.state.showingMore ?
+      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 ? <h3>No more data to show</h3> : null}
+      { this.state.showingMore ?
          <>
          <button onClick={this.goBack} className="back-forth"><i className="fas fa-chevron-left"></i></button>
          <button onClick={this.goForward} className="back-forth"><i className="fas fa-chevron-right"></i></button>
          </>
-         : null }
+         : null
+       }
         </div>
-        {!this.state.showingPrior ? <button onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null }
+
+
+      {
+        this.state.extraRecordPosition === 0 ? <button    onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
+      }
       </div>
       )
   }
