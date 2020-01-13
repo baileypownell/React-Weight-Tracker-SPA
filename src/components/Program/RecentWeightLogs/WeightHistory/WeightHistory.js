@@ -9,13 +9,20 @@ import * as actions from '../../../../store/actionCreators';
 class WeightHistory extends React.Component {
 
   // limitedForDisplay should remain as is for optimization; we should only make an array of subarrays if the length of the data we get back in the API is greater than 10 records. Thus, we should handle extra records in the API call.
+
+
+  // the goal here is to use limitedForDisplay to always equal the current record set we are viewing as determined by the back and forth arrow buttons.
+
+  // recordsByTens will be a complete data set (array) of all records divided into arrays, each ten in length. We use the back and forth arrows to increment and decrement which array of ten records we are viewing.
+
   state = {
     entireSortedWeightHistory: [],
     limitedForDisplay: [],
     noHistory: true,
     showingMore: false,
-    extraRecords: null,
-    showingPrior: false
+    showingPrior: false,
+    extraRecordPosition: 0,
+    recordsByTens: []
   }
 
   showLimitedRecs = (iterator) => {
@@ -51,69 +58,66 @@ class WeightHistory extends React.Component {
     }
   }
 
-  // the function called when the page is loaded in turn calls this function, if there are 11 or more records
-  assimilateRecords = (weightHistory) => {
-    let extraRecordsArray = [];
-    // first assimilate all extra records
-    let extraRecords = [];
-    for (let i = 10; i < weightHistory.length; i++) {
-      extraRecords.push(weightHistory[i]);
-    }
-    console.log("extraRecords = ", extraRecords);
+  // the function called when the page is loaded in turn calls this function
+  buildMasterRecordSet = (weightHistory) => {
+    console.log('buildMasterRecordSet weightHistory is equal to: ', weightHistory)
+    let recordsByTensArray = [];
+    let recordsByTens = [];
+    weightHistory.forEach(rec => {
+      recordsByTens.push(rec)
+    });
 
     // then compile into a grander data structure, each item 10 in length
-    // first 0 and 10, then 10 and 20, then 20 and 30, etc., so we need to find the max number to go to, which is the length of extraRecords.
-    let maxIteration = extraRecords.length;
-    console.log("the maxIteration is ", maxIteration);
+    // first 0 through 9, then 10 through 19, then 20 through 29, etc., so we need to find the max number to go to, which is the length of recordsByTens.
+    let maxIteration = recordsByTens.length;
 
     const addToStateArray = (a, b) => {
       let tempArray = [];
       for (let i = a; i < b; i++) {
-        if (extraRecords[i] !== undefined) {
-          tempArray.push(extraRecords[i]);
+        if (recordsByTens[i] !== undefined) {
+          tempArray.push(recordsByTens[i]);
         }
       }
-      extraRecordsArray.push(tempArray);
+      recordsByTensArray.push(tempArray);
     }
 
-    if (maxIteration < 10) {
-      addToStateArray(0, maxIteration);
-      console.log("the extraRecordsArray is equal to: ", extraRecordsArray);
-    } else {
-      // then find how many numbers evenly divisible by 10 are between the maxIteration and 0 for an else statement above this
-      let numbersEvenlyDivisbleBy10 = 0;
-      for (let i = 1; i <= maxIteration; i++) {
-        if (i % 10 === 0) {
-          numbersEvenlyDivisbleBy10++;
-        }
-      }
-      console.log("numbersEvenlyDivisbleBy10 = ", numbersEvenlyDivisbleBy10);
+    let numberOfSubArrays = Math.ceil(maxIteration/10);
 
-      // with that number, call addToStateArray() as many times
-      function callAppropriately(numbersEvenlyDivisbleBy10) {
-        let i = 0;
-        // if numbersEvenlyDivisbleBy10 = 0, call addToStateArray(0, maxIteration)
-        // if numbersEvenlyDivisbleBy10 = 1, call addToStateArray(0, 10)
-        // if numbersEvenlyDivisbleBy10 = 2, call addToStateArray(10, 20)
-        // if numbersEvenlyDivisbleBy10 = 3, call addToStateArray(20, 30)
+    // call addToStateArray() as many times as you need sub arrays
+    function callAppropriately(a) {
+      let i = 1;
         do {
           addToStateArray((i*10)-10, i*10);
           i++;
         }
-        while (i < numbersEvenlyDivisbleBy10)
+        while (i <= a)
       }
-      callAppropriately(numbersEvenlyDivisbleBy10);
-    }
+    callAppropriately(numberOfSubArrays);
+
     this.setState({
-      extraRecords: extraRecordsArray
+      recordsByTens: recordsByTensArray
     })
   }
 
+
   goForward = () => {
-    this.setState({
-      limitedForDisplay: [],
-      showingPrior: true
-    })
+    if (this.state.showingPrior === true) {
+      this.setState(prevState => ({
+          extraRecordPosition: prevState.extraRecordPosition+1
+        }))
+    } else {
+      this.setState(prevState => ({
+          showingPrior: !prevState.showingPrior,
+          limitedForDisplay: prevState.recordsByTens[1],
+          extraRecordPosition: prevState.extraRecordPosition+1
+        }))
+    }
+  }
+
+  goBack = () => {
+    this.setState(prevState => ({
+      extraRecordPosition: prevState.extraRecordPosition-1
+    }))
   }
 
   // called when the page is loaded
@@ -148,9 +152,8 @@ class WeightHistory extends React.Component {
         let iterator = (weightHistory.length > 6) ? 6 : weightHistory.length;
         this.showLimitedRecs(iterator);
         // lastly, if there are 11 or more records, build an array of arrays, each sub array being 10 items in length, to go back and forth through in the Recent Weight Logs modal
-        if ( weightHistory.length > 10) {
-          this.assimilateRecords(weightHistory);
-        }
+        // update: always call this regardless of length
+          this.buildMasterRecordSet(weightHistory);
       })
       .then(err => {
         console.log(err)
@@ -183,15 +186,14 @@ class WeightHistory extends React.Component {
             />
         })
       }
-        {this.state.showingMore ?
-          <>
-          <button className="back-forth"><i className="fas fa-chevron-left"></i></button>
-          <button onClick={this.goForward} className="back-forth"><i className="fas fa-chevron-right"></i></button>
-          </>
-          : null }
-        {this.state.showingPrior ?
-        <PriorRecords extraRecords={this.state.extraRecords}/>
-           : null }
+
+
+       {this.state.showingMore ?
+         <>
+         <button onClick={this.goBack} className="back-forth"><i className="fas fa-chevron-left"></i></button>
+         <button onClick={this.goForward} className="back-forth"><i className="fas fa-chevron-right"></i></button>
+         </>
+         : null }
         </div>
         {!this.state.showingPrior ? <button onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null }
       </div>
