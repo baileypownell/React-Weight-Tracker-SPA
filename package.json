@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "an offline single page web application to track weight",
   "engines": {
-    "node": "6.13.4"
+    "node": "10.16.0"
   },
   "main": "index.js",
   "dependencies": {
