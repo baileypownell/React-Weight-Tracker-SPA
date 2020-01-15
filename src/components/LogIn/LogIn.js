@@ -9,11 +9,16 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
 class LogIn extends React.Component {
+
   state = {
     email: '',
     password: '',
-    errorMessage: ''
+    errorMessage: '',
+    passwordEmailSent: false,
+    passwordResetError: false,
+    passwordResetErrorMessage: ''
   }
+
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -49,9 +54,32 @@ class LogIn extends React.Component {
     });
   }
 
+  sendPasswordResetEmail = () => {
+    const payloadPassword = {
+      requestType: 'PASSWORD_RESET',
+      email: this.state.email
+    }
+    console.log(payloadPassword)
+    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
+    .then(response => {
+      console.log(response);
+      this.setState({
+        passwordEmailSent: true
+      })
+    })
+    .catch(error => {
+      console.log('Error: ', error.response.data.error);
+      this.setState({
+        passwordResetError: true,
+        passwordResetErrorMessage: error.response.data.error
+      })
+    });
+  }
+
   render() {
     let errorMessage = null;
     if (this.state.errorMessage) {
+      console.log(this.state.errorMessage)
       let messageToUser = '';
       if (this.state.errorMessage === 'INVALID_EMAIL') {
         messageToUser = 'The email is invalid.';
@@ -65,13 +93,22 @@ class LogIn extends React.Component {
         messageToUser = 'Password sign-in is disabled for this project.';
       } else if (this.state.errorMessage === 'USER_NOT_FOUND') {
         messageToUser = 'There is no user record corresponding to this identifier. The user may have been deleted.';
-      } else if (this.state.errorMessage === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
-        mesageToUser = "You've entered your password incorrectly too many times. Wait before trying to re-authenticate."
+      } else if (this.state.errorMessage.includes('TOO_MANY_ATTEMPTS_TRY_LATER')) {
+        messageToUser = "You've entered your password incorrectly too many times. Wait before trying to re-authenticate."
       } else {
         messageToUser = "There has been an error."
       }
       errorMessage = (
-        <h3>{messageToUser}</h3>
+        <>
+        <h2>{messageToUser}</h2>
+        {this.state.errorMessage.includes("TOO_MANY_ATTEMPTS_TRY_LATER") ?
+          <>
+            <button onClick={this.sendPasswordResetEmail}>RESET PASSWORD</button>
+            {this.state.passwordEmailSent ? <h3 className="result">Check your email for a link to reset your password.</h3> : null}
+            {this.state.passwordResetError ? <h3 className="result">{this.state.passwordResetErrorMessage}</h3> : null}
+          </>
+          : null}
+        </>
       )
     }
 

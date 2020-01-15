@@ -9,11 +9,18 @@ class LineGraph extends React.Component {
   state = {
       graphTimePeriod: '',
       labels: [],
-      data: []
+      data: [],
+      noHistoryMessageDisplay: false
   }
 
     setGraphTimePeriod = (e) => {
         // use this if statement so that componentDidMount() can run
+        if (this.props.entireSortedWeightHistory.length < 2 ) {
+          this.setState({
+            noHistoryMessageDisplay: true
+          })
+          return;
+        }
         if (e) {
           this.setState({
             graphTimePeriod: e.target.value
@@ -25,6 +32,7 @@ class LineGraph extends React.Component {
 
     drawChart = () => {
         var ctx = document.getElementById('myChart');
+        Chart.defaults.global.legend.display = false;
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -59,7 +67,6 @@ class LineGraph extends React.Component {
           let data = [];
           let newerThanAWeek = [];
           for (let i = 0; i < this.props.entireSortedWeightHistory.length-1; i++) {
-              console.log(this.props.entireSortedWeightHistory[i])
               const now = new Date()
               const secondsSinceEpoch = Math.round(now.getTime() / 1000);
               let exactlyWeekAgo = secondsSinceEpoch - 604800;
@@ -93,15 +100,14 @@ class LineGraph extends React.Component {
             let data = [];
             let newerThanAMonth = [];
             for (let i = 0; i < this.props.entireSortedWeightHistory.length; i++) {
-                const now = new Date()
+                const now = new Date();
                 const secondsSinceEpoch = Math.round(now.getTime() / 1000);
                 let exactly30daysAgo = secondsSinceEpoch - 2592000;
                 if (this.props.entireSortedWeightHistory[i].date.date.seconds > exactly30daysAgo) {
                     newerThanAMonth.push(this.props.entireSortedWeightHistory[i]);
-                } else {
-                    return;
                 }
             }
+
 
             newerThanAMonth.forEach((item) => {
                 data.push(item.weight);
@@ -175,6 +181,7 @@ class LineGraph extends React.Component {
               <canvas id="myChart" width="400" height="400"></canvas>
             </div>
           }
+          {this.state.noHistoryMessageDisplay ? <h3>You haven't recorded any or enough weights yet to graph.</h3> : null}
       </div>
     )
   }

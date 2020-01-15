@@ -166,7 +166,7 @@ class WeightHistory extends React.Component {
             weight={this.props.todaysWeight}
             date="Today"
           />: null }
-          {this.state.noHistory ? <p>You haven't recorded a weight yet.</p> :
+          {this.props.todaysWeight < 1 && this.state.noHistory ? <p>You haven't recorded a weight yet.</p> :
            this.state.limitedForDisplay.map((weight) => {
             let date = (new Date(weight.date.date.seconds * 1000)).toString();
             let dateStringArray = date.split(' ');
@@ -178,11 +178,11 @@ class WeightHistory extends React.Component {
             />
         })
       }
-      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 ? <h3>No more data to show</h3> : null}
+      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 && !this.state.noHistory ? <h3>No more data to show</h3> : null}
       { this.state.showingMore ?
          <>
-         <button onClick={this.goBack} className="back-forth"><i className="fas fa-chevron-left"></i></button>
-         <button onClick={this.goForward} className="back-forth"><i className="fas fa-chevron-right"></i></button>
+         <button onClick={this.goBack} className={this.state.extraRecordPosition === 0 ? "button-disabled back-forth" : "back-forth"}><i className="fas fa-chevron-left"></i></button>
+         <button onClick={this.goForward} className={this.state.extraRecordPosition === this.state.recordsByTens.length-1 ? "button-disabled back-forth" : "back-forth"}><i className="fas fa-chevron-right"></i></button>
          </>
          : null
        }
@@ -190,7 +190,7 @@ class WeightHistory extends React.Component {
 
 
       {
-        this.state.extraRecordPosition === 0 ? <button    onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
+        this.state.extraRecordPosition === 0 && this.state.entireSortedWeightHistory.length > 5 ? <button    onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
       }
       </div>
       )

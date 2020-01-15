@@ -74,15 +74,12 @@ class WeightLogger extends React.Component {
       let allWeights = this.props.weightHistory;
       let recordToUpdate = allWeights[0];
       recordToUpdate.weight = this.state.todaysWeight;
-      console.log("recordToUpdate: ", recordToUpdate);
       allWeights.shift();
-      console.log("updatedWeights without the most recent: ", allWeights);
       let updatedWeights = allWeights.unshift(recordToUpdate);
-      console.log("the updated weights we want to send to redux are: ", allWeights)
       // update redux in 2 places
       this.props.editTodaysWeight(parseInt(this.state.todaysWeight), allWeights);
       this.setState(prevState => ({
-          weightUpdated: !prevState.weightUpdated
+          weightUpdated: true
         }))
       // update firebase "users" database to hold today's new weight value
         const db = firebase.firestore();
