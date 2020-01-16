@@ -13,7 +13,7 @@ import WeightLogger from './WeightLogger/WeightLogger';
 
 import './Program.scss';
 
-const Program = (props) => {
+export const Program = (props) => {
   return (
     <Content>
       <h1 id="greeting">Hello, {props.firstName}</h1>

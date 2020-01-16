@@ -1,5 +1,6 @@
-// THIS TEST TESTS THE COMPONENT WITHOUT REDUX STORE
-// MY current approach because it is easier and doesn't use a library in a way it was not intended to be used.
+// THIS TEST TESTS THE COMPONENT BY USING A MOCK STATE FOR Redux
+// I don't currently favor this method because it requires using a library (redux-mock-store) in a way that it was not designed to be used, and turns the test more into an integration test than a unit test
+
 
 import React from 'react';
 // Jest comes with test assertsions like toBe() and .toEqual() as well as Snapshot tests
@@ -16,18 +17,24 @@ import Adapter from 'enzyme-adapter-react-16';
 // don't forget to configure the adapter with the import
 Enzyme.configure({ adapter: new Adapter() });
 
-// then, just import the UNCONNECTED component (not the default export)
-import { Program } from './Program';
-
+import Program from './Program';
+// because Program is connected with Redux, we must include extra packages for configuring the test to run properly, including Provider
+import { Provider } from "react-redux";
+// use redux-mock-store for making a fake store
+import configureMockStore from "redux-mock-store";
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 // test suite
 describe('Program Component', () => {
 
   // a test block
-  test('displays a greeting', () => {
+  test('receives first name as a prop', () => {
 
-    const PROGRAM = shallow(<Program />);
+    const PROGRAM = mount(
+      <Provider store={store}><Program /></Provider>
+    );
 
-    expect(PROGRAM.find('h1').text()).toEqual('Hello, ');
+    expect(PROGRAM.props().includeProp).toEqual('firstName');
   })
 });
