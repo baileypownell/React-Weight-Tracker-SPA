@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actionCreators';
 
-class WeightLogger extends React.Component {
+export class WeightLogger extends React.Component {
 
   state = {
     formInputEmpty: true,
@@ -15,7 +15,7 @@ class WeightLogger extends React.Component {
   }
 
   handleChange = (e) => {
-    if (document.querySelector("#weight-logger form input").value.length > 1) {
+    if (e.target.value > 1) {
       this.setState({
         formInputEmpty: false,
         todaysWeight: e.target.value
@@ -129,8 +129,13 @@ class WeightLogger extends React.Component {
         <form>
           <input onChange={this.handleChange} type="text"></input>
           <div>
-            <button onClick={this.logWeight} className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled" : null}>LOG WEIGHT</button>
-            <button onClick={this.props.todaysWeight ? this.toggleEditor : undefined} className={this.props.todaysWeight > 0 ? null : "button-disabled"}>Edit today's weight</button>
+            <button
+              onClick={this.logWeight} className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled" : null}>LOG WEIGHT
+            </button>
+            <button
+              onClick={this.props.todaysWeight ? this.toggleEditor : undefined}
+              className={this.props.todaysWeight > 0 ? null : "button-disabled"}>Edit today's weight
+            </button>
           </div>
         </form>
         {this.state.editorVisible ? editor : null}
