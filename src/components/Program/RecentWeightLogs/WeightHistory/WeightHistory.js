@@ -10,7 +10,9 @@ class WeightHistory extends React.Component {
   // limitedForDisplay always equals the current record set we are viewing as determined by the back and forth arrow buttons.
 
   // recordsByTens will be a complete data set (array) of all records divided into arrays, each ten in length. We use the back and forth arrows to increment and decrement which array of ten records we are viewing.
-intervalID;
+
+  // intervalID;
+  
   state = {
     entireSortedWeightHistory: [],
     limitedForDisplay: [],
@@ -134,7 +136,7 @@ intervalID;
         // update redux so that <LineGraph/> can get this data
         this.props.setWeightHistory(sortedAllWeightsRecorded);
         // call getData() again in 5 seconds
-        this.intervalID = setTimeout(this.getUserWeightHistory.bind(this), 300000);
+        // this.intervalID = setTimeout(this.getUserWeightHistory.bind(this), 5000);
         if (sortedAllWeightsRecorded.length > 0) {
           this.setState({
             noHistory: false

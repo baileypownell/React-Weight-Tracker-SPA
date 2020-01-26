@@ -89,7 +89,9 @@ export const logoutUserAsync = () => {
     firebase.auth().signOut().then(() => {
       // change redux state
       dispatch(logoutUser());
-    })
+    }).catch(() => {
+      console.log('There has been an error logging the user out of Firebase.')
+    });
   }
 }
 

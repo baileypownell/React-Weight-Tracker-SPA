@@ -14,6 +14,10 @@ class Nav extends React.Component {
     this.props.history.push('/');
   }
 
+  componentDidMount() {
+    setTimeout(this.logout(), this.props.expiresIn);
+  }
+
   render() {
     return (
         <nav>
@@ -22,7 +26,6 @@ class Nav extends React.Component {
             <Link to="/createAccount"><button>CREATE ACCOUNT</button></Link>
             {this.props.userLoggedIn ? <button onClick={this.logout}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>}
           </div>
-          {}
         </nav>
     )
   }
@@ -36,7 +39,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userLoggedIn: state.userLoggedIn
+    userLoggedIn: state.userLoggedIn,
+    expiresIn: state.expiresIn
   }
 }
 
