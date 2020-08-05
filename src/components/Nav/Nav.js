@@ -21,11 +21,21 @@ class Nav extends React.Component {
   render() {
     return (
         <nav>
-          <Link to="/"><h1>Weight Tracker 2.0</h1></Link>
+          {/* { <Link to="/"><h1>Weight Tracker 2.0</h1></Link>
           <div>
             <Link to="/createAccount"><button>CREATE ACCOUNT</button></Link>
-            {this.props.userLoggedIn ? <button onClick={this.logout}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>}
-          </div>
+            {this.props.userLoggedIn ? <button onClick={this.logout}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>} */}
+
+
+      
+            <Link to="/" >WeightTracker 2.0</Link>
+            <i class="fas fa-bars"></i>
+            {/* <ul class="left hide-on-med-and-down">
+              <li><a href="sass.html"></a></li>
+              <li><a href="badges.html">Components</a></li>
+              <li class="active"><a href="collapsible.html">JavaScript</a></li>
+            </ul> */}
+   
         </nav>
     )
   }

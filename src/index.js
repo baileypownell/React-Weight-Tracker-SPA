@@ -25,6 +25,7 @@ import LogIn from './components/LogIn/LogIn';
 import Program from './components/Program/Program';
 import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp';
 
+import 'materialize-css/dist/css/materialize.min.css';
 import './scss/main.scss';
 
 const persistConfig = {

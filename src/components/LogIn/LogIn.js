@@ -114,17 +114,19 @@ class LogIn extends React.Component {
 
     return (
       <Content>
-        <h2>LOG IN</h2>
+        <h4>Log In</h4>
         <form onSubmit={this.handleSubmit}>
-          <label><h3>Email:</h3></label>
-          <input type="email" name="email" id="email" onChange={this.handleChange}>
-          </input>
-          <label><h3>Password:</h3></label>
-          <input type="password" name="password" id="password" onChange={this.handleChange}>
-          </input>
-          <button>LOG IN <i className="fas fa-arrow-circle-right"></i></button>
+
+         
+              <label>Email
+              <input placeholder="Email" id="email" type="email" onChange={this.handleChange} ></input>
+              </label>
+              <label>Password
+              <input placeholder="Password" id="password" type="password" onChange={this.handleChange} ></input>
+              </label>
+        
+          <button className="waves-effect waves-light btn">log in</button>
         </form>
-        {errorMessage}
       </Content>
     )
   }

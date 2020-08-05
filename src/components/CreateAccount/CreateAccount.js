@@ -90,23 +90,29 @@ class CreateAccount extends React.Component {
     }
     return (
       <Content>
-        <h2>CREATE AN ACCOUNT</h2>
+        <h4>Create an Account</h4>
         <form onSubmit={this.handleSubmit}>
-          <label><h3>First Name:</h3></label>
-          <input type="text" name="first_name" id="firstName" onChange={this.handleChange}>
-          </input>
-          <label><h3>Last Name:</h3></label>
-          <input type="text" name="last_name" id="lastName" onChange={this.handleChange}>
-          </input>
-          <label><h3>Email:</h3></label>
-          <input type="email" name="email" id="email" onChange={this.handleChange}>
-          </input>
-          <label><h3>Password:</h3></label>
-          <input type="password" name="password" id="password" onChange={this.handleChange}>
-          </input>
-          <button>SIGN UP <i className="fas fa-arrow-circle-right"></i></button>
+              <label>
+                  First Name
+                <input id="firstName" placeholder="First Name" type="text" onChange={this.handleChange}></input>
+              </label>
+              <label>
+                  Last Name
+                  <input id="lastName" placeholder="Last Name" type="test" type="text" onChange={this.handleChange}></input>
+              </label>
+              <label >
+                  Email
+                  <input type="email" placeholder="Email" name="email" id="email" onChange={this.handleChange}>
+                  </input>
+               </label>
+              <label>
+                  Password
+                  <input placeholder="Password" type="password" name="password" id="password" onChange={this.handleChange}>
+              </input>
+              </label>
+
+            <button className="waves-effect waves-light btn">SIGN UP <i className="fas fa-arrow-circle-right"></i></button>
         </form>
-        {errorMessage}
       </Content>
     )
   }

@@ -20,8 +20,10 @@ class Home extends React.Component {
   render() {
     return (
       <Content>
-        <h1>It's never been <br/><span id="fancy">easier</span><br/> to track your progress</h1>
-        <button onClick={this.directUser}>LOG YOUR WEIGHT <i className="fas fa-weight"></i></button>
+        <h3>It's never been <br/><span id="fancy">easier</span><br/> to track your progress.</h3>
+        <button 
+          className="waves-effect waves-light btn" 
+          onClick={this.directUser}>get started</button>
       </Content>
     )
   }
