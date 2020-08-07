@@ -1,13 +1,14 @@
 @import '../../scss/variables.scss';
 
 #content {
-  padding: 5vw;
-  width: 90%;
+  // padding: 5vw;
+  // width: 90%;
   // margin: 5vh auto;
   display: flex;
   flex-direction: column;
   background-color: $gray;
   border-radius: 5px;
+  margin: 0 auto auto 5vw;
   #greeting {
     font-family: 'Caveat', cursive;
     font-size: 40px;

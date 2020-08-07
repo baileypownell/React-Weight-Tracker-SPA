@@ -36,6 +36,9 @@
   .back-forth {
     padding: 5px;
   }
+  #content {
+    width: 60%;
+  }
 }
 
 
@@ -94,13 +97,12 @@
   #OR {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 150px!important;
   }
 }
 
 @media screen and (min-width: 1200px) {
   #content {
-    width: 70%;
+    width: 50%;
   }
 }

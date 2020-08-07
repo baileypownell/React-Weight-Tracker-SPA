@@ -2,3 +2,15 @@
 
 $gray: #303030;
 $orange: #f79c40;
+
+@mixin tablet {
+    @media only screen and (min-width: 600px) {
+      @content;
+    }
+  }
+  
+  @mixin desktop {
+    @media only screen and (min-width: 1000px) {
+      @content;
+    }
+  }

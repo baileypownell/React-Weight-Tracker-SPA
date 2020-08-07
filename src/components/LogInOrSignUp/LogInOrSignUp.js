@@ -8,7 +8,7 @@ import './LogInOrSignUp.scss';
 class LogInOrSignUp extends React.Component {
   render() {
     return (
-      <div id="content">
+      <div className="login">
         <div>
           <LogIn/>
         </div>

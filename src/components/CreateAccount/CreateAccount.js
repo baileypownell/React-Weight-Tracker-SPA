@@ -89,7 +89,7 @@ class CreateAccount extends React.Component {
       )
     }
     return (
-      <Content>
+      <div>
         <h4>Create an Account</h4>
         <form onSubmit={this.handleSubmit}>
               <label>
@@ -111,9 +111,9 @@ class CreateAccount extends React.Component {
               </input>
               </label>
 
-            <button className="waves-effect waves-light btn">SIGN UP <i className="fas fa-arrow-circle-right"></i></button>
+            <button className="waves-effect waves-light btn">Sign Up</button>
         </form>
-      </Content>
+      </div>
     )
   }
 }

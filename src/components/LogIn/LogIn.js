@@ -113,21 +113,18 @@ class LogIn extends React.Component {
     }
 
     return (
-      <Content>
+      <div>
         <h4>Log In</h4>
         <form onSubmit={this.handleSubmit}>
-
-         
               <label>Email
               <input placeholder="Email" id="email" type="email" onChange={this.handleChange} ></input>
               </label>
               <label>Password
               <input placeholder="Password" id="password" type="password" onChange={this.handleChange} ></input>
               </label>
-        
           <button className="waves-effect waves-light btn">log in</button>
         </form>
-      </Content>
+      </div>
     )
   }
 }

@@ -32,14 +32,18 @@ body {
   }
   nav {
     background-color: $orange;
-    padding: 10px;
+    padding: 10px 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10vw;
+    margin-bottom: 50px;
     i {
       height: auto;
+      cursor: pointer;
+      @include desktop {
+        font-size: 30px;
+      }
     }
     h1 {
       display: inline-block;
@@ -69,6 +73,10 @@ label {
 
 input {
   border-color: $orange!important;
+}
+
+a.sidenav-trigger {
+  display: block!important;
 }
 
 @import 'media-queries';

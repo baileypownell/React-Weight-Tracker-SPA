@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 //import * as actionTypes from '../store/actionTypes';
 import * as actions from '../../store/actionCreators';
 import { withRouter } from 'react-router-dom';
-
+import M from 'materialize-css';
 
 class Nav extends React.Component {
 
@@ -15,21 +15,20 @@ class Nav extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(this.logout(), this.props.expiresIn);
+    //setTimeout(this.logout(), this.props.expiresIn);
+    // use a sidenav
+    var elems = document.querySelectorAll('.sidenav');
+    console.log(elems)
+    M.Sidenav.init(elems, { edge: 'right'});
   }
 
   render() {
     return (
-        <nav>
-          {/* { <Link to="/"><h1>Weight Tracker 2.0</h1></Link>
-          <div>
-            <Link to="/createAccount"><button>CREATE ACCOUNT</button></Link>
-            {this.props.userLoggedIn ? <button onClick={this.logout}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>} */}
-
-
-      
+      <>
+        <nav>      
             <Link to="/" >WeightTracker 2.0</Link>
-            <i class="fas fa-bars"></i>
+            <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>
+            
             {/* <ul class="left hide-on-med-and-down">
               <li><a href="sass.html"></a></li>
               <li><a href="badges.html">Components</a></li>
@@ -37,6 +36,13 @@ class Nav extends React.Component {
             </ul> */}
    
         </nav>
+            <ul id="slide-out" className="sidenav">
+                <li><Link to="/createAccount">Create Account</Link></li>
+                <li><Link to="/logIn">Login</Link></li>
+                <li><a href="#!">Log Out</a></li>
+                <li><div className="divider"></div></li>
+            </ul>         
+        </>
     )
   }
 }
