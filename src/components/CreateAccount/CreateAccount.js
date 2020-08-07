@@ -59,7 +59,7 @@ class CreateAccount extends React.Component {
         })
       // then update redux by logging in and creating account
       this.props.createAccount(this.state.firstName, this.state.lastName, email, localId, expiresIn, idToken, refreshToken);
-      this.props.history.replace('/Program');
+      this.props.history.replace('/dashboard');
     })
     .catch((error) => {
       console.log('Error: ', error.response.data.error);
@@ -89,7 +89,7 @@ class CreateAccount extends React.Component {
       )
     }
     return (
-      <div>
+      <div className="login">
         <h4>Create an Account</h4>
         <form onSubmit={this.handleSubmit}>
               <label>

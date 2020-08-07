@@ -125,21 +125,23 @@ export class WeightLogger extends React.Component {
     )
     return (
       <div id="weight-logger">
-        <h2>Record Weight <i className="fas fa-pencil-alt"></i></h2>
+        <h5>Record Weight <i className="fas fa-pencil-alt"></i></h5>
         <form>
           <input onChange={this.handleChange} type="text"></input>
           <div>
             <button
-              onClick={this.logWeight} className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled" : null}>LOG WEIGHT
+              onClick={this.logWeight} 
+              className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled waves-effect waves-light btn" : "waves-effect waves-light btn"}>
+                Log Weight
             </button>
             <button
               onClick={this.props.todaysWeight ? this.toggleEditor : undefined}
-              className={this.props.todaysWeight > 0 ? null : "button-disabled"}>Edit today's weight
+              className={this.props.todaysWeight > 0 ? "waves-effect waves-light btn" : "button-disabled waves-effect waves-light btn"}>Edit today's weight
             </button>
           </div>
         </form>
         {this.state.editorVisible ? editor : null}
-        {this.props.todaysWeight ? <h2>Today's Weight: {this.props.todaysWeight} lbs.</h2> : null }
+        {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
       </div>
     )
   }

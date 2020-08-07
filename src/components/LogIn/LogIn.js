@@ -44,7 +44,7 @@ class LogIn extends React.Component {
       let refreshToken = response.data.refreshToken;
       this.props.login(email, expiresIn, idToken, localId, refreshToken);
       this.props.getUserData(localId);
-      this.props.history.replace('/Program');
+      this.props.history.replace('/dashboard');
     })
     .catch((error) => {
       console.log('Error: ', error.response.data.error);
@@ -113,7 +113,7 @@ class LogIn extends React.Component {
     }
 
     return (
-      <div>
+      <div className="login">
         <h4>Log In</h4>
         <form onSubmit={this.handleSubmit}>
               <label>Email

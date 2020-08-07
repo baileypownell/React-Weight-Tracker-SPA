@@ -1,3 +1,23 @@
+@import '../../scss/variables.scss';
+
+.dashboard {
+  background-color: $gray;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 0 auto;
+  width: 90%;
+  @include tablet {
+    margin: 0 auto auto 10vw;
+    width: 50%;
+    padding: 30px 50px;
+    form {
+      padding: 0px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
+
 
 #weight-logger {
   border-bottom: 2px solid white;
@@ -8,13 +28,7 @@
     font-size: 40px;
     text-align: center
   }
-  h2 {
-    display: inline;
-  }
-  button {
-    font-size: 18px;
-    margin: 10px 0;
-  }
+
 }
 .result {
   padding: 10px 0;

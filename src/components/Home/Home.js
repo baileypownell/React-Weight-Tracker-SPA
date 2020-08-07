@@ -11,9 +11,9 @@ class Home extends React.Component {
 
   directUser = () => {
     if (this.props.userLoggedIn) {
-      this.props.history.replace('/Program');
+      this.props.history.replace('/dashboard');
     } else {
-      this.props.history.replace('/LogInOrSignUp');
+      this.props.history.replace('/auth');
     }
   }
 

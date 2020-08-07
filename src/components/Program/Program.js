@@ -15,15 +15,15 @@ import './Program.scss';
 
 export const Program = (props) => {
   return (
-    <Content>
-      <h1 id="greeting">Hello, {props.firstName}</h1>
+    <div className="dashboard">
+      <h4>Hello, {props.firstName}</h4>
       <WeightLogger/>
       <div id="account-options">
         <RecentWeightLogs todaysWeight={props.todaysWeight} />
         <LineGraph/>
         <AccountSettings/>
       </div>
-    </Content>
+    </div>
   )
 }
 

@@ -27,21 +27,15 @@ class Nav extends React.Component {
       <>
         <nav>      
             <Link to="/" >WeightTracker 2.0</Link>
-            <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>
-            
-            {/* <ul class="left hide-on-med-and-down">
-              <li><a href="sass.html"></a></li>
-              <li><a href="badges.html">Components</a></li>
-              <li class="active"><a href="collapsible.html">JavaScript</a></li>
-            </ul> */}
-   
+            <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
-            <ul id="slide-out" className="sidenav">
-                <li><Link to="/createAccount">Create Account</Link></li>
-                <li><Link to="/logIn">Login</Link></li>
-                <li><a href="#!">Log Out</a></li>
-                <li><div className="divider"></div></li>
-            </ul>         
+        <ul id="slide-out" className="sidenav">
+            <li><Link to="/create-account">Create Account</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><Link to="/login">Login</Link></li>
+            <li><div className="divider"></div></li>
+            <li><a href="#!">Log Out</a></li>
+        </ul>         
         </>
     )
   }

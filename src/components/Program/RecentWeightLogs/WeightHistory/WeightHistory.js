@@ -183,7 +183,7 @@ class WeightHistory extends React.Component {
             />
         })
       }
-      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 && !this.state.noHistory ? <h3>No more data to show</h3> : null}
+      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 && !this.state.noHistory ? <p>No more data to show</p> : null}
       { this.state.showingMore ?
          <>
          <button onClick={this.goBack} className={this.state.extraRecordPosition === 0 ? "button-disabled back-forth" : "back-forth"}><i className="fas fa-chevron-left"></i></button>

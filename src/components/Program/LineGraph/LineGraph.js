@@ -170,13 +170,13 @@ class LineGraph extends React.Component {
   render() {
     return (
       <div className="white-box">
-        <h2>Your weight over the past: </h2>
+        <h6>Your weight over the past: </h6>
         <div>
-          <button value="week" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "week" ? "time-period selected": "time-period"}>week</button>
-          <button value="month" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "month" ? "time-period selected" : "time-period" }>month</button>
-          <button value="year" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "year" ? "time-period selected" : "time-period"}>year</button>
+          <button value="week" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "week" ? "time-period selected waves-effect waves-light btn": "time-period waves-effect waves-light btn"}>week</button>
+          <button value="month" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "month" ? "time-period selected waves-effect waves-light btn" : "time-period waves-effect waves-light btn" }>month</button>
+          <button value="year" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "year" ? "time-period selected waves-effect waves-light btn" : "time-period waves-effect waves-light btn"}>year</button>
         </div>
-          {this.state.graphTimePeriod === '' ? <h3>(Choose a time frame)</h3> :
+          {this.state.graphTimePeriod === '' ? <h5>(Choose a time frame)</h5> :
             <div id="canvas-parent">
               <canvas id="myChart" width="400" height="400"></canvas>
             </div>

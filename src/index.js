@@ -48,10 +48,10 @@ ReactDOM.render(
         <Nav />
         <Switch>
             <Route exact={true} path="/" component={Home}/>
-            <Route path="/createAccount" component={CreateAccount}/>
-            <Route path="/logIn" component={LogIn}/>
-            <Route path="/Program" component={Program}/>
-            <Route path="/LogInOrSignUp" component={LogInOrSignUp} />
+            <Route path="/create-account" component={CreateAccount}/>
+            <Route path="/login" component={LogIn}/>
+            <Route path="/dashboard" component={Program}/>
+            <Route path="/auth" component={LogInOrSignUp} />
             <Redirect to="/" />
         </Switch>
       </BrowserRouter>
