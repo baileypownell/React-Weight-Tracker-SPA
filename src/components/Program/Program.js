@@ -15,7 +15,7 @@ import './Program.scss';
 
 export const Program = (props) => {
   return (
-    <div className="dashboard">
+    <div className="dashboard z-depth-15">
       <h4>Hello, {props.firstName}</h4>
       <WeightLogger/>
       <div id="account-options">

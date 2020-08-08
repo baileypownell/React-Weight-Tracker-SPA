@@ -2,7 +2,7 @@ import React from 'react';
 import './LineGraph.scss';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-
+import M from 'materialize-css';
 
 class LineGraph extends React.Component {
 
@@ -11,6 +11,14 @@ class LineGraph extends React.Component {
       labels: [],
       data: [],
       noHistoryMessageDisplay: false
+  }
+
+  componentDidMount() {
+
+    let el = document.querySelector('.tabs')
+    setTimeout(() => {
+      M.Tabs.init(el);
+    }, 3000);
   }
 
     setGraphTimePeriod = (e) => {
@@ -172,16 +180,21 @@ class LineGraph extends React.Component {
       <div className="white-box">
         <h6>Your weight over the past: </h6>
         <div>
-          <button value="week" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "week" ? "time-period selected waves-effect waves-light btn": "time-period waves-effect waves-light btn"}>week</button>
-          <button value="month" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "month" ? "time-period selected waves-effect waves-light btn" : "time-period waves-effect waves-light btn" }>month</button>
-          <button value="year" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "year" ? "time-period selected waves-effect waves-light btn" : "time-period waves-effect waves-light btn"}>year</button>
+          <ul className="tabs z-depth-1 tabs-fixed-width"
+              ref={Tabs => {
+              this.Tabs = Tabs;
+            }}>
+              <li className="tab col s3"><a onClick={this.setGraphTimePeriod}>Week</a></li>
+              <li className="tab col s3"><a tabs-fixed-width>Month</a></li>
+              <li className="tab col s3 disabled"><a tabs-fixed-width>Year</a></li>
+          </ul>
         </div>
-          {this.state.graphTimePeriod === '' ? <h5>(Choose a time frame)</h5> :
+          {this.state.graphTimePeriod === '' ? null :
             <div id="canvas-parent">
               <canvas id="myChart" width="400" height="400"></canvas>
             </div>
           }
-          {this.state.noHistoryMessageDisplay ? <h3>You haven't recorded any or enough weights yet to graph.</h3> : null}
+          {this.state.noHistoryMessageDisplay ? <p>You haven't recorded any or enough weights yet to graph.</p> : null}
       </div>
     )
   }

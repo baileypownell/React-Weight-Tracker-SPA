@@ -2,6 +2,7 @@ import React from 'react';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actionCreators';
+import M from 'materialize-css';
 
 class ChangeName extends React.Component {
 
@@ -11,6 +12,11 @@ class ChangeName extends React.Component {
     lastName: '',
     firstNameUpdated: false,
     lastNameUpdated: false
+  }
+
+  componentDidMount() {
+    var elems = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(elems, {});
   }
 
   handleChange = (e) => {
@@ -65,17 +71,31 @@ class ChangeName extends React.Component {
 
     return (
       <div>
-        <h3 onClick={this.showChangeName}>UPDATE NAME</h3><i className={this.state.nameChangeDivVisible ? "fas fa-caret-up" : "fas fa-caret-down"}></i>
-        <div className={this.state.nameChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="nameChange">
-          <h3>New first name:</h3>
+        <h3 onClick={this.showChangeName}>Update Name</h3>
+        {/* <div className={this.state.nameChangeDivVisible ? "visible change-account-setting" : "change-account-setting"} id="nameChange">
+          <h3>New first name</h3>
           <input type="text" id="firstName" onChange={this.handleChange}></input>
           {this.state.firstNameUpdated ? <h3>Your first name has been changed to: {this.props.firstName}</h3> : null}
-          <button onClick={this.changeFirstName}>SUBMIT</button>
-          <h3>New last name:</h3>
+          <button onClick={this.changeFirstName}>Submit</button>
+          <h3>New last name</h3>
           <input type="text" id="lastName" onChange={this.handleChange}></input>
           {this.state.lastNameUpdated ? <h3>Your last name has been changed to: {this.props.lastName}</h3> : null}
-          <button onClick={this.changeLastName}>SUBMIT</button>
-        </div>
+          <button onClick={this.changeLastName}>Submit</button>
+        </div> */}
+          <ul className="collapsible">
+              <li>
+                <div className="collapsible-header">Update Name</div>
+                <div className="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+              </li>
+              <li>
+                <div className="collapsible-header">Second</div>
+                <div className="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+              </li>
+              <li>
+                <div className="collapsible-header">Third</div>
+                <div className="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+              </li>
+            </ul>
       </div>
     )
   }

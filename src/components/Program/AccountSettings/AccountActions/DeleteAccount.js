@@ -55,7 +55,7 @@ class DeleteAccount extends React.Component {
     return (
       <div>
 
-          <button id="deleteAccount" onClick={this.toggleDelete}>DELETE ACCOUNT</button>
+          <button className="waves-effect waves-light btn" id="deleteAccount" onClick={this.toggleDelete}>DELETE ACCOUNT</button>
 
         {this.state.confirmationDivVisible ? confirmationModal : null}
       </div>

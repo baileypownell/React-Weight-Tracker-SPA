@@ -1,13 +1,12 @@
-@import '../../scss/variables.scss';
+@import '../../../scss/variables.scss';
 
-.selected {
-  background-color: white!important;
-  color: #3ad8d9!important;
-  border-color: #3ad8d9!important;
-}
 
 #canvas-parent {
   position: relative;
   width: 100%;
   padding-top: 15px;
+}
+
+.tabs .tab a {
+  color: $orange!important;
 }

@@ -8,13 +8,16 @@
   width: 90%;
   @include tablet {
     margin: 0 auto auto 10vw;
-    width: 50%;
+    width: 75%;
     padding: 30px 50px;
     form {
       padding: 0px;
       width: 100%;
       margin-bottom: 10px;
     }
+  }
+  @include desktop {
+    margin: 0 auto;
   }
 }
 
@@ -25,8 +28,14 @@
   padding-bottom: 25px;
   input {
     width: 150px;
-    font-size: 40px;
-    text-align: center
+    font-size: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    padding: 8px;
+    @include desktop {
+      font-size: 30px;
+    }
   }
 
 }
@@ -44,6 +53,7 @@
   justify-content: space-between;
   > span {
     text-transform: uppercase;
+    color: $orange;
   }
 }
 
@@ -52,20 +62,31 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 3px 0;
-  border-bottom: 1px solid #3ad8d9;
+  border-bottom: 1px solid $gray;
   font-size: 20px;
+  p {
+    width: 100%;;
+  }
+  .right {
+    text-align: right;
+  }
 }
 
 .white-box {
   background-color: white;
-  color: #3ad8d9;
+  color: $gray;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 5px;
   margin-bottom: 30px;
-  box-shadow: 10px 10px 40px white;
   margin-bottom: 5vh;
+  h6 {
+    margin-top: 0px;
+  }
+  @include desktop {
+    padding: 30px;
+  }
 }
 
 #data-row {
@@ -94,26 +115,18 @@
   width: 100vw;
   height: 100vh;
   left: 0;
-  color: rgba(22,225,231,0.7);
+  color: $gray;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  h1 {
-    color: rgb(22,225,231);
-  }
   button {
     width: 80%;
     margin: 5px 0;
     font-size: 25px;
-    background-color: #16e1e7;
-    border-color: white;
-    color: white;
     &:hover {
       background-color: white;
-      color: #16e1e7;
-      border-color: #16e1e7;
     }
   }
   .fa-times-circle {
