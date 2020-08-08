@@ -37,7 +37,9 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 50px;
+    @include tablet {
+      margin-bottom: 50px;
+    }
     i {
       height: auto;
       cursor: pointer;
@@ -77,6 +79,10 @@ input {
 
 a.sidenav-trigger {
   display: block!important;
+}
+
+.sidenav {
+  width: auto!important; 
 }
 
 @import 'media-queries';

@@ -20,7 +20,7 @@ class Home extends React.Component {
   render() {
     return (
       <Content>
-        <h3>It's never been <br/><span id="fancy">easier</span><br/> to track your progress.</h3>
+        <h5>It's never been <br/><span id="fancy">easier</span><br/> to track your progress.</h5>
         <button 
           className="waves-effect waves-light btn" 
           onClick={this.directUser}>get started</button>
