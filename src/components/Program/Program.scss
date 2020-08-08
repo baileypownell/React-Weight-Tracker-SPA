@@ -6,6 +6,9 @@
   margin: 0 auto;
   width: 100%;
   text-align: center;
+  h4, h5, h6 {
+    margin: 0px;
+  }
   @include tablet {
     margin: 0 auto 50px auto!important;
     background-color: rgba(48, 48, 48, 0.95);
@@ -29,6 +32,9 @@
   border-bottom: 2px solid white;
   margin-bottom: 25px;
   padding-bottom: 25px;
+  i {
+    margin-left:8px;
+  }
   form {
     align-items: center;
     @include tablet {

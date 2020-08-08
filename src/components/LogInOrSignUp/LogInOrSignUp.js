@@ -15,6 +15,7 @@ class LogInOrSignUp extends React.Component {
     lastName: '',
     firebaseAuthID: '',
     weights: [],
+    authError: false
   }
 
   handleChange = (e) => {
@@ -45,6 +46,9 @@ class LogInOrSignUp extends React.Component {
     })
     .catch((error) => {
       console.log('Error: ', error.response.data.error);
+      this.setState({
+        authError: true
+      })
       let errorMessage = error.response.data.error.message
       let messageToUser = '';
       if (errorMessage === 'INVALID_EMAIL') {
@@ -117,6 +121,28 @@ class LogInOrSignUp extends React.Component {
    }
 
 
+  sendPasswordResetEmail = () => {
+    const payloadPassword = {
+      requestType: 'PASSWORD_RESET',
+      email: this.state.email
+    }
+    console.log(payloadPassword)
+    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
+    .then(response => {
+      console.log(response);
+      M.toast({html: 'Link sent successfully.'})
+    })
+    .catch(error => {
+      console.log('Error: ', error.response.data.error);
+      if (error.response.data.error.message == 'EMAIL_NOT_FOUND') {
+        M.toast({html: 'There is no account for the provided email.'})
+      } else {
+        M.toast({html: 'There was an error.'})
+      }
+    });
+  }
+
+
   render() {
     return (
       <div className="content-parent">
@@ -131,6 +157,13 @@ class LogInOrSignUp extends React.Component {
                 </label>
             <button className="waves-effect waves-light btn">log in</button>
             </form>
+            {this.state.authError ? 
+              <div>
+                <p>Forgot password? Receive a link to reset your password</p>
+                <button className="waves-effect waves-light btn" onClick={this.sendPasswordResetEmail}>Send link</button>
+              </div>
+              : null
+            }
         </div>
         <div id="OR">
         <h2>OR</h2>

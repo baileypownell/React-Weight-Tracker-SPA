@@ -115,7 +115,6 @@ class WeightHistory extends React.Component {
 
   // called when the page is loaded
   getUserWeightHistory = () => {
-    console.log('getUserWeightHistory just ran');
     function compare(a, b) {
       const secondsA = a.date.date.seconds;
       const secondsB = b.date.date.seconds;

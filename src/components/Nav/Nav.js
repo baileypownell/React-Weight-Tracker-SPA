@@ -15,10 +15,7 @@ class Nav extends React.Component {
   }
 
   componentDidMount() {
-    //setTimeout(this.logout(), this.props.expiresIn);
-    // use a sidenav
     var elems = document.querySelectorAll('.sidenav');
-    console.log(elems)
     M.Sidenav.init(elems, { edge: 'right'});
   }
 

@@ -33,28 +33,26 @@ class AccountSettings extends React.Component {
     }
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
     .then(response => {
-      console.log(response);
-      // then delete account in "users" database
       const db = firebase.firestore();
       let localId = this.props.localId;
-        db.collection("users").doc(localId).delete().then(() => {
-          //console.log('user deleted');
-        }).catch((error) => {
+        db.collection("users").doc(localId).delete()
+        .then(() => {
+          M.toast({html: 'Account successfully deleted.'})
+          this.props.deleteUser();
+          this.props.history.push('/');
+        })
+        .catch((error) => {
           console.log('Error: ', error.response.data.error);
+          M.toast({html: 'There was an error.'})
         })
     })
     .catch(error => {
       M.toast({html: 'There was an error.'});
       console.log('Error: ', error.response.data.error);
     });
-    // then clear Redux
-    this.props.deleteUser();
-    // redirect
-    this.props.history.push('/');
   }
 
   updateEmail = (idToken, newEmail) => {
-    // first, update email in firebase authentication
     const payloadEmail = {
       idToken: idToken,
       email: newEmail,
@@ -62,10 +60,7 @@ class AccountSettings extends React.Component {
     }
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadEmail)
     .then(response => {
-      // then, update Redux
       this.props.changeEmail(idToken, newEmail);
-
-      // finally, update "users" database
       const db = firebase.firestore();
         db.collection("users").doc(this.props.localId).set({
           email: newEmail
@@ -79,15 +74,18 @@ class AccountSettings extends React.Component {
   }
 
   changeFirstName = () => {
-
-      // update "users" database
-      const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).set({
-          firstName: this.state.newFirstName
-        }, { merge: true });
-      //update Redux
-      this.props.changeFirstName(this.state.newFirstName);
-      M.toast({html: 'Name updated successfully.'})
+    const db = firebase.firestore();
+      db.collection("users").doc(this.props.localId).set({
+        firstName: this.state.newFirstName
+      }, { merge: true })
+      .then(() => {
+        M.toast({html: 'First name updated.'})
+      })
+      .catch((err) => {
+        console.log(err);
+        M.toast({html: 'First name could not be updated.'})
+      });
+    this.props.changeFirstName(this.state.newFirstName);
   }
 
   changeLastName = () => {
@@ -101,13 +99,13 @@ class AccountSettings extends React.Component {
         })
         .catch((err) => {
           console.log(err);
-          M.toast({html: 'There was an error.'})
+          M.toast({html: 'Last name could not be updated.'})
         });
       //update Redux
       this.props.changeLastName(this.state.newLastName);
   }
 
-  updaetName = () => {
+  updateName = () => {
     if (this.state.newFirstName) {
       this.changeFirstName()
     }
@@ -120,7 +118,7 @@ class AccountSettings extends React.Component {
   changePassword = () => {
     const payloadPassword = {
       requestType: 'PASSWORD_RESET',
-      email: this.state.newEmail
+      email: this.props.email
     }
     console.log(payloadPassword)
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
@@ -185,7 +183,8 @@ class AccountSettings extends React.Component {
 const mapStateToProps = state => {
   return {
     idToken: state.idToken,
-    localId: state.localId
+    localId: state.localId,
+    email: state.user.email
   }
 }
 

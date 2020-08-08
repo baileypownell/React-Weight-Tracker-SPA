@@ -13,6 +13,7 @@ class LogIn extends React.Component {
   state = {
     email: '',
     password: '',
+    authError: null,
   }
 
   handleChange = (e) => {
@@ -44,6 +45,9 @@ class LogIn extends React.Component {
     })
     .catch((error) => {
       console.log('Error: ', error.response.data.error);
+      this.setState({
+        authError: true
+      })
       let errorMessage = error.response.data.error.message
       let messageToUser = '';
       if (errorMessage === 'INVALID_EMAIL') {
@@ -76,9 +80,15 @@ class LogIn extends React.Component {
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
     .then(response => {
       console.log(response);
+      M.toast({html: 'Link sent successfully.'})
     })
     .catch(error => {
       console.log('Error: ', error.response.data.error);
+      if (error.response.data.error.message == 'EMAIL_NOT_FOUND') {
+        M.toast({html: 'There is no account for the provided email.'})
+      } else {
+        M.toast({html: 'There was an error.'})
+      }
     });
   }
 
@@ -95,6 +105,13 @@ class LogIn extends React.Component {
               </label>
           <button className="waves-effect waves-light btn">log in</button>
         </form>
+        {this.state.authError ? 
+          <div>
+            <p>Forgot password? Receive a link to reset your password</p>
+            <button className="waves-effect waves-light btn" onClick={this.sendPasswordResetEmail}>Send link</button>
+          </div>
+          : null
+        }
       </div>
     )
   }
