@@ -7,7 +7,8 @@
   width: 100%;
   text-align: center;
   @include tablet {
-    margin: 0 auto auto 10vw;
+    margin: 0 auto 50px auto!important;
+    background-color: rgba(48, 48, 48, 0.95);
     border-radius: 10px;
     width: 75%;
     padding: 30px 50px;

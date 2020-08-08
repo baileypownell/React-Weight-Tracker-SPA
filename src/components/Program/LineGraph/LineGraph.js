@@ -7,10 +7,10 @@ import M from 'materialize-css';
 class LineGraph extends React.Component {
 
   state = {
-      graphTimePeriod: '',
       labels: [],
       data: [],
-      noHistoryMessageDisplay: false
+      noHistoryMessageDisplay: false,
+      graphTimePeriod: null
   }
 
   componentDidMount() {
@@ -24,14 +24,11 @@ class LineGraph extends React.Component {
     setGraphTimePeriod = (e) => {
         // use this if statement so that componentDidMount() can run
         if (this.props.entireSortedWeightHistory.length < 2 ) {
-          this.setState({
-            noHistoryMessageDisplay: true
-          })
           return;
         }
         if (e) {
           this.setState({
-            graphTimePeriod: e.target.value
+            graphTimePeriod: e
           }, () => { this.graphData() } )
         } else {
             this.graphData();
@@ -184,17 +181,20 @@ class LineGraph extends React.Component {
               ref={Tabs => {
               this.Tabs = Tabs;
             }}>
-              <li className="tab col s3"><a onClick={this.setGraphTimePeriod}>Week</a></li>
-              <li className="tab col s3"><a tabs-fixed-width>Month</a></li>
-              <li className="tab col s3 disabled"><a tabs-fixed-width>Year</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} tabs-fixed-width>Week</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} tabs-fixed-width>Month</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} tabs-fixed-width>Year</a></li>
           </ul>
         </div>
-          {this.state.graphTimePeriod === '' ? null :
+          {this.state.graphTimePeriod === null ? 
+            <div className="noData">
+              <p>You haven't recorded any or enough weights yet to graph.</p> 
+            </div>
+          :
             <div id="canvas-parent">
               <canvas id="myChart" width="400" height="400"></canvas>
             </div>
           }
-          {this.state.noHistoryMessageDisplay ? <p>You haven't recorded any or enough weights yet to graph.</p> : null}
       </div>
     )
   }
