@@ -45,10 +45,10 @@ class LineGraph extends React.Component {
                 datasets: [{
                     label: 'Pounds',
                     data: this.state.data,
-                    backgroundColor: 'rgb(38, 232, 232)',
-                    hoverBackgroundColor: 'rgba(0, 0, 0, 0)',
+                    backgroundColor: '#f79c40',
+                    hoverBackgroundColor: '#f79c40',
                     borderColor: [
-                        'rgb(94, 244, 86)'
+                        '#f79c40'
                     ],
                     borderWidth: 2,
                     spanGaps: true
@@ -181,9 +181,9 @@ class LineGraph extends React.Component {
               ref={Tabs => {
               this.Tabs = Tabs;
             }}>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} tabs-fixed-width>Week</a></li>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} tabs-fixed-width>Month</a></li>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} tabs-fixed-width>Year</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} tabs-fixed-width="true">Week</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} tabs-fixed-width="true">Month</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} tabs-fixed-width="true">Year</a></li>
           </ul>
         </div>
           {this.state.graphTimePeriod === null ? 

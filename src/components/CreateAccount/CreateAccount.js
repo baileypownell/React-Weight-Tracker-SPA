@@ -1,7 +1,4 @@
 import React from 'react';
-import Content from '../Content/Content';
-import { Redirect } from 'react-router-dom'
-import Program from '../Program/Program';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators';
@@ -16,7 +13,6 @@ class CreateAccount extends React.Component {
     lastName: '',
     firebaseAuthID: '',
     weights: [],
-    errorMessage: ''
   }
 
   handleChange = (e) => {
@@ -25,12 +21,7 @@ class CreateAccount extends React.Component {
     })
   }
 
-  // log out the user if they reach this page and are signed in already
-  componentDidMount() {
-    if (this.props.userLoggedIn) {
-      this.props.logout();
-    }
-  }
+  componentDidMount() { }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -59,35 +50,29 @@ class CreateAccount extends React.Component {
         })
       // then update redux by logging in and creating account
       this.props.createAccount(this.state.firstName, this.state.lastName, email, localId, expiresIn, idToken, refreshToken);
+      M.toast({html: 'Success! Redirecting...'})
       this.props.history.replace('/dashboard');
     })
     .catch((error) => {
       console.log('Error: ', error.response.data.error);
-      this.setState((prevState) => ({
-        errorMessage: error.response.data.error.message
-      }))
+      let errorMessage = error.response.data.error.message;
+        let messageToUser = '';
+        if (errorMessage === 'INVALID_EMAIL') {
+          messageToUser = 'The email is invalid.';
+        } else if (errorMessage === 'INVALID_PASSWORD') {
+          messageToUser = 'The password is invalid';
+        } else if (errorMessage === 'EMAIL_EXISTS') {
+          messageToUser = 'The email address is already in use by another account.';
+        } else if (errorMessage === 'WEAK_PASSWORD') {
+          messageToUser = 'The password must be 6 characters long or more.';
+        } else {
+          messageToUser = "There has been an error."
+        }
+      M.toast({html: messageToUser})
     });
    }
 
   render() {
-    let errorMessage = null;
-    if (this.state.errorMessage) {
-      let messageToUser = '';
-      if (this.state.errorMessage === 'INVALID_EMAIL') {
-        messageToUser = 'The email is invalid.';
-      } else if (this.state.errorMessage === 'INVALID_PASSWORD') {
-        messageToUser = 'The password is invalid';
-      } else if (this.state.errorMessage === 'EMAIL_EXISTS') {
-        messageToUser = 'The email address is already in use by another account.';
-      } else if (this.state.errorMessage === 'WEAK_PASSWORD') {
-        messageToUser = 'The password must be 6 characters long or more.';
-      } else {
-        messageToUser = "There has been an error."
-      }
-      errorMessage = (
-        <h3>{messageToUser}</h3>
-      )
-    }
     return (
       <div className="login">
         <h4>Create an Account</h4>

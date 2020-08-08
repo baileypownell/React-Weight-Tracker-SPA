@@ -37,6 +37,9 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    li {
+      cursor: pointer;
+    }
     @include tablet {
       margin-bottom: 50px;
     }
@@ -83,6 +86,9 @@ a.sidenav-trigger {
 
 .sidenav {
   width: auto!important; 
+  li {
+    cursor: pointer!important;
+  }
 }
 
 .toast {
