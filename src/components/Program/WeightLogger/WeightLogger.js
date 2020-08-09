@@ -1,6 +1,6 @@
 import React from 'react';
-
-// imports for connecting this component to Redux state store
+import M from 'materialize-css';
+import './WeightLogger.scss';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actionCreators';
 
@@ -9,9 +9,11 @@ export class WeightLogger extends React.Component {
   state = {
     formInputEmpty: true,
     todaysWeight: 0,
-    errorMessage: false,
-    editorVisible: false,
-    weightUpdated: false
+  }
+
+  componentDidMount() {
+    var elems = document.querySelectorAll('.modal');
+    M.Modal.init(elems, {});
   }
 
   handleChange = (e) => {
@@ -28,11 +30,9 @@ export class WeightLogger extends React.Component {
   }
 
   handleUpdateChange = (e) => {
-    if (document.querySelector("#editModal input").value.length > 1) {
-      this.setState({
-        todaysWeight: e.target.value
-      });
-    }
+    this.setState({
+      todaysWeight: e.target.value
+    });
   }
 
 
@@ -41,7 +41,6 @@ export class WeightLogger extends React.Component {
     // check to see if there has been a weight entered in the past 24 hours... redux todaysWeight should be set from database and only allowed to be updated if null
     if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
       let weightHistory;
-
       // update redux with todays weight
       this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
       // then update firebase "users" database to hold today's new weight value
@@ -58,19 +57,10 @@ export class WeightLogger extends React.Component {
       .catch(err => {
         console.log(err)
       })
-      document.querySelector("#weight-logger form input").value = '';
-      return;
-      } else {
-        this.setState(prevState => ({
-          errorMessage: !prevState.errorMessage
-        }));
-      }
+    } 
   }
 
   updateTodaysWeight = () => {
-    if (document.querySelector("#editModal input").value.length < 1) {
-      return;
-    } else {
       let allWeights = this.props.weightHistory;
       let recordToUpdate = allWeights[0];
       recordToUpdate.weight = this.state.todaysWeight;
@@ -78,53 +68,43 @@ export class WeightLogger extends React.Component {
       let updatedWeights = allWeights.unshift(recordToUpdate);
       // update redux in 2 places
       this.props.editTodaysWeight(parseInt(this.state.todaysWeight), allWeights);
-      this.setState(prevState => ({
-          weightUpdated: true
-        }))
-      // update firebase "users" database to hold today's new weight value
-        const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).get().then((doc) => {
-        let weightHistory = doc.data().weights;
-        // delete last item
-        weightHistory.pop();
-        let date = new Date();
-        let updatedWeights = weightHistory.concat({
-          date: {date},
-          weight: this.state.todaysWeight});
-        db.collection("users").doc(this.props.localId).update({
-            weights: updatedWeights});
-          })
-        .catch(err => {
-          console.log(err)
-        })
-        document.querySelector("#editModal input").value = '';
-      }
+      // update firebase users database to hold today's new weight value
+      const db = firebase.firestore();
+      db.collection("users").doc(this.props.localId).get().then((doc) => {
+          let weightHistory = doc.data().weights;
+          // delete last item
+          weightHistory.pop();
+          let date = new Date();
+          let updatedWeights = weightHistory.concat({
+            date: {date},
+            weight: this.state.todaysWeight
+          });
+          db.collection("users").doc(this.props.localId).update({
+              weights: updatedWeights
+          });
+      })
+      .then(() => {
+        M.toast({html: 'Weight updated.'})
+      })
+      .catch(err => {
+        console.log(err);
+        M.toast({html: 'Weight could not be updated.'})
+      })
     }
 
 
-  toggleEditor = (e) => {
-    e.preventDefault();
-    this.setState(prevState => ({
-      editorVisible: !prevState.editorVisible,
-      weightUpdated: false
-    }))
-  }
-
-
   render() {
-    let editor = (
-      <div id="editModal">
-        <i onClick={this.toggleEditor} className="fas fa-times-circle"></i>
-        <h1>Update today's weight:</h1>
-        <div>
-          <input onChange={this.handleUpdateChange} type="text"></input>
-          <button onClick={this.updateTodaysWeight}>UPDATE</button>
-        </div>
-        {this.state.weightUpdated ? <h2>Your weight has been updated to: {this.props.todaysWeight} lbs.</h2> : null}
-      </div>
-    )
     return (
       <div id="weight-logger">
+          <div id="modal1" className="modal">
+            <div className="modal-content">
+              <h6>Update today's weight</h6>
+              <input type="text" onChange={this.handleUpdateChange}></input>
+            </div>
+            <div className="modal-footer">
+              <a onClick={this.updateTodaysWeight} href="#!" className="modal-close waves-effect waves-light btn">Update</a>
+            </div>
+          </div>
         <h5>Record Weight <i className="fas fa-pencil-alt"></i></h5>
         <form>
           <input onChange={this.handleChange} type="text"></input>
@@ -135,12 +115,13 @@ export class WeightLogger extends React.Component {
                 Log Weight
             </button>
             <button
-              onClick={this.props.todaysWeight ? this.toggleEditor : undefined}
-              className={this.props.todaysWeight > 0 ? "waves-effect waves-light btn" : "button-disabled waves-effect waves-light btn"}>Edit today's weight
+              
+              data-target="modal1"
+              className={this.props.todaysWeight > 0 ? "waves-effect waves-light btn modal-trigger" : "button-disabled waves-effect waves-light btn"}>
+                Edit today's weight
             </button>
           </div>
         </form>
-        {this.state.editorVisible ? editor : null}
         {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
       </div>
     )

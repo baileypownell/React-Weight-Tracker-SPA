@@ -1,0 +1,16 @@
+@import '../../../scss/variables.scss';
+
+.modal {
+    padding: 15px!important;
+    h6 {
+        color: $gray;
+    }
+    input {
+        background-color: $gray!important;
+        border-radius: 0px!important;
+        color: white!important;
+    }
+    a {
+        background-color: $orange!important;
+    }
+}
