@@ -6,7 +6,7 @@ const initialState = {
     firstName: '',
     lastName: '',
     email: '',
-    firebaseAuthID: '',
+    firebaseAuthID: null,
     weightHistory: []
   },
   userLoggedIn: false,

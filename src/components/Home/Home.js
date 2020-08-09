@@ -11,17 +11,19 @@ class Home extends React.Component {
 
   directUser = () => {
     if (this.props.userLoggedIn) {
-      this.props.history.replace('/Program');
+      this.props.history.replace('/dashboard');
     } else {
-      this.props.history.replace('/LogInOrSignUp');
+      this.props.history.replace('/auth');
     }
   }
 
   render() {
     return (
       <Content>
-        <h1>It's never been <br/><span id="fancy">easier</span><br/> to track your progress</h1>
-        <button onClick={this.directUser}>LOG YOUR WEIGHT <i className="fas fa-weight"></i></button>
+        <h5>It's never been <br/><span id="fancy">easier</span><br/> to track your progress.</h5>
+        <button 
+          className="waves-effect waves-light btn" 
+          onClick={this.directUser}>get started</button>
       </Content>
     )
   }

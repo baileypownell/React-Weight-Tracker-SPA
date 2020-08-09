@@ -2,6 +2,8 @@
 @import 'UI/Input';
 @import 'UI/Button';
 
+@import './variables.scss';
+
 * {
   margin: 0;
   box-sizing: border-box;
@@ -15,7 +17,7 @@ input {
 
 
 body {
-  background: url("https://res.cloudinary.com/djad06sng/image/upload/v1569694963/graphic-node-iLKK0eFTywU-unsplash.jpg"), rgba(232, 156, 26, 0.3);
+  background: url("https://res.cloudinary.com/djad06sng/image/upload/v1596586267/victor-freitas-KIzBvHNe7hY-unsplash.jpg"), rgba(232, 156, 26, 0.3);
   min-height: 100vh;
   background-blend-mode: hard-light;
   background-position: center;
@@ -29,22 +31,30 @@ body {
     color: white;
   }
   nav {
-    background-color: rgba(22, 225, 231, 0.5);
-    padding: 10px;
+    background-color: $orange;
+    padding: 10px 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    li {
+      cursor: pointer;
+    }
+    @include tablet {
+      margin-bottom: 50px;
+    }
+    i {
+      height: auto;
+      cursor: pointer;
+      @include desktop {
+        font-size: 30px;
+      }
+    }
     h1 {
       display: inline-block;
       font-size: 16px;
       min-width: 130px;
     }
-      button {
-        margin: 5px;
-        padding: 10px;
-        font-size: 14px;
-      }
       > div {
         display: flex;
       }
@@ -54,4 +64,35 @@ body {
   }
 }
 
-@import 'media-queries';
+button {
+  background-color: $orange!important;
+  margin-top: 15px;
+  &:hover {
+    background-color: lighten($orange, 10%)!important;
+  }
+}
+
+label {
+  color: $orange;
+}
+
+input {
+  border-color: $orange!important;
+}
+
+a.sidenav-trigger {
+  display: block!important;
+}
+
+.sidenav {
+  width: auto!important; 
+  li {
+    cursor: pointer!important;
+  }
+}
+
+.toast {
+  background-color: $orange!important;
+}
+
+

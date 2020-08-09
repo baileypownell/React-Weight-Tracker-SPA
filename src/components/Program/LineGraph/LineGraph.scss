@@ -1,11 +1,17 @@
-.selected {
-  background-color: white!important;
-  color: #3ad8d9!important;
-  border-color: #3ad8d9!important;
-}
+@import '../../../scss/variables.scss';
+
 
 #canvas-parent {
   position: relative;
   width: 100%;
+  padding-top: 15px;
+}
+
+.tabs .tab a {
+  color: $orange!important;
+  cursor: pointer;
+}
+
+.noData {
   padding-top: 15px;
 }

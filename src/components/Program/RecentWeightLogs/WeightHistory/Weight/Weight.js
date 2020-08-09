@@ -2,9 +2,9 @@ import React from 'react';
 
 
 const Weight = (props) => (
-  <div className="row" key={props.key}>
+  <div className="row" key={props.index}>
     <p>{props.weight}</p>
-    <p>{props.date}</p>
+    <p className="right">{props.date}</p>
   </div>
 )
 

@@ -1,15 +1,19 @@
+@import '../../scss/variables.scss';
+
 #content {
-  padding: 5vw;
-  width: 90%;
-  margin: 5vh auto;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  text-align: center;
-  background-color: rgba(22, 225, 231, 0.7);
-  border-radius: 15px;
-  #greeting {
-    font-family: 'Caveat', cursive;
-    font-size: 40px;
-    text-shadow: 3px 3px 25px white;
+  background-color: $gray;
+  min-height: 100vh;
+  @include tablet {
+    border-radius: 5px;
+    margin: 0 auto auto 5vw;
+    min-height: 0px;
+    width: 50%;
+    padding: 30px;
+  }
+  button {
+    margin:0 auto auto 0;
   }
 }

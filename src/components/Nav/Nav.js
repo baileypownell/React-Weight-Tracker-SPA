@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from "react-router-dom";
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-//import * as actionTypes from '../store/actionTypes';
+import './Nav.scss';
 import * as actions from '../../store/actionCreators';
 import { withRouter } from 'react-router-dom';
-
+import M from 'materialize-css';
 
 class Nav extends React.Component {
 
@@ -15,18 +15,24 @@ class Nav extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(this.logout(), this.props.expiresIn);
+    var elems = document.querySelectorAll('.sidenav');
+    M.Sidenav.init(elems, { edge: 'right'});
   }
 
   render() {
     return (
-        <nav>
-          <Link to="/"><h1>Weight Tracker 2.0</h1></Link>
-          <div>
-            <Link to="/createAccount"><button>CREATE ACCOUNT</button></Link>
-            {this.props.userLoggedIn ? <button onClick={this.logout}>LOG OUT</button> : <Link to="/logIn"><button>LOG IN</button></Link>}
-          </div>
+      <>
+        <nav>      
+            <Link to="/" >WeightTracker 2.0</Link>
+            <a data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
+        <ul id="slide-out" className="sidenav">
+            <li><Link to="/create-account">Create Account</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><div className="divider"></div></li>
+            {this.props.userLoggedIn ? <li><a onClick={this.logout}>Log Out</a></li> : <li><Link to="/login">Login</Link></li>}
+        </ul>         
+        </>
     )
   }
 }
@@ -40,7 +46,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     userLoggedIn: state.userLoggedIn,
-    expiresIn: state.expiresIn
+    expiresIn: state.expiresIn,
   }
 }
 

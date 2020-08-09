@@ -4,7 +4,7 @@ import WeightHistory from './WeightHistory/WeightHistory';
 const RecentWeightLogs = () => {
   return (
     <div className="white-box">
-      <h2>Recent Weight Logs <i className="fas fa-history"></i></h2>
+      <h6>Recent Weight Logs</h6>
       <div id="weightsHeader">
         <span>Weight</span>
         <span>Date</span>

@@ -1,20 +1,79 @@
+@import '../../scss/variables.scss';
+
+.dashboard {
+  background-color: $gray;
+  padding: 30px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  h4, h5, h6 {
+    margin: 0px;
+  }
+  @include tablet {
+    margin: 0 auto 50px auto!important;
+    background-color: rgba(48, 48, 48, 0.95);
+    border-radius: 10px;
+    width: 75%;
+    padding: 30px 50px;
+    text-align: left;
+    form {
+      padding: 0px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+  @include desktop {
+    margin: 0 auto;
+  }
+}
+
+#account-options {
+  @include desktop {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .white-box {
+      width: 48%;
+    }
+    #accountSettings {
+      width: 100%;
+    }
+  }
+}
 
 #weight-logger {
   border-bottom: 2px solid white;
   margin-bottom: 25px;
   padding-bottom: 25px;
+  i {
+    margin-left:8px;
+  }
+  form {
+    align-items: center;
+    @include tablet {
+      align-items: flex-start;
+    }
+  }
   input {
     width: 150px;
-    font-size: 40px;
-    text-align: center
-  }
-  h2 {
-    display: inline;
+    font-size: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    padding: 8px;
+    @include desktop {
+      font-size: 30px;
+    }
   }
   button {
-    font-size: 18px;
-    margin: 10px 0;
+    @include desktop {
+      font-size: 20px;
+      margin: 5px;
+    }
   }
+
 }
 .result {
   padding: 10px 0;
@@ -30,6 +89,7 @@
   justify-content: space-between;
   > span {
     text-transform: uppercase;
+    color: $orange;
   }
 }
 
@@ -37,21 +97,33 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 3px 0;
-  border-bottom: 1px solid #3ad8d9;
-  font-size: 20px;
+  margin: 3px 0!important;
+  border-bottom: 1px solid $gray;
+  font-size: 16px;
+  text-align:left;
+  p {
+    width: 100%;;
+  }
+  .right {
+    text-align: right;
+  }
 }
 
 .white-box {
   background-color: white;
-  color: #3ad8d9;
+  color: $gray;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 5px;
   margin-bottom: 30px;
-  box-shadow: 10px 10px 40px white;
   margin-bottom: 5vh;
+  h6 {
+    margin-top: 0px;
+  }
+  @include desktop {
+    padding: 30px;
+  }
 }
 
 #data-row {
@@ -80,26 +152,18 @@
   width: 100vw;
   height: 100vh;
   left: 0;
-  color: rgba(22,225,231,0.7);
+  color: $gray;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  h1 {
-    color: rgb(22,225,231);
-  }
   button {
     width: 80%;
     margin: 5px 0;
     font-size: 25px;
-    background-color: #16e1e7;
-    border-color: white;
-    color: white;
     &:hover {
       background-color: white;
-      color: #16e1e7;
-      border-color: #16e1e7;
     }
   }
   .fa-times-circle {

@@ -1,45 +1,16 @@
-button {
-  margin: 10px;
-  padding: 15px;
-  color: rgb(22, 225, 231);
-  background-color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 18px;
-  border: 2px solid rgb(22, 225, 231);
-  transition: transform .3s;
-  &:hover {
-    transform: scale(1.08);
-  }
-}
-
-.time-period {
-  display: inline-block;
-  background-color: rgb(22, 225, 231);
-  color: white;
-  width: auto!important;
-  padding: 10px;
-  margin: 0 5px!important;
-  &:focus {
-    background-color: white;
-    color: rgb(22, 225, 231);
-  }
-}
 
 .button-disabled {
   opacity: 0.75;
   cursor: auto;
-  &:hover {
-    transform: none;
-  }
 }
 
 .back-forth {
     margin: 5px;
     width: 45%;
-    padding: 0px;
+    padding: 5px;
     margin-top: 5px;
     font-size: 25px;
     background-color: #3ad8d9;
     color: white;
-  }
+}
+

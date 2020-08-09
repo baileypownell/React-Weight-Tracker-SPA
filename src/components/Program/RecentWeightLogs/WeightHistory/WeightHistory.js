@@ -115,7 +115,6 @@ class WeightHistory extends React.Component {
 
   // called when the page is loaded
   getUserWeightHistory = () => {
-    console.log('getUserWeightHistory just ran');
     function compare(a, b) {
       const secondsA = a.date.date.seconds;
       const secondsB = b.date.date.seconds;
@@ -177,13 +176,13 @@ class WeightHistory extends React.Component {
             let dateStringArray = date.split(' ');
             let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
             return <Weight
-              key={weight.date.date.seconds}
+              index={weight.date.date.seconds}
               weight={weight.weight}
               date={dateString}
             />
         })
       }
-      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 && !this.state.noHistory ? <h3>No more data to show</h3> : null}
+      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 && !this.state.noHistory ? <p>No more data to show</p> : null}
       { this.state.showingMore ?
          <>
          <button onClick={this.goBack} className={this.state.extraRecordPosition === 0 ? "button-disabled back-forth" : "back-forth"}><i className="fas fa-chevron-left"></i></button>

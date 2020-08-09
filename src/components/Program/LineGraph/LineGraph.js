@@ -2,28 +2,33 @@ import React from 'react';
 import './LineGraph.scss';
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-
+import M from 'materialize-css';
 
 class LineGraph extends React.Component {
 
   state = {
-      graphTimePeriod: '',
       labels: [],
       data: [],
-      noHistoryMessageDisplay: false
+      noHistoryMessageDisplay: false,
+      graphTimePeriod: null
+  }
+
+  componentDidMount() {
+
+    let el = document.querySelector('.tabs')
+    setTimeout(() => {
+      M.Tabs.init(el);
+    }, 3000);
   }
 
     setGraphTimePeriod = (e) => {
         // use this if statement so that componentDidMount() can run
         if (this.props.entireSortedWeightHistory.length < 2 ) {
-          this.setState({
-            noHistoryMessageDisplay: true
-          })
           return;
         }
         if (e) {
           this.setState({
-            graphTimePeriod: e.target.value
+            graphTimePeriod: e
           }, () => { this.graphData() } )
         } else {
             this.graphData();
@@ -40,10 +45,10 @@ class LineGraph extends React.Component {
                 datasets: [{
                     label: 'Pounds',
                     data: this.state.data,
-                    backgroundColor: 'rgb(38, 232, 232)',
-                    hoverBackgroundColor: 'rgba(0, 0, 0, 0)',
+                    backgroundColor: '#f79c40',
+                    hoverBackgroundColor: '#f79c40',
                     borderColor: [
-                        'rgb(94, 244, 86)'
+                        '#f79c40'
                     ],
                     borderWidth: 2,
                     spanGaps: true
@@ -170,18 +175,26 @@ class LineGraph extends React.Component {
   render() {
     return (
       <div className="white-box">
-        <h2>Your weight over the past: </h2>
+        <h6>Your weight over the past: </h6>
         <div>
-          <button value="week" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "week" ? "time-period selected": "time-period"}>week</button>
-          <button value="month" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "month" ? "time-period selected" : "time-period" }>month</button>
-          <button value="year" onClick={this.setGraphTimePeriod} className={this.state.graphTimePeriod === "year" ? "time-period selected" : "time-period"}>year</button>
+          <ul className="tabs z-depth-1 tabs-fixed-width"
+              ref={Tabs => {
+              this.Tabs = Tabs;
+            }}>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} tabs-fixed-width="true">Week</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} tabs-fixed-width="true">Month</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} tabs-fixed-width="true">Year</a></li>
+          </ul>
         </div>
-          {this.state.graphTimePeriod === '' ? <h3>(Choose a time frame)</h3> :
+          {this.state.graphTimePeriod === null ? 
+            <div className="noData">
+              <p>You haven't recorded any or enough weights yet to graph.</p> 
+            </div>
+          :
             <div id="canvas-parent">
               <canvas id="myChart" width="400" height="400"></canvas>
             </div>
           }
-          {this.state.noHistoryMessageDisplay ? <h3>You haven't recorded any or enough weights yet to graph.</h3> : null}
       </div>
     )
   }
