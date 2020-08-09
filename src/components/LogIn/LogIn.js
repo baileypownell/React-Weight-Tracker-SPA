@@ -32,7 +32,7 @@ class LogIn extends React.Component {
     }
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
     .then(response => {
-      console.log(response);
+      console.log(response.data.expiresIn);
       //update Redux state
       let email = response.data.email;
       let expiresIn = response.data.expiresIn;

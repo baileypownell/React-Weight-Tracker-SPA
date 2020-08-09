@@ -58,6 +58,7 @@ class AccountSettings extends React.Component {
       email: newEmail,
       returnSecureToken: true
     }
+    console.log(payloadEmail)
     axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadEmail)
     .then(response => {
       this.props.changeEmail(idToken, newEmail);

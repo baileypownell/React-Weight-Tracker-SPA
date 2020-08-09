@@ -27,6 +27,21 @@
   }
 }
 
+#account-options {
+  @include desktop {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .white-box {
+      width: 48%;
+    }
+    #accountSettings {
+      width: 100%;
+    }
+  }
+}
 
 #weight-logger {
   border-bottom: 2px solid white;
@@ -50,6 +65,12 @@
     padding: 8px;
     @include desktop {
       font-size: 30px;
+    }
+  }
+  button {
+    @include desktop {
+      font-size: 20px;
+      margin: 5px;
     }
   }
 

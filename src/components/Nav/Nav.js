@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 // imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
-//import * as actionTypes from '../store/actionTypes';
+import './Nav.scss';
 import * as actions from '../../store/actionCreators';
 import { withRouter } from 'react-router-dom';
 import M from 'materialize-css';
