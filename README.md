@@ -4,10 +4,9 @@ Simply a web app to track your weight. Built with React, MaterializeCSS, Firebas
 
 ### View it here: https://weight-tracker-react.herokuapp.com/
 
-![mobile](mobile.PNG)
+![mobile](mobile.jpg)
 
-![homepage](homescreen.PNG)
+![create-account](create-account.PNG)
 
-![userlogin](userlogin.PNG)
+![dashboard](dashboard.PNG)
 
-![userinterface](userinterface.PNG)
