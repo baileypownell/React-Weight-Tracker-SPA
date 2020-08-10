@@ -6,7 +6,7 @@ Simply a web app to track your weight. Built with React, MaterializeCSS, Firebas
 
 ![mobile](mobile.jpg)
 
-![create](create.png)
+![create-account](create-account.png)
 
 ![dashboard](dashboard.png)
 
