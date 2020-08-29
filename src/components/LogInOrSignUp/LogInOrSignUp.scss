@@ -26,14 +26,17 @@
   margin: 0 auto;
 }
 
-#OR h2 {
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  border: 2px solid white;
-  height: 100px;
-  padding: 20px;
-  border-radius: 50%;
-  width: 100px;
-  margin: 0;
+#OR { 
+  padding: 15px 0;
+  h2 {
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    border: 2px solid white;
+    height: 100px;
+    padding: 20px;
+    border-radius: 50%;
+    width: 100px;
+    margin: 0;
+  }
 }
