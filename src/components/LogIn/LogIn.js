@@ -1,5 +1,4 @@
 import React from 'react';
-// imports for connecting this component to Redux state store
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators';
 import axios from 'axios';
