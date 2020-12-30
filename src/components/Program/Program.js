@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs';
-import AccountSettings from './AccountSettings/AccountSettings';
 import LineGraph from './LineGraph/LineGraph';
 import WeightLogger from './WeightLogger/WeightLogger';
 
@@ -19,7 +18,6 @@ export const Program = (props) => {
           <div id="account-options">
             <RecentWeightLogs todaysWeight={props.todaysWeight} />
             <LineGraph/>
-            <AccountSettings/>
           </div>
       </div> 
       : 

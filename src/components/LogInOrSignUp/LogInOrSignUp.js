@@ -31,7 +31,7 @@ class LogInOrSignUp extends React.Component {
       password: this.state.password,
       returnSecureToken: true
     }
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
       //update Redux state
       let email = response.data.email;
@@ -78,9 +78,8 @@ class LogInOrSignUp extends React.Component {
       password: this.state.password,
       returnSecureToken: true
     }
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
-      console.log(response);
       //update Redux state
       let email = response.data.email;
       let expiresIn = response.data.expiresIn;
@@ -125,10 +124,8 @@ class LogInOrSignUp extends React.Component {
       requestType: 'PASSWORD_RESET',
       email: this.state.email
     }
-    console.log(payloadPassword)
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`, payloadPassword)
     .then(response => {
-      console.log(response);
       M.toast({html: 'Link sent successfully.'})
     })
     .catch(error => {

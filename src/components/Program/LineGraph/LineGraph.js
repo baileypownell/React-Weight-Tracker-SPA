@@ -177,13 +177,13 @@ class LineGraph extends React.Component {
       <div className="white-box">
         <h6>Your weight over the past: </h6>
         <div>
-          <ul className="tabs z-depth-1 tabs-fixed-width"
+          <ul className="tabs z-depth-1"
               ref={Tabs => {
               this.Tabs = Tabs;
             }}>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} tabs-fixed-width="true">Week</a></li>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} tabs-fixed-width="true">Month</a></li>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} tabs-fixed-width="true">Year</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} >Week</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} >Month</a></li>
+              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} >Year</a></li>
           </ul>
         </div>
           {this.state.graphTimePeriod === null ? 

@@ -8,7 +8,6 @@ import Nav from './components/Nav/Nav';
 import {
   BrowserRouter,
   Route,
-  Link,
   Switch,
   Redirect
 } from "react-router-dom";
@@ -24,6 +23,7 @@ import Home from './components/Home/Home';
 import LogIn from './components/LogIn/LogIn';
 import Program from './components/Program/Program';
 import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp';
+import Settings from './components/Settings/Settings';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import './scss/main.scss';
@@ -52,6 +52,7 @@ ReactDOM.render(
             <Route path="/login" component={LogIn}/>
             <Route path="/dashboard" component={Program}/>
             <Route path="/auth" component={LogInOrSignUp} />
+            <Route path="/settings" component={Settings} />
             <Redirect to="/" />
         </Switch>
       </BrowserRouter>
