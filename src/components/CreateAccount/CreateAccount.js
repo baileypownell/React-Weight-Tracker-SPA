@@ -1,9 +1,8 @@
-import React from 'react';
-// imports for connecting this component to Redux state store
-import { connect } from 'react-redux';
-import * as actions from '../../store/actionCreators';
-import { withRouter } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react'
+import { connect } from 'react-redux'
+import * as actions from '../../store/actionCreators'
+import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 
 class CreateAccount extends React.Component {
   state = {
@@ -30,9 +29,9 @@ class CreateAccount extends React.Component {
       password: this.state.password,
       returnSecureToken: true
     }
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
-      console.log(response);
+      console.log(response)
       //update Redux state
       let email = response.data.email;
       let expiresIn = response.data.expiresIn;

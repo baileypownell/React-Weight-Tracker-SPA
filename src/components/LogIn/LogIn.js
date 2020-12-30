@@ -1,11 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../store/actionCreators';
-import axios from 'axios';
-import './Login.scss';
-import M from 'materialize-css';
-
-import { withRouter } from 'react-router-dom';
+import React from 'react'
+import { connect } from 'react-redux'
+import * as actions from '../../store/actionCreators'
+import axios from 'axios'
+import './Login.scss'
+import M from 'materialize-css'
+import { withRouter } from 'react-router-dom'
 
 class LogIn extends React.Component {
 
@@ -29,9 +28,8 @@ class LogIn extends React.Component {
       password: this.state.password,
       returnSecureToken: true
     }
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
-      console.log(response.data.expiresIn);
       //update Redux state
       let email = response.data.email;
       let expiresIn = response.data.expiresIn;
@@ -75,14 +73,12 @@ class LogIn extends React.Component {
       requestType: 'PASSWORD_RESET',
       email: this.state.email
     }
-    console.log(payloadPassword)
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`, payloadPassword)
     .then(response => {
-      console.log(response);
       M.toast({html: 'Link sent successfully.'})
     })
     .catch(error => {
-      console.log('Error: ', error.response.data.error);
+      console.log('Error: ', error.response.data.error)
       if (error.response.data.error.message == 'EMAIL_NOT_FOUND') {
         M.toast({html: 'There is no account for the provided email.'})
       } else {

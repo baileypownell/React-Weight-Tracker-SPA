@@ -1,5 +1,5 @@
-import axios from 'axios';
-import * as actionTypes from './actionTypes';
+import axios from 'axios'
+import * as actionTypes from './actionTypes'
 
 export const createAccount = (firstName, lastName, email, localId, expiresIn, idToken, refreshToken) => {
   return {
@@ -89,8 +89,8 @@ export const logoutUserAsync = () => {
     firebase.auth().signOut().then(() => {
       // change redux state
       dispatch(logoutUser());
-    }).catch(() => {
-      console.log('There has been an error logging the user out of Firebase.')
+    }).catch((err) => {
+      console.log('There has been an error logging the user out of Firebase: ', err)
     });
   }
 }
@@ -126,14 +126,12 @@ export const changeEmailAsync = (idToken, newEmail) => {
       email: newEmail,
       returnSecureToken: true
     }
-    console.log('Payload = ', payloadEmail)
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadEmail)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.FIREBASE_API_KEY}`, payloadEmail)
     .then(response => {
-      console.log(response);
-      alert('Your email has been successfully updated to:', response.data.email);
+      alert('Your email has been successfully updated to:', response.data.email)
     })
     .catch(err => {
-      console.log(err);
+      console.log(err)
     });
   }
 }
@@ -160,10 +158,9 @@ export const changePassword = () => {
       requestType: 'PASSWORD_RESET',
       email: action.email
     }
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk").then(response => {
-      console.log(response);
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`).then(response => {
     }).catch(err => {
-      console.log(err);
+      console.log(err)
     });
   }
 }

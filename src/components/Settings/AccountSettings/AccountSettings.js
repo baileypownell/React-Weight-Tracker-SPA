@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import * as actions from '../../../store/actionCreators';
-import { withRouter } from 'react-router-dom';
-import M from 'materialize-css';
-import './AccountSettings.scss';
+import React from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import * as actions from '../../../store/actionCreators'
+import { withRouter } from 'react-router-dom'
+import M from 'materialize-css'
+import './AccountSettings.scss'
 
 class AccountSettings extends React.Component {
 
@@ -31,7 +31,7 @@ class AccountSettings extends React.Component {
     let payload = {
       idToken: this.props.idToken
     }
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payload)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
       const db = firebase.firestore();
       let localId = this.props.localId;
@@ -59,7 +59,7 @@ class AccountSettings extends React.Component {
       returnSecureToken: true
     }
     console.log(payloadEmail)
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadEmail)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.FIREBASE_API_KEY}`, payloadEmail)
     .then(response => {
       this.props.changeEmail(idToken, newEmail);
       const db = firebase.firestore();
@@ -121,15 +121,13 @@ class AccountSettings extends React.Component {
       requestType: 'PASSWORD_RESET',
       email: this.props.email
     }
-    console.log(payloadPassword)
-    axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBa2yI5F5kpQTAJAyACoxkA5UyCfaEM7Pk", payloadPassword)
+    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`, payloadPassword)
     .then(response => {
-      console.log(response);
-      M.toast({html: 'Password link sent.'});
+      M.toast({html: 'Password link sent.'})
     })
     .catch(error => {
-      console.log('Error: ', error.response.data.error);
-      M.toast({html: 'There was an error.'});
+      console.log('Error: ', error.response.data.error)
+      M.toast({html: 'There was an error.'})
     });
   }
   

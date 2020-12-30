@@ -1,5 +1,10 @@
+const webpack = require('webpack');
+var dotenv = require('dotenv').config({path: __dirname + '/.env'});
+
+
 module.exports = {
   entry: './src/index.js',
+  target: 'web',
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
@@ -27,6 +32,14 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(true),
+      'process.env': {
+        FIREBASE_API_KEY: JSON.stringify(process.env.FIREBASE_API_KEY)
+      }
+    }),
+  ],
   devServer: {
      contentBase: __dirname,
      hot: true,
