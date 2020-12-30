@@ -27,9 +27,14 @@ class Nav extends React.Component {
             <a data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
         <ul id="slide-out" className="sidenav">
-            <li><Link to="/create-account">Create Account</Link></li>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/settings">Settings</Link></li>
+          {
+            this.props.userLoggedIn ? 
+              <>
+                <li><Link to="/dashboard">Dashboard</Link></li>
+                <li><Link to="/settings">Settings</Link></li>
+              </>
+            : <li><Link to="/create-account">Create Account</Link></li>
+          }
             <li><div className="divider"></div></li>
             {this.props.userLoggedIn ? <li><a onClick={this.logout}>Log Out</a></li> : <li><Link to="/login">Login</Link></li>}
         </ul>         

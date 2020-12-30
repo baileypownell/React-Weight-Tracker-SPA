@@ -22,7 +22,7 @@ class LogIn extends React.Component {
 
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     let payload = {
       email: this.state.email,
       password: this.state.password,
