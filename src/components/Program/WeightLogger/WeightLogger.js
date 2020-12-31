@@ -111,25 +111,25 @@ export class WeightLogger extends React.Component {
               </a>
             </div>
           </div>
-        <form>
-        <div class="input-field">
-          <label for="weight">Record Weight</label>
-          <input id="weight" onChange={this.handleChange} type="text"></input>
-        </div>
-          <div>
-            <button
-              onClick={this.logWeight} 
-              className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled waves-effect waves-light btn" : "waves-effect waves-light btn"}>
-                Log Weight
-            </button>
-            <button
-              
-              data-target="modal1"
-              className={this.props.todaysWeight > 0 ? "waves-effect waves-light btn modal-trigger" : "button-disabled waves-effect waves-light btn"}>
-                Edit today's weight
-            </button>
-          </div>
-        </form>
+          <form>
+            <div class="input-field">
+              <label for="weight">Record Weight</label>
+              <input id="weight" onChange={this.handleChange} type="text"></input>
+            </div>
+              <div>
+                <button
+                  onClick={this.logWeight} 
+                  className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled waves-effect waves-light btn" : "waves-effect waves-light btn"}>
+                    Log Weight
+                </button>
+                <button
+                  
+                  data-target="modal1"
+                  className={this.props.todaysWeight > 0 ? "waves-effect waves-light btn modal-trigger" : "button-disabled waves-effect waves-light btn"}>
+                    Edit today's weight
+                </button>
+              </div>
+          </form>
         {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
       </div>
     )

@@ -133,6 +133,7 @@ class WeightHistory extends React.Component {
         // sort by date
         let sortedAllWeightsRecorded = weightHistory.sort(compare);
         // update redux so that <LineGraph/> can get this data
+        console.log('setting weight history...')
         this.props.setWeightHistory(sortedAllWeightsRecorded);
         // call getData() again in 5 seconds
         // this.intervalID = setTimeout(this.getUserWeightHistory.bind(this), 5000);
