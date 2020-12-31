@@ -9,7 +9,7 @@ import { compare } from '../../compare'
 class Dashboard extends React.Component {
 
   state = {
-    sortedWeights: null
+    sortedWeights: []
   }
 
   componentDidMount() {
@@ -27,20 +27,17 @@ class Dashboard extends React.Component {
 
   render() {
     const { sortedWeights } = this.state;
+    const { firstName, todaysWeight } = this.props;
 
     return (
-      <>
-        { sortedWeights ?
-          <div className="dashboard z-depth-15">
-              <h4>Hello, {this.props.firstName}</h4>
-              <WeightLogger weights={sortedWeights} />
-              <div id="account-options">
-                  <RecentWeightLogs weights={sortedWeights} todaysWeight={this.props.todaysWeight} /> 
-                  <LineGraph weights={sortedWeights} /> 
-              </div>
-          </div> : null
-        }
-      </>
+        <div className="dashboard z-depth-15">
+            <h4>Hello, {firstName}</h4>
+            <WeightLogger weights={sortedWeights} />
+            <div id="account-options">
+                <RecentWeightLogs weights={sortedWeights} todaysWeight={todaysWeight} /> 
+                <LineGraph weights={sortedWeights} /> 
+            </div>
+        </div> 
     )
   }
 }

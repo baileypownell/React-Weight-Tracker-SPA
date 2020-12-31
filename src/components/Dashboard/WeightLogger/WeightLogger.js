@@ -37,53 +37,44 @@ export class WeightLogger extends React.Component {
 
 
   logWeight = (e) => {
-    e.preventDefault();
     // check to see if there has been a weight entered in the past 24 hours... redux todaysWeight should be set from database and only allowed to be updated if null
     if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
-      let weightHistory;
-      // update redux with todays weight
       this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
-      // then update firebase "users" database to hold today's new weight value
+      console.log('here')
       const db = firebase.firestore();
-      db.collection("users").doc(this.props.localId).get().then((doc) => {
-        weightHistory = doc.data().weights;
-        let date = new Date();
-        let updatedWeights = weightHistory.concat({
-          date: {date},
-          weight: this.state.todaysWeight});
-        db.collection("users").doc(this.props.localId).update({
-          weights: updatedWeights});
-        })
-      .catch(err => {
-        console.log(err)
+      let date = new Date();
+      let updatedWeights = this.props.weights.concat({
+        date: {date},
+        weight: this.state.todaysWeight});
+      db.collection("users").doc(this.props.localId).update({
+        weights: updatedWeights
       })
-    } 
-  }
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+    }
+  } 
+  
 
   updateTodaysWeight = () => {
-    console.log('updateTodaysWeight()')
       let allWeights = this.props.weights;
+      console.log('allWeights ', allWeights)
       let recordToUpdate = allWeights[0];
       recordToUpdate.weight = this.state.todaysWeight;
       allWeights.shift();
-      let updatedWeights = allWeights.unshift(recordToUpdate);
-      // update redux in 2 places
+      console.log('allWeights = ', allWeights)
+      // update redux
       this.props.editTodaysWeight(parseInt(this.state.todaysWeight), allWeights);
       // update firebase users database to hold today's new weight value
+      // delete last item
+      allWeights.pop();
+      let date = new Date();
+      let updatedWeights = allWeights.concat({
+        date: {date},
+        weight: this.state.todaysWeight
+      });
       const db = firebase.firestore();
-      db.collection("users").doc(this.props.localId).get().then((doc) => {
-          let weightHistory = doc.data().weights;
-          // delete last item
-          weightHistory.pop();
-          let date = new Date();
-          let updatedWeights = weightHistory.concat({
-            date: {date},
-            weight: this.state.todaysWeight
-          });
-          console.log(updatedWeights)
-          db.collection("users").doc(this.props.localId).update({
-              weights: updatedWeights
-          });
+      db.collection("users").doc(this.props.localId).update({
+          weights: updatedWeights
       })
       .then(() => {
         M.toast({html: 'Weight updated.'})
