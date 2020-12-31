@@ -61,7 +61,8 @@ export class WeightLogger extends React.Component {
   }
 
   updateTodaysWeight = () => {
-      let allWeights = this.props.weightHistory;
+    console.log('updateTodaysWeight()')
+      let allWeights = this.props.weights;
       let recordToUpdate = allWeights[0];
       recordToUpdate.weight = this.state.todaysWeight;
       allWeights.shift();
@@ -79,6 +80,7 @@ export class WeightLogger extends React.Component {
             date: {date},
             weight: this.state.todaysWeight
           });
+          console.log(updatedWeights)
           db.collection("users").doc(this.props.localId).update({
               weights: updatedWeights
           });
@@ -98,7 +100,7 @@ export class WeightLogger extends React.Component {
       <div id="weight-logger">
           <div id="modal1" className="modal">
             <div className="modal-content">
-              <div class="input-field">
+              <div className="input-field">
                 <label for="update-weight">Update today's weight</label>
                 <input type="text" id="update-weight" onChange={this.handleUpdateChange}></input>
               </div>
@@ -112,7 +114,7 @@ export class WeightLogger extends React.Component {
             </div>
           </div>
           <form>
-            <div class="input-field">
+            <div className="input-field">
               <label for="weight">Record Weight</label>
               <input id="weight" onChange={this.handleChange} type="text"></input>
             </div>
@@ -140,7 +142,6 @@ const mapStateToProps = state => {
   return {
     todaysWeight: state.todaysWeight,
     localId: state.localId,
-    weightHistory: state.user.weightHistory
   }
 }
 

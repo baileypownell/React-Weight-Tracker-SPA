@@ -26,15 +26,17 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    const { sortedWeights } = this.state;
+
     return (
       <>
-        { this.state.sortedWeights ?
+        { sortedWeights ?
           <div className="dashboard z-depth-15">
               <h4>Hello, {this.props.firstName}</h4>
-              <WeightLogger/>
+              <WeightLogger weights={sortedWeights} />
               <div id="account-options">
-                  <RecentWeightLogs weights={this.state.sortedWeights} todaysWeight={this.props.todaysWeight} /> 
-                  <LineGraph weights={this.state.sortedWeights} /> 
+                  <RecentWeightLogs weights={sortedWeights} todaysWeight={this.props.todaysWeight} /> 
+                  <LineGraph weights={sortedWeights} /> 
               </div>
           </div> : null
         }
@@ -48,7 +50,7 @@ const mapStateToProps = state => {
     firstName: state.user.firstName,
     todaysWeight: state.todaysWeight,
     userLoggedIn: state.userLoggedIn,
-    localId: state.localId
+    localId: state.localId,
   }
 }
 
