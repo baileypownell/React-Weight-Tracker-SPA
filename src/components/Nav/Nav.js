@@ -26,7 +26,7 @@ class Nav extends React.Component {
             <Link to="/" >WeightTracker 2.0</Link>
             <a data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
-        <ul id="slide-out" className="sidenav">
+        <ul id="slide-out" className="sidenav sidenav-close">
           {
             this.props.userLoggedIn ? 
               <>
