@@ -2,15 +2,59 @@
 
 .modal {
     padding: 15px!important;
-    h6 {
-        color: $gray;
-    }
-    input {
-        background-color: $gray!important;
-        border-radius: 0px!important;
-        color: white!important;
+    .input-field {
+        max-width: 200px;
+        margin: 0 auto;
+        color: $gray!important;
     }
     a {
         background-color: $orange!important;
     }
 }
+
+.modal {
+    text-align: center;
+}
+
+.modal-footer {
+    text-align: center!important;
+    a {
+        width: 100%;
+        @include tablet {
+            width: auto;
+        }
+    }
+}
+
+#weight-logger {
+    border-bottom: 2px solid white;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    button {
+        margin-right: 10px;
+    }
+    i {
+      margin-left:8px;
+    }
+    form {
+      align-items: center;
+      @include tablet {
+        align-items: flex-start;
+      }
+    }
+    form input {
+      width: 150px;
+      font-size: 20px;
+      padding: 5px;
+      @include desktop {
+        font-size: 30px;
+      }
+    }
+    button {
+      @include desktop {
+        font-size: 20px;
+        margin: 5px;
+      }
+    }
+  
+  }

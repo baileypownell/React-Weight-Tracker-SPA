@@ -98,16 +98,24 @@ export class WeightLogger extends React.Component {
       <div id="weight-logger">
           <div id="modal1" className="modal">
             <div className="modal-content">
-              <h6>Update today's weight</h6>
-              <input type="text" onChange={this.handleUpdateChange}></input>
+              <div class="input-field">
+                <label for="update-weight">Update today's weight</label>
+                <input type="text" id="update-weight" onChange={this.handleUpdateChange}></input>
+              </div>
             </div>
             <div className="modal-footer">
-              <a onClick={this.updateTodaysWeight} href="#!" className="modal-close waves-effect waves-light btn">Update</a>
+              <a 
+                onClick={this.updateTodaysWeight} 
+                className="modal-close waves-effect waves-light btn">
+                Update
+              </a>
             </div>
           </div>
-        <h5>Record Weight <i className="fas fa-pencil-alt"></i></h5>
         <form>
-          <input onChange={this.handleChange} type="text"></input>
+        <div class="input-field">
+          <label for="weight">Record Weight</label>
+          <input id="weight" onChange={this.handleChange} type="text"></input>
+        </div>
           <div>
             <button
               onClick={this.logWeight} 

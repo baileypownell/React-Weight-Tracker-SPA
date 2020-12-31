@@ -44,38 +44,6 @@
   }
 }
 
-#weight-logger {
-  border-bottom: 2px solid white;
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  i {
-    margin-left:8px;
-  }
-  form {
-    align-items: center;
-    @include tablet {
-      align-items: flex-start;
-    }
-  }
-  input {
-    width: 150px;
-    font-size: 20px;
-    text-align: center;
-    background-color: white;
-    border-radius: 5px;
-    padding: 8px;
-    @include desktop {
-      font-size: 30px;
-    }
-  }
-  button {
-    @include desktop {
-      font-size: 20px;
-      margin: 5px;
-    }
-  }
-
-}
 .result {
   padding: 10px 0;
 }
