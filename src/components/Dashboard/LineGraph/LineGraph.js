@@ -17,7 +17,7 @@ class LineGraph extends React.Component {
     let el = document.querySelector('.tabs')
     setTimeout(() => {
       M.Tabs.init(el);
-    }, 3000);
+    }, 1000);
 
     this.setGraphTimePeriod('week')
   }

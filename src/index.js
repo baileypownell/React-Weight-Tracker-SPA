@@ -20,10 +20,10 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 
 import CreateAccount from './components/CreateAccount/CreateAccount';
 import Home from './components/Home/Home';
-import LogIn from './components/LogIn/LogIn';
-import Program from './components/Program/Program';
+import Dashboard from './components/Dashboard/Dashboard';
 import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp';
 import Settings from './components/Settings/Settings';
+import RequireAuthComponent from './components/RequireAuthComponent';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import './scss/main.scss';
@@ -49,10 +49,11 @@ ReactDOM.render(
         <Switch>
             <Route exact={true} path="/" component={Home}/>
             <Route path="/signup" component={CreateAccount}/>
-            <Route path="/login" component={LogIn}/>
-            <Route path="/dashboard" component={Program}/>
             <Route path="/login" component={LogInOrSignUp} />
-            <Route path="/settings" component={Settings} />
+            <RequireAuthComponent>
+              <Route path="/settings" component={Settings} />
+              <Route path="/dashboard" component={Dashboard}/>
+            </RequireAuthComponent>
             <Redirect to="/" />
         </Switch>
       </BrowserRouter>

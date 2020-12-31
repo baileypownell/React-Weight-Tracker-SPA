@@ -153,7 +153,7 @@ class WeightHistory extends React.Component {
        }
         </div>
       {
-        this.state.extraRecordPosition === 0 && this.props.weights && this.props.weight.length > 5 ? <button onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
+        this.state.extraRecordPosition === 0 && this.props.weights.length > 5 ? <button onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
       }
       </div>
       )

@@ -1,13 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs';
-import LineGraph from './LineGraph/LineGraph';
-import WeightLogger from './WeightLogger/WeightLogger';
-import './Program.scss';
+import React from 'react'
+import { connect } from 'react-redux'
+import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs'
+import LineGraph from './LineGraph/LineGraph'
+import WeightLogger from './WeightLogger/WeightLogger'
+import './Program.scss'
 import { compare } from '../../compare'
 
-class Program extends React.Component {
+class Dashboard extends React.Component {
 
   state = {
     sortedWeights: null
@@ -29,23 +28,15 @@ class Program extends React.Component {
   render() {
     return (
       <>
-        { this.props.userLoggedIn ?
+        { this.state.sortedWeights ?
           <div className="dashboard z-depth-15">
               <h4>Hello, {this.props.firstName}</h4>
               <WeightLogger/>
               <div id="account-options">
-                {
-                  this.state.sortedWeights ? 
-                  <>
-                      <RecentWeightLogs weights={this.state.sortedWeights} todaysWeight={this.props.todaysWeight} /> 
-                      <LineGraph weights={this.state.sortedWeights} /> 
-                  </> : null
-                }
-                
+                  <RecentWeightLogs weights={this.state.sortedWeights} todaysWeight={this.props.todaysWeight} /> 
+                  <LineGraph weights={this.state.sortedWeights} /> 
               </div>
-          </div> 
-          : 
-          <Redirect to="/login" />
+          </div> : null
         }
       </>
     )
@@ -61,4 +52,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Program);
+export default connect(mapStateToProps)(Dashboard);
