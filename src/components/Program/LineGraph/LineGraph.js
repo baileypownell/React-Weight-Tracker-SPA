@@ -59,132 +59,51 @@ class LineGraph extends React.Component {
         });
     }
 
-    graphData = () => {
-      function compare(a, b) {
-        const secondsA = a.date.date.seconds;
-        const secondsB = b.date.date.seconds;
-        let comparison = 0;
-       if (secondsA < secondsB) {
-         comparison = 1;
-       } else if (secondsA > secondsB) {
-         comparison = -1;
-       }
-       return comparison;
-      }
-      // just get data here... 
-      const db = firebase.firestore();
-      db.collection("users").doc(this.props.localId).get()
-      .then((doc) => {
-        let weightHistory = doc.data().weights;
-          let sortedAllWeightsRecorded = weightHistory.sort(compare)
-          if (this.state.graphTimePeriod === 'week') {
-            let labels = [];
-            let data = [];
-            let newerThanAWeek = [];
-            for (let i = 0; i < sortedAllWeightsRecorded.length-1; i++) {
-                const now = new Date()
-                const secondsSinceEpoch = Math.round(now.getTime() / 1000);
-                let exactlyWeekAgo = secondsSinceEpoch - 604800;
-                if (sortedAllWeightsRecorded[i].date.date.seconds > exactlyWeekAgo) {
-                  newerThanAWeek.push(sortedAllWeightsRecorded[i]);
-                }
-              }
-  
-  
-              newerThanAWeek.forEach((item) => {
-                  data.push(item.weight);
-                  let date = new Date(item.date.date.seconds * 1000);
-                  labels.push(date)
-              })
-  
-              labels.reverse()
-              data.reverse()
-  
-              let labelsParsed = [];
-              labels.forEach(date => {
-                  let day = date.toUTCString().split(' ')[1];
-                  let month = date.toUTCString().split(' ')[2];
-                  let fulldate = [month, day].join(' ');
-                  labelsParsed.push(fulldate);
-              })
-              this.setState({
-                  labels: labelsParsed,
-                  data: data
-              }, () => { this.drawChart() });
-          } else if (this.state.graphTimePeriod === 'month') {
-              let labels = [];
-              let data = [];
-              let newerThanAMonth = [];
-              for (let i = 0; i < sortedAllWeightsRecorded.length; i++) {
-                  const now = new Date();
-                  const secondsSinceEpoch = Math.round(now.getTime() / 1000);
-                  let exactly30daysAgo = secondsSinceEpoch - 2592000;
-                  if (sortedAllWeightsRecorded[i].date.date.seconds > exactly30daysAgo) {
-                      newerThanAMonth.push(sortedAllWeightsRecorded[i]);
-                  }
-              }
-  
-  
-              newerThanAMonth.forEach((item) => {
-                  data.push(item.weight);
-                  let date = new Date(item.date.date.seconds * 1000);
-                  labels.push(date);
-              })
-  
-              labels.reverse();
-              data.reverse();
-  
-              let labelsParsed = [];
-              labels.forEach(date => {
-                  let day = date.toUTCString().split(' ')[1];
-                  let month = date.toUTCString().split(' ')[2];
-                  let fulldate = [month, day].join(' ');
-                  labelsParsed.push(fulldate);
-              })
-              this.setState({
-                  labels: labelsParsed,
-                  data: data
-              }, () => { this.drawChart() });
-          } else if (this.state.graphTimePeriod === 'year') {
-              let labels = [];
-              let labelsParsed = [];
-              let data = [];
-              let newerThanAYear = [];
-              for (let i = 0; i <= sortedAllWeightsRecorded.length-1; i++) {
-                  const now = new Date()
-                  const secondsSinceEpoch = Math.round(now.getTime() / 1000)
-                  let exactly1yearAgo = secondsSinceEpoch - 31556952;
-                  if (sortedAllWeightsRecorded[i].date.date.seconds > exactly1yearAgo) {
-                      newerThanAYear.push(sortedAllWeightsRecorded[i]);
-                  }
-              }
-  
-  
-              newerThanAYear.forEach((item) => {
-                  data.push(item.weight);
-                  let date = new Date(item.date.date.seconds * 1000);
-                  labels.push(date);
-              })
-  
-              labels.reverse();
-              data.reverse();
-  
-              labels.forEach(date => {
-                  let day = date.toUTCString().split(' ')[1];
-                  let month = date.toUTCString().split(' ')[2];
-                  let fullDate = [month, day].join(' ');
-                  labelsParsed.push(fullDate);
-              })
-  
-              this.setState({
-                  labels: labelsParsed,
-                  data: data
-              }, () => this.drawChart())
+    prepareChartData(num) {
+      const { weights } = this.props
+      let labels = [];
+      let data = [];
+      let newerThanTime = [];
+      for (let i = 0; i < weights.length-1; i++) {
+          const now = new Date()
+          const secondsSinceEpoch = Math.round(now.getTime() / 1000);
+          let timeLengthAgo = secondsSinceEpoch - num;
+          if (weights[i].date.date.seconds > timeLengthAgo) {
+            newerThanTime.push(weights[i]);
           }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      }
+
+      newerThanTime.forEach((item) => {
+          data.push(item.weight);
+          let date = new Date(item.date.date.seconds * 1000);
+          labels.push(date)
+      })
+
+      labels.reverse()
+      data.reverse()
+
+      let labelsParsed = [];
+      labels.forEach(date => {
+          let day = date.toUTCString().split(' ')[1];
+          let month = date.toUTCString().split(' ')[2];
+          let fulldate = [month, day].join(' ');
+          labelsParsed.push(fulldate);
+      })
+      this.setState({
+          labels: labelsParsed,
+          data: data
+      }, () => { this.drawChart() });
+    }
+
+    graphData = () => {
+      const { graphTimePeriod } = this.state
+      if (graphTimePeriod === 'week') {
+        this.prepareChartData(604800)
+      } else if (graphTimePeriod === 'month') {
+        this.prepareChartData(2592000)
+      } else if (graphTimePeriod === 'year') {
+          this.prepareChartData(31556952)
+      }
     }
 
   render() {

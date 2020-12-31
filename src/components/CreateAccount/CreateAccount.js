@@ -31,7 +31,6 @@ class CreateAccount extends React.Component {
     }
     axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
-      console.log(response)
       //update Redux state
       let email = response.data.email;
       let expiresIn = response.data.expiresIn;

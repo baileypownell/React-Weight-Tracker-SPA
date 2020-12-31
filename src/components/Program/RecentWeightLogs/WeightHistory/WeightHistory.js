@@ -1,20 +1,11 @@
-import React from 'react';
-import Weight from './Weight/Weight';
-// imports for connecting this component to Redux state store
-import { connect } from 'react-redux';
-import * as actions from '../../../../store/actionCreators';
+import React from 'react'
+import Weight from './Weight/Weight'
+import { connect } from 'react-redux'
 
 
 class WeightHistory extends React.Component {
 
-  // limitedForDisplay always equals the current record set we are viewing as determined by the back and forth arrow buttons.
-
-  // recordsByTens will be a complete data set (array) of all records divided into arrays, each ten in length. We use the back and forth arrows to increment and decrement which array of ten records we are viewing.
-
-  // intervalID;
-  
   state = {
-    entireSortedWeightHistory: [],
     limitedForDisplay: [],
     noHistory: true,
     showingMore: false,
@@ -25,7 +16,7 @@ class WeightHistory extends React.Component {
   showLimitedRecs = (iterator) => {
     let limitedForDisplay = [];
     for (let i = 1; i < iterator; i++) {
-      limitedForDisplay.push(this.state.entireSortedWeightHistory[i]);
+      limitedForDisplay.push(this.props.weights[i]);
     }
     this.setState({
       limitedForDisplay: limitedForDisplay
@@ -38,10 +29,10 @@ class WeightHistory extends React.Component {
     let limitedForDisplay = [];
     // find what number to limit it to
     let iterator;
-    (this.state.entireSortedWeightHistory.length >= 10) ? iterator = 10 : iterator = this.state.entireSortedWeightHistory.length;
+    (this.props.weights.length >= 10) ? iterator = 10 : iterator = props.weights.length;
     if (!this.state.showingMore) {
       for (let i = 1; i < iterator; i++) {
-        limitedForDisplay.push(this.state.entireSortedWeightHistory[i]);
+        limitedForDisplay.push(this.props.weights[i]);
       }
       this.setState({
         limitedForDisplay: limitedForDisplay,
@@ -55,8 +46,8 @@ class WeightHistory extends React.Component {
     }
   }
 
-  // the function called when the page is loaded in turn calls this function
-  buildMasterRecordSet = (weightHistory) => {
+  buildMasterRecordSet = () => {
+    let weightHistory = this.props.weights
     let recordsByTensArray = [];
     let recordsByTens = [];
     weightHistory.forEach(rec => {
@@ -113,58 +104,27 @@ class WeightHistory extends React.Component {
     }
   }
 
-  // called when the page is loaded
-  getUserWeightHistory = () => {
-    function compare(a, b) {
-      const secondsA = a.date.date.seconds;
-      const secondsB = b.date.date.seconds;
-      let comparison = 0;
-     if (secondsA < secondsB) {
-       comparison = 1;
-     } else if (secondsA > secondsB) {
-       comparison = -1;
-     }
-     return comparison;
-    }
-    // make API call
-    const db = firebase.firestore();
-    db.collection("users").doc(this.props.localId).get().then((doc) => {
-      let weightHistory = doc.data().weights;
-        // sort by date
-        let sortedAllWeightsRecorded = weightHistory.sort(compare);
-        // update redux so that <LineGraph/> can get this data
-        console.log('setting weight history...')
-        this.props.setWeightHistory(sortedAllWeightsRecorded);
-        // call getData() again in 5 seconds
-        // this.intervalID = setTimeout(this.getUserWeightHistory.bind(this), 5000);
-        if (sortedAllWeightsRecorded.length > 0) {
-          this.setState({
-            noHistory: false
-          })
-        }
-        this.setState({
-          entireSortedWeightHistory: sortedAllWeightsRecorded
-        });
-        let iterator = (weightHistory.length > 6) ? 6 : weightHistory.length;
-        this.showLimitedRecs(iterator);
-        // lastly, if there are 11 or more records, build an array of arrays, each sub array being 10 items in length, to go back and forth through in the Recent Weight Logs modal
-        // update: always call this regardless of length
-          this.buildMasterRecordSet(weightHistory);
+  handleWeightHistory = () => {
+    let weightHistory = this.props.weights
+    if (weightHistory.length > 0) {
+      this.setState({
+        noHistory: false
       })
-      .catch(err => {
-        console.log(err)
-      });
-  }
+    }
+    let iterator = (weightHistory.length > 6) ? 6 : weightHistory.length;
+    this.showLimitedRecs(iterator);
+    // lastly, if there are 11 or more records, build an array of arrays, each sub array being 10 items in length, to go back and forth through in the Recent Weight Logs modal
+    this.buildMasterRecordSet();
+}
 
 
   componentDidMount() {
-    this.getUserWeightHistory();
+    this.handleWeightHistory();
   }
 
   render() {
     return (
       <div>
-
         <div id="data-row">
           {this.props.todaysWeight && this.state.extraRecordPosition === 0 ? <Weight
             id="today"
@@ -192,10 +152,8 @@ class WeightHistory extends React.Component {
          : null
        }
         </div>
-
-
       {
-        this.state.extraRecordPosition === 0 && this.state.entireSortedWeightHistory.length > 5 ? <button    onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
+        this.state.extraRecordPosition === 0 && this.props.weights && this.props.weight.length > 5 ? <button onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
       }
       </div>
       )
@@ -209,12 +167,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-// map entire entireSortedWeightHistory to redux since LineGraph will need it but is not a child of WeightHistory
-const mapDispatchToProps = dispatch => {
-  return {
-    setWeightHistory: (weightHistory) => dispatch(actions.setWeightHistory(weightHistory))
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeightHistory);
+export default connect(mapStateToProps)(WeightHistory);
