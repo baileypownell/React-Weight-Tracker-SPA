@@ -21,7 +21,7 @@ export const Program = (props) => {
           </div>
       </div> 
       : 
-      <Redirect to="/auth" />
+      <Redirect to="/login" />
     }
     </>
   )

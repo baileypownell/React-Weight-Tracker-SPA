@@ -13,7 +13,7 @@ class Home extends React.Component {
     if (this.props.userLoggedIn) {
       this.props.history.replace('/dashboard');
     } else {
-      this.props.history.replace('/auth');
+      this.props.history.replace('/login');
     }
   }
 
