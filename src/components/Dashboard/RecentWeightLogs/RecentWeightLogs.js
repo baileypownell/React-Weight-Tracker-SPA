@@ -9,7 +9,7 @@ const RecentWeightLogs = (props) => {
         <span>Weight</span>
         <span>Date</span>
       </div>
-      <WeightHistory weights={props.weights}/>
+      {props.weights ? <WeightHistory key={props.weights}  weights={props.weights}/> : null}
     </div>
   )
 }

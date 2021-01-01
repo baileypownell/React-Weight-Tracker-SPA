@@ -1,7 +1,7 @@
 import React from 'react'
 import Weight from './Weight/Weight'
 import { connect } from 'react-redux'
-
+import './WeightHistory.scss'
 
 class WeightHistory extends React.Component {
 
@@ -15,7 +15,7 @@ class WeightHistory extends React.Component {
 
   showLimitedRecs = (iterator) => {
     let limitedForDisplay = [];
-    for (let i = 1; i < iterator; i++) {
+    for (let i = 0; i < iterator; i++) {
       limitedForDisplay.push(this.props.weights[i]);
     }
     this.setState({
@@ -47,6 +47,7 @@ class WeightHistory extends React.Component {
   }
 
   buildMasterRecordSet = () => {
+    console.log('buildMasterRecordSet()')
     let weightHistory = this.props.weights
     let recordsByTensArray = [];
     let recordsByTens = [];
@@ -80,6 +81,7 @@ class WeightHistory extends React.Component {
       }
     callAppropriately(numberOfSubArrays);
 
+    console.log('recordsByTensArray ', recordsByTensArray)
     this.setState({
       recordsByTens: recordsByTensArray
     })
@@ -115,24 +117,22 @@ class WeightHistory extends React.Component {
     this.showLimitedRecs(iterator);
     // lastly, if there are 11 or more records, build an array of arrays, each sub array being 10 items in length, to go back and forth through in the Recent Weight Logs modal
     this.buildMasterRecordSet();
-}
+  }
 
 
   componentDidMount() {
     this.handleWeightHistory();
   }
 
+
   render() {
+    const { noHistory, limitedForDisplay, extraRecordPosition, recordsByTens, showingMore } = this.state;
+
     return (
       <div>
         <div id="data-row">
-          {this.props.todaysWeight && this.state.extraRecordPosition === 0 ? <Weight
-            id="today"
-            weight={this.props.todaysWeight}
-            date="Today"
-          />: null }
-          {this.props.todaysWeight < 1 && this.state.noHistory ? <p>You haven't recorded a weight yet.</p> :
-           this.state.limitedForDisplay.map((weight) => {
+          { noHistory ? <p>You haven't recorded any weights.</p> :
+           limitedForDisplay.map((weight) => {
             let date = (new Date(weight.date.date.seconds * 1000)).toString();
             let dateStringArray = date.split(' ');
             let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
@@ -143,17 +143,29 @@ class WeightHistory extends React.Component {
             />
         })
       }
-      {this.state.extraRecordPosition === this.state.recordsByTens.length-1 && !this.state.noHistory ? <p>No more data to show</p> : null}
-      { this.state.showingMore ?
-         <>
-         <button onClick={this.goBack} className={this.state.extraRecordPosition === 0 ? "button-disabled back-forth" : "back-forth"}><i className="fas fa-chevron-left"></i></button>
-         <button onClick={this.goForward} className={this.state.extraRecordPosition === this.state.recordsByTens.length-1 ? "button-disabled back-forth" : "back-forth"}><i className="fas fa-chevron-right"></i></button>
-         </>
+      { extraRecordPosition === recordsByTens.length-1 && !noHistory ? <p>No more data to show</p> : null}
+      { showingMore ?
+         <div class="button-div">
+          <button
+              className="waves-effect waves-light btn"
+              onClick={this.goBack} 
+            >
+            <i className="fas fa-chevron-left"></i>
+            </button>
+          <button 
+              className="waves-effect waves-light btn"
+              onClick={this.goForward} 
+              >
+            <i className="fas fa-chevron-right"></i>
+          </button>
+         </div>
          : null
        }
         </div>
       {
-        this.state.extraRecordPosition === 0 && this.props.weights.length > 5 ? <button onClick={this.toggleMore}>VIEW {this.state.showingMore ? "LESS" : "MORE"}</button> : null
+        extraRecordPosition === 0 && this.props.weights.length > 5 ? <button 
+        className="waves-effect waves-light btn"
+        onClick={this.toggleMore}>VIEW {showingMore ? "LESS" : "MORE"}</button> : null
       }
       </div>
       )
@@ -162,7 +174,6 @@ class WeightHistory extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    todaysWeight: state.todaysWeight,
     localId: state.localId
   }
 }

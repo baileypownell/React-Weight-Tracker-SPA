@@ -7,14 +7,12 @@ const initialState = {
     lastName: '',
     email: '',
     firebaseAuthID: null,
-    weightHistory: []
   },
   userLoggedIn: false,
   expiresIn: '',
   idToken: '',
   localId: '',
   refreshToken: '',
-  todaysWeight: null,
   error: ''
 };
 
@@ -41,14 +39,12 @@ const reducer = (state = initialState, action) => {
           lastName: '',
           email: '',
           firebaseAuthID: '',
-          weightHistory: []
         },
         expiresIn: '',
         idToken: '',
         localId: '',
         refreshToken: '',
         userLoggedIn: false,
-        todaysWeight: '',
         error: ''
     }
     case actionTypes.DELETE_USER:
@@ -59,14 +55,12 @@ const reducer = (state = initialState, action) => {
           lastName: '',
           email: '',
           firebaseAuthID: '',
-          weightHistory: []
         },
         expiresIn: '',
         idToken: '',
         localId: '',
         refreshToken: '',
         userLoggedIn: false,
-        todaysWeight: '',
         error: ''
     }
     case actionTypes.SET_USER_DATA:
@@ -76,25 +70,7 @@ const reducer = (state = initialState, action) => {
           ...state.user,
           firstName: action.firstName,
           lastName: action.lastName,
-        },
-        todaysWeight: action.todaysWeight
-      };
-    case actionTypes.SET_TODAYS_WEIGHT:
-      return {
-        ...state,
-        user: {
-          ...state.user
-        },
-        todaysWeight: action.todaysWeight
-      };
-    case actionTypes.EDIT_TODAYS_WEIGHT:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          weightHistory: action.updatedWeights
-        },
-        todaysWeight: action.todaysWeight
+        }
       };
   case actionTypes.CREATE_ACCOUNT:
       return {
@@ -143,14 +119,6 @@ const reducer = (state = initialState, action) => {
           email: action.newEmail
         },
         idToken: action.idToken
-      }
-    case actionTypes.SET_WEIGHT_HISTORY:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          weightHistory: action.weightHistory
-        }
       }
     default:
       return state;

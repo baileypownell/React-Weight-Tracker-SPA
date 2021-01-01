@@ -1,14 +1,14 @@
-import React from 'react';
-import M from 'materialize-css';
-import './WeightLogger.scss';
-import { connect } from 'react-redux';
-import * as actions from '../../../store/actionCreators';
+import React from 'react'
+import M from 'materialize-css'
+import './WeightLogger.scss'
+import { connect } from 'react-redux'
 
 export class WeightLogger extends React.Component {
 
+
   state = {
     formInputEmpty: true,
-    todaysWeight: 0,
+    todaysWeight: null,
   }
 
   componentDidMount() {
@@ -37,21 +37,23 @@ export class WeightLogger extends React.Component {
 
 
   logWeight = (e) => {
+    e.preventDefault()
     // check to see if there has been a weight entered in the past 24 hours... redux todaysWeight should be set from database and only allowed to be updated if null
-    if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
-      this.props.updateTodaysWeight(parseInt(this.state.todaysWeight));
-      console.log('here')
+    // if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
       const db = firebase.firestore();
       let date = new Date();
       let updatedWeights = this.props.weights.concat({
         date: {date},
-        weight: this.state.todaysWeight});
+        weight: this.state.todaysWeight
+      });
       db.collection("users").doc(this.props.localId).update({
         weights: updatedWeights
       })
-      .then(res => console.log(res))
+      .then(() => {
+        this.props.updateWeightHistory()
+      })
       .catch(err => console.log(err))
-    }
+    //}
   } 
   
 
@@ -112,13 +114,13 @@ export class WeightLogger extends React.Component {
               <div>
                 <button
                   onClick={this.logWeight} 
-                  className={this.state.formInputEmpty || this.props.todaysWeight > 0 ? "button-disabled waves-effect waves-light btn" : "waves-effect waves-light btn"}>
+                  className={this.state.formInputEmpty ? "button-disabled waves-effect waves-light btn" : "waves-effect waves-light btn"}>
                     Log Weight
                 </button>
                 <button
                   
                   data-target="modal1"
-                  className={this.props.todaysWeight > 0 ? "waves-effect waves-light btn modal-trigger" : "button-disabled waves-effect waves-light btn"}>
+                  className={"waves-effect waves-light btn modal-trigger"}>
                     Edit today's weight
                 </button>
               </div>
@@ -131,16 +133,8 @@ export class WeightLogger extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    todaysWeight: state.todaysWeight,
     localId: state.localId,
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateTodaysWeight: (todaysWeight) => dispatch(actions.setTodaysWeight(todaysWeight)),
-    editTodaysWeight: (todaysWeight, updatedWeights) => dispatch(actions.editTodaysWeight(todaysWeight, updatedWeights))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeightLogger);
+export default connect(mapStateToProps)(WeightLogger);
