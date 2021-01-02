@@ -20,7 +20,7 @@ class AccountSettings extends React.Component {
   }
   
   handleChange = (e) => {
-    if (e.target.value.trim() !== '') {
+    if (e.target.value.trim().length) {
       this.setState({
         [e.target.id]: e.target.value.trim()
       })
@@ -137,27 +137,35 @@ class AccountSettings extends React.Component {
         <h6>Account Settings</h6>
         <div >
           <ul className="collapsible">
-                <li>
+              <li>
                   <div className="collapsible-header">Update Name</div>
                   <div className="collapsible-body">
-                      <p>New first name</p>
-                      <input type="text" id="newFirstName" onChange={this.handleChange}></input>
-                      <p>New last name</p>
-                      <input type="text" id="newLastName" onChange={this.handleChange}></input>
-                      <button className="waves-effect waves-light btn" onClick={this.updateName}>Submit</button>
+                  <div className="input-field">
+                    <input type="text" id="newFirstName" onChange={this.handleChange}></input>
+                    <label for="newFirstName">First Name</label>
                   </div>
-                </li>
-                <li>
+                  <div className="input-field">
+                    <input type="text" id="newLastName" onChange={this.handleChange}></input>
+                    <label for="newLastName">New Last Name</label>
+                  </div>
+                  <button className="waves-effect waves-light btn" onClick={this.updateName}>Submit</button>
+                  </div>
+              </li>
+              <li>
                   <div className="collapsible-header">Update Email</div>
                   <div className="collapsible-body">
-                      <p>New Email</p>
+                    <div className="input-field">
                       <input id="newEmail" onChange={this.handleChange} type="text"></input>
-                      <button
-                        className="waves-effect waves-light btn"
-                        onClick={() => this.updateEmail(this.props.idToken, this.state.newEmail)}>Submit</button>
+                      <label for="newEmail">New Email</label>
+                    </div>
+                    <button
+                      className="waves-effect waves-light btn"
+                      onClick={() => this.updateEmail(this.props.idToken, this.state.newEmail)}>
+                      Submit
+                    </button>
                   </div>
-                </li>
-                <li>
+              </li>
+              <li>
                   <div className="collapsible-header">Update Password</div>
                   <div className="collapsible-body">
                       <p>Click the button below to receive an email with a link to reset your password.</p>

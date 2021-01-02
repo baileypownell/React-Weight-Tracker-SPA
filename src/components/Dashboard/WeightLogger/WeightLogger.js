@@ -87,7 +87,13 @@ export class WeightLogger extends React.Component {
             <div className="modal-content">
               <div className="input-field">
                 <label className="active" for="update-weight">Update today's weight</label>
-                <input type="text" placeholder={this.props.todaysWeight} value={this.state.updatedWeight} id="updatedWeight" onChange={this.handleUpdateChange}></input>
+                <input 
+                  type="text" 
+                  placeholder={this.props.todaysWeight} 
+                  value={this.state.updatedWeight} 
+                  id="updatedWeight" 
+                  onChange={this.handleUpdateChange}>
+                </input>
               </div>
             </div>
             <div className="modal-footer">
@@ -101,7 +107,12 @@ export class WeightLogger extends React.Component {
           <form>
             <div className="input-field">
               <label for="weight">Record Weight</label>
-              <input id="weight" value={this.state.todaysWeight} onChange={this.handleChange} type="text"></input>
+              <input 
+                id="weight" 
+                value={this.state.todaysWeight} 
+                onChange={this.handleChange} 
+                type="text">
+              </input>
             </div>
               <div>
                 <button
