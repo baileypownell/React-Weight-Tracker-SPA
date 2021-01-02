@@ -5,6 +5,7 @@ import LineGraph from './LineGraph/LineGraph'
 import WeightLogger from './WeightLogger/WeightLogger'
 import './Dashboard.scss'
 import { compare } from '../../compare'
+import { calculateTodaysWeight } from '../../calculate-todays-weight'
 
 class Dashboard extends React.Component {
 
@@ -39,15 +40,16 @@ class Dashboard extends React.Component {
 
   render() {
     const { sortedWeights, loaded } = this.state;
-    const { firstName } = this.props;
+    const todaysWeight = calculateTodaysWeight(this.state.sortedWeights)
 
     return (
         <div className="dashboard z-depth-15">
           { loaded ? 
             <>
-              <h4>Hello, {firstName}</h4>
+              <h4 id="dashboard">Dashboard</h4>
               <WeightLogger 
                 weights={sortedWeights} 
+                todaysWeight={todaysWeight}
                 updateWeightHistory={this.updateWeightHistory}
               />
               <div id="account-options">
@@ -81,7 +83,6 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    firstName: state.user.firstName,
     userLoggedIn: state.userLoggedIn,
     localId: state.localId,
   }

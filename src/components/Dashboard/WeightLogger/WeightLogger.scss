@@ -3,9 +3,13 @@
 .modal {
     padding: 15px!important;
     .input-field {
-        max-width: 200px;
         margin: 0 auto;
         color: $gray!important;
+        margin-top: 0!important;
+        width: 100%;
+        @include tablet {
+          max-width: 200px;
+        }
     }
     a {
         background-color: $orange!important;
@@ -43,11 +47,11 @@
       }
     }
     form input {
-      width: 150px;
       font-size: 20px;
       padding: 5px;
       @include desktop {
         font-size: 30px;
+        width: 150px;
       }
     }
     button {
@@ -57,4 +61,11 @@
       }
     }
   
+  }
+
+
+  .input-field {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+    width: 100%;
   }

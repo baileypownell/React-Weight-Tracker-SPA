@@ -9,6 +9,7 @@ export class WeightLogger extends React.Component {
   state = {
     formInputEmpty: true,
     todaysWeight: null,
+    updatedWeight: ''
   }
 
   componentDidMount() {
@@ -31,55 +32,45 @@ export class WeightLogger extends React.Component {
 
   handleUpdateChange = (e) => {
     this.setState({
-      todaysWeight: e.target.value
+      updatedWeight: e.target.value
     });
   }
 
 
   logWeight = (e) => {
     e.preventDefault()
-    // check to see if there has been a weight entered in the past 24 hours... redux todaysWeight should be set from database and only allowed to be updated if null
-    // if (this.state.todaysWeight > 0 && !this.props.todaysWeight) {
-      const db = firebase.firestore();
-      let date = new Date();
-      let updatedWeights = this.props.weights.concat({
-        date: {date},
-        weight: this.state.todaysWeight
-      });
-      db.collection("users").doc(this.props.localId).update({
-        weights: updatedWeights
+    const db = firebase.firestore();
+    let date = new Date();
+    let updatedWeights = this.props.weights.concat({
+      date: {date},
+      weight: this.state.todaysWeight
+    });
+    db.collection("users").doc(this.props.localId).update({
+      weights: updatedWeights
+    })
+    .then(() => {
+      this.props.updateWeightHistory()
+      // clear input 
+      this.setState({
+        todaysWeight: '',
+        formInputEmpty: true
       })
-      .then(() => {
-        this.props.updateWeightHistory()
-      })
-      .catch(err => console.log(err))
-    //}
+    })
+    .catch(err => console.log(err))
   } 
   
 
   updateTodaysWeight = () => {
       let allWeights = this.props.weights;
-      console.log('allWeights ', allWeights)
       let recordToUpdate = allWeights[0];
-      recordToUpdate.weight = this.state.todaysWeight;
-      allWeights.shift();
-      console.log('allWeights = ', allWeights)
-      // update redux
-      this.props.editTodaysWeight(parseInt(this.state.todaysWeight), allWeights);
-      // update firebase users database to hold today's new weight value
-      // delete last item
-      allWeights.pop();
-      let date = new Date();
-      let updatedWeights = allWeights.concat({
-        date: {date},
-        weight: this.state.todaysWeight
-      });
+      recordToUpdate.weight = this.state.updatedWeight;
       const db = firebase.firestore();
       db.collection("users").doc(this.props.localId).update({
-          weights: updatedWeights
+          weights: allWeights
       })
       .then(() => {
         M.toast({html: 'Weight updated.'})
+        this.props.updateWeightHistory()
       })
       .catch(err => {
         console.log(err);
@@ -89,14 +80,14 @@ export class WeightLogger extends React.Component {
 
 
   render() {
-    const { todaysWeight } = this.state;
+    const { todaysWeight, formInputEmpty } = this.state;
     return (
       <div id="weight-logger">
           <div id="modal1" className="modal">
             <div className="modal-content">
               <div className="input-field">
-                <label for="update-weight">Update today's weight</label>
-                <input type="text" id="update-weight" onChange={this.handleUpdateChange}></input>
+                <label className="active" for="update-weight">Update today's weight</label>
+                <input type="text" placeholder={this.props.todaysWeight} value={this.state.updatedWeight} id="updatedWeight" onChange={this.handleUpdateChange}></input>
               </div>
             </div>
             <div className="modal-footer">
@@ -110,23 +101,24 @@ export class WeightLogger extends React.Component {
           <form>
             <div className="input-field">
               <label for="weight">Record Weight</label>
-              <input id="weight" onChange={this.handleChange} type="text"></input>
+              <input id="weight" value={this.state.todaysWeight} onChange={this.handleChange} type="text"></input>
             </div>
               <div>
                 <button
+                  disabled={formInputEmpty || this.props.todaysWeight}
                   onClick={this.logWeight} 
-                  className={this.state.formInputEmpty ? "button-disabled waves-effect waves-light btn" : "waves-effect waves-light btn"}>
+                  className="waves-effect waves-light btn">
                     Log Weight
                 </button>
                 <button
-                  
+                  disabled={this.props.todaysWeight ? false : true}
                   data-target="modal1"
                   className={"waves-effect waves-light btn modal-trigger"}>
                     Edit today's weight
                 </button>
               </div>
           </form>
-        {todaysWeight ? <h6>Today's Weight: {todaysWeight} lbs.</h6> : null }
+        {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
       </div>
     )
   }
