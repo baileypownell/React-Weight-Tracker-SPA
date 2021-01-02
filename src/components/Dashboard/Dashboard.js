@@ -12,8 +12,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       sortedWeights: [],
-      loaded: false,
-      todaysWeight: null
+      loaded: false
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -39,31 +38,43 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { sortedWeights, loaded, todaysWeight } = this.state;
+    const { sortedWeights, loaded } = this.state;
     const { firstName } = this.props;
 
     return (
-      <>
-       { loaded ? 
         <div className="dashboard z-depth-15">
-            <h4>Hello, {firstName}</h4>
-            <WeightLogger 
-              weights={sortedWeights} 
-              todaysWeight={todaysWeight} 
-              updateWeightHistory={this.updateWeightHistory}
-            />
-            <div id="account-options">
-                <RecentWeightLogs 
-                  weights={sortedWeights} 
-                  todaysWeight={todaysWeight} /> 
-                <LineGraph 
-                  weights={sortedWeights} 
-                  key={sortedWeights}  
-                /> 
-            </div>
+          { loaded ? 
+            <>
+              <h4>Hello, {firstName}</h4>
+              <WeightLogger 
+                weights={sortedWeights} 
+                updateWeightHistory={this.updateWeightHistory}
+              />
+              <div id="account-options">
+                  <RecentWeightLogs 
+                    weights={sortedWeights} 
+                  /> 
+                  <LineGraph 
+                    weights={sortedWeights} 
+                    key={sortedWeights}  
+                  /> 
+              </div>
+            </>
+             : 
+             <div id="center">
+                <div class="preloader-wrapper big active">
+                <div class="spinner-layer ">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>}
         </div> 
-      : null}
-      </>
     )
   }
 }

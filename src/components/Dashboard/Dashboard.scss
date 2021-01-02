@@ -144,3 +144,19 @@
     }
   }
 }
+
+#center {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-layer {
+  border-color: white!important;
+}
+
+.preloader-wrapper.big {
+  width: 100px!important;
+  height: 100px!important;
+}

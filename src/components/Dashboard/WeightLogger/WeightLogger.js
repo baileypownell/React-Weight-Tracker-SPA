@@ -89,6 +89,7 @@ export class WeightLogger extends React.Component {
 
 
   render() {
+    const { todaysWeight } = this.state;
     return (
       <div id="weight-logger">
           <div id="modal1" className="modal">
@@ -125,7 +126,7 @@ export class WeightLogger extends React.Component {
                 </button>
               </div>
           </form>
-        {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
+        {todaysWeight ? <h6>Today's Weight: {todaysWeight} lbs.</h6> : null }
       </div>
     )
   }
