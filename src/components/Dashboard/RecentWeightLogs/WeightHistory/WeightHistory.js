@@ -47,7 +47,6 @@ class WeightHistory extends React.Component {
   }
 
   buildMasterRecordSet = () => {
-    console.log('buildMasterRecordSet()')
     let weightHistory = this.props.weights
     let recordsByTensArray = [];
     let recordsByTens = [];
@@ -81,7 +80,6 @@ class WeightHistory extends React.Component {
       }
     callAppropriately(numberOfSubArrays);
 
-    console.log('recordsByTensArray ', recordsByTensArray)
     this.setState({
       recordsByTens: recordsByTensArray
     })

@@ -53,8 +53,13 @@ class Dashboard extends React.Component {
               updateWeightHistory={this.updateWeightHistory}
             />
             <div id="account-options">
-                <RecentWeightLogs weights={sortedWeights} todaysWeight={todaysWeight} /> 
-                <LineGraph weights={sortedWeights} /> 
+                <RecentWeightLogs 
+                  weights={sortedWeights} 
+                  todaysWeight={todaysWeight} /> 
+                <LineGraph 
+                  weights={sortedWeights} 
+                  key={sortedWeights}  
+                /> 
             </div>
         </div> 
       : null}

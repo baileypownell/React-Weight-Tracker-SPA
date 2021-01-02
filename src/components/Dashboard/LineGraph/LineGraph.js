@@ -61,10 +61,13 @@ class LineGraph extends React.Component {
 
     prepareChartData(num) {
       const { weights } = this.props
+      if (!weights.length) {
+        return
+      } 
       let labels = [];
       let data = [];
       let newerThanTime = [];
-      for (let i = 0; i < weights.length-1; i++) {
+      for (let i = 0; i < weights.length; i++) {
           const now = new Date()
           const secondsSinceEpoch = Math.round(now.getTime() / 1000);
           let timeLengthAgo = secondsSinceEpoch - num;
@@ -107,30 +110,28 @@ class LineGraph extends React.Component {
     }
 
   render() {
-    return (
-      <div className="white-box">
-        <h6>Your weight over the past: </h6>
-        <div>
-          <ul className="tabs z-depth-1"
-              ref={Tabs => {
-              this.Tabs = Tabs;
-            }}>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} >Week</a></li>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} >Month</a></li>
-              <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} >Year</a></li>
-          </ul>
-        </div>
-        
-          {!this.state.graphTimePeriod ? 
-            <div className="noData">
-              <p>You haven't recorded any or enough weights yet to graph.</p> 
+    return (   
+      <>   
+          { this.props.weights.length ? 
+          <div className="white-box">
+            <h6>Your weight over the past: </h6>
+            <div>
+              <ul className="tabs z-depth-1"
+                  ref={Tabs => {
+                  this.Tabs = Tabs;
+                }}>
+                  <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('week')} >Week</a></li>
+                  <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('month')} >Month</a></li>
+                  <li className="tab col s3"><a onClick={() => this.setGraphTimePeriod('year')} >Year</a></li>
+              </ul>
             </div>
-          :
             <div id="canvas-parent">
               <canvas id="myChart" width="400" height="400"></canvas>
             </div>
+          </div>
+          : null
           }
-      </div>
+      </>
     )
   }
 }
