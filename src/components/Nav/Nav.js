@@ -26,14 +26,14 @@ class Nav extends React.Component {
             <Link to="/" >WeightTracker 2.0</Link>
             <a data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
-        <ul id="slide-out" className="sidenav">
+        <ul id="slide-out" className="sidenav sidenav-close">
           {
             this.props.userLoggedIn ? 
               <>
                 <li><Link to="/dashboard">Dashboard</Link></li>
                 <li><Link to="/settings">Settings</Link></li>
               </>
-            : <li><Link to="/create-account">Create Account</Link></li>
+            : <li><Link to="/signup">Create Account</Link></li>
           }
             <li><div className="divider"></div></li>
             {this.props.userLoggedIn ? <li><a onClick={this.logout}>Log Out</a></li> : <li><Link to="/login">Login</Link></li>}

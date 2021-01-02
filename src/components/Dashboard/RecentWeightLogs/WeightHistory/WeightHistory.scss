@@ -1,0 +1,14 @@
+
+
+.button-div {
+    display: flex;
+    button {
+        width: 100%;
+    }
+    button:nth-child(1) {
+        margin-right: 5px;
+    }
+    button:nth-child(2) {
+        margin-left: 5px;
+    }
+}

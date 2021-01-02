@@ -2,15 +2,15 @@
 
 .dashboard {
   background-color: $gray;
-  padding: 30px;
+  padding: 20px;
   margin: 0 auto;
   width: 100%;
-  text-align: center;
   max-width: 800px;
   h4, h5, h6 {
     margin: 0px;
   }
   @include tablet {
+    padding: 30px;
     margin: 0 auto 50px auto!important;
     background-color: rgba(48, 48, 48, 0.95);
     border-radius: 10px;
@@ -44,38 +44,6 @@
   }
 }
 
-#weight-logger {
-  border-bottom: 2px solid white;
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  i {
-    margin-left:8px;
-  }
-  form {
-    align-items: center;
-    @include tablet {
-      align-items: flex-start;
-    }
-  }
-  input {
-    width: 150px;
-    font-size: 20px;
-    text-align: center;
-    background-color: white;
-    border-radius: 5px;
-    padding: 8px;
-    @include desktop {
-      font-size: 30px;
-    }
-  }
-  button {
-    @include desktop {
-      font-size: 20px;
-      margin: 5px;
-    }
-  }
-
-}
 .result {
   padding: 10px 0;
 }
@@ -175,4 +143,24 @@
       transform: scale(1.1);
     }
   }
+}
+
+#center {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-layer {
+  border-color: white!important;
+}
+
+.preloader-wrapper.big {
+  width: 100px!important;
+  height: 100px!important;
+}
+
+#dashboard {
+  padding-bottom: 25px;
 }

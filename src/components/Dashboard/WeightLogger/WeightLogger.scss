@@ -1,0 +1,71 @@
+@import '../../../scss/variables.scss';
+
+.modal {
+    padding: 15px!important;
+    .input-field {
+        margin: 0 auto;
+        color: $gray!important;
+        margin-top: 0!important;
+        width: 100%;
+        @include tablet {
+          max-width: 200px;
+        }
+    }
+    a {
+        background-color: $orange!important;
+    }
+}
+
+.modal {
+    text-align: center;
+}
+
+.modal-footer {
+    text-align: center!important;
+    a {
+        width: 100%;
+        @include tablet {
+            width: auto;
+        }
+    }
+}
+
+#weight-logger {
+    border-bottom: 2px solid white;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    button {
+        margin-right: 10px;
+    }
+    i {
+      margin-left:8px;
+    }
+    form {
+      align-items: center;
+      @include tablet {
+        align-items: flex-start;
+      }
+    }
+    form input {
+      font-size: 20px;
+      padding: 5px;
+      @include desktop {
+        font-size: 30px;
+        width: 150px;
+      }
+    }
+    button {
+      @include desktop {
+        font-size: 20px;
+        margin: 5px;
+      }
+    }
+  
+  }
+
+
+  .input-field {
+    // margin-top: 0!important;
+    // margin-bottom: 0!important;
+    width: 100%;
+  }

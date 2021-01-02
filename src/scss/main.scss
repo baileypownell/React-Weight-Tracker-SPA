@@ -73,10 +73,11 @@ button {
 }
 
 label {
-  color: $orange;
+  color: $orange!important;
 }
 
-input {
+input,
+input:focus {
   border-color: $orange!important;
 }
 

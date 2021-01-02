@@ -26,12 +26,11 @@ export const loginUser = (email, expiresIn, idToken, localId, refreshToken) => {
   }
 }
 
-export const setUserData = (firstName, lastName, todaysWeight) => {
+export const setUserData = (firstName, lastName) => {
   return {
     type: actionTypes.SET_USER_DATA,
     firstName: firstName,
     lastName: lastName,
-    todaysWeight: todaysWeight
   }
 }
 
@@ -45,25 +44,11 @@ export const getUserDataAsync = (localId) => {
     const db = firebase.firestore();
     db.collection("users").doc(localId).get().then((doc) => {
       if (doc.exists) {
-        let todaysWeight;
-        let last = doc.data().weights.length-1;
-        let lastWeightEntry = doc.data().weights[last];
-        // convert date
-        let dateLast = lastWeightEntry.date.date.seconds;
-        let now = Date.now()/1000;
-        let timeElapsed = now - dateLast;
-        if (timeElapsed < 86400) {
-          todaysWeight = lastWeightEntry.weight;
-        }
         firstName = doc.data().firstName;
         lastName = doc.data().lastName;
         // now update Redux
-        dispatch(setUserData(firstName, lastName, todaysWeight));
-        // return;
-        } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-       }
+        dispatch(setUserData(firstName, lastName));
+        } 
     }).catch((error) => {
       console.log(error);
     })
@@ -136,22 +121,6 @@ export const changeEmailAsync = (idToken, newEmail) => {
   }
 }
 
-
-export const setTodaysWeight = (todaysWeight) => {
-  return {
-    type: actionTypes.SET_TODAYS_WEIGHT,
-    todaysWeight: todaysWeight
-  }
-}
-
-export const editTodaysWeight = (todaysWeight, updatedWeights) => {
-  return {
-    type: actionTypes.EDIT_TODAYS_WEIGHT,
-    todaysWeight: todaysWeight,
-    updatedWeights: updatedWeights
-  }
-}
-
 export const changePassword = () => {
   return (dispatch) => {
     const payload = {
@@ -162,12 +131,5 @@ export const changePassword = () => {
     }).catch(err => {
       console.log(err)
     });
-  }
-}
-
-export const setWeightHistory = (weightHistory) => {
-  return {
-    type: actionTypes.SET_WEIGHT_HISTORY,
-    weightHistory: weightHistory
   }
 }
