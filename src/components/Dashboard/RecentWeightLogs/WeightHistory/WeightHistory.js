@@ -29,9 +29,9 @@ class WeightHistory extends React.Component {
     let limitedForDisplay = [];
     // find what number to limit it to
     let iterator;
-    (this.props.weights.length >= 10) ? iterator = 10 : iterator = props.weights.length;
+    (this.props.weights.length >= 10) ? iterator = 10 : iterator = this.props.weights.length;
     if (!this.state.showingMore) {
-      for (let i = 1; i < iterator; i++) {
+      for (let i = 0; i < iterator; i++) {
         limitedForDisplay.push(this.props.weights[i]);
       }
       this.setState({
@@ -141,16 +141,17 @@ class WeightHistory extends React.Component {
             />
         })
       }
-      { extraRecordPosition === recordsByTens.length-1 && !noHistory ? <p>No more data to show</p> : null}
-      { showingMore ?
+      { showingMore && recordsByTens.length > 1 ?
          <div class="button-div">
           <button
+              disabled={extraRecordPosition === 0}
               className="waves-effect waves-light btn"
               onClick={this.goBack} 
             >
             <i className="fas fa-chevron-left"></i>
             </button>
           <button 
+              disabled={extraRecordPosition === recordsByTens.length-1}
               className="waves-effect waves-light btn"
               onClick={this.goForward} 
               >
@@ -163,7 +164,8 @@ class WeightHistory extends React.Component {
       {
         extraRecordPosition === 0 && this.props.weights.length > 5 ? <button 
         className="waves-effect waves-light btn"
-        onClick={this.toggleMore}>VIEW {showingMore ? "LESS" : "MORE"}</button> : null
+        id="toggler"
+        onClick={this.toggleMore}>View {showingMore ? "less" : "more"}</button> : null
       }
       </div>
       )

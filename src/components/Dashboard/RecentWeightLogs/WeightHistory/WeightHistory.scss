@@ -1,4 +1,4 @@
-
+@import '../../../../scss/variables.scss';
 
 .button-div {
     display: flex;
@@ -15,4 +15,12 @@
 
 #data-row {
     flex-direction: column!important;
+}
+
+#toggler {
+    width: 100%;
+    background-color: $gray!important;
+    &:hover {
+        background-color: lighten($gray, 10%)!important;
+    }
 }
