@@ -22,6 +22,7 @@ import CreateAccount from './components/CreateAccount/CreateAccount';
 import Home from './components/Home/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp';
+import LogIn from './components/LogIn/LogIn';
 import Settings from './components/Settings/Settings';
 import RequireAuthComponent from './components/RequireAuthComponent';
 
@@ -49,7 +50,7 @@ ReactDOM.render(
         <Switch>
             <Route exact={true} path="/" component={Home}/>
             <Route path="/signup" component={CreateAccount}/>
-            <Route path="/login" component={LogInOrSignUp} />
+            <Route path="/login" component={LogIn} />
             <RequireAuthComponent>
               <Route path="/settings" component={Settings} />
               <Route path="/dashboard" component={Dashboard}/>

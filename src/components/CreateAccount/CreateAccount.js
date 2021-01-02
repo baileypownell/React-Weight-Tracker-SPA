@@ -72,7 +72,7 @@ class CreateAccount extends React.Component {
 
   render() {
     return (
-      <div className="login content-parent">
+      <div className="content-parent">
         <h4>Create an Account</h4>
         <form onSubmit={this.handleSubmit}>
               <label>

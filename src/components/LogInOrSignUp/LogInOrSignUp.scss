@@ -1,25 +1,5 @@
 @import '../../scss/variables.scss';
 
-.content-parent {
-  background-color: $gray;
-  width: 100%;
-  min-height: 100vh;
-  padding: 30px;
-  @include tablet {
-      min-height: 0px;
-      margin: 0 auto;
-      border-radius: 10px;
-      width: 75%;
-      padding: 30px 50px;
-      min-height: none;
-    }
-  @include desktop {
-      width: 40%;
-    }
-}
-
-
-
 #directUser > div > div {
   background-color: transparent;
   padding: 0;

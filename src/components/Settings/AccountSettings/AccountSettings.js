@@ -141,12 +141,12 @@ class AccountSettings extends React.Component {
                   <div className="collapsible-header">Update Name</div>
                   <div className="collapsible-body">
                   <div className="input-field">
-                    <input type="text" id="newFirstName" onChange={this.handleChange}></input>
-                    <label for="newFirstName">First Name</label>
+                    <input type="text" placeholder={this.props.firstName} id="newFirstName" onChange={this.handleChange}></input>
+                    <label className="active" for="newFirstName">First Name</label>
                   </div>
                   <div className="input-field">
-                    <input type="text" id="newLastName" onChange={this.handleChange}></input>
-                    <label for="newLastName">New Last Name</label>
+                    <input type="text" placeholder={this.props.lastName} id="newLastName" onChange={this.handleChange}></input>
+                    <label className="active" for="newLastName">New Last Name</label>
                   </div>
                   <button className="waves-effect waves-light btn" onClick={this.updateName}>Submit</button>
                   </div>
@@ -155,8 +155,8 @@ class AccountSettings extends React.Component {
                   <div className="collapsible-header">Update Email</div>
                   <div className="collapsible-body">
                     <div className="input-field">
-                      <input id="newEmail" onChange={this.handleChange} type="text"></input>
-                      <label for="newEmail">New Email</label>
+                      <input id="newEmail" placeholder={this.props.email} onChange={this.handleChange} type="text"></input>
+                      <label className="active" for="newEmail">New Email</label>
                     </div>
                     <button
                       className="waves-effect waves-light btn"
@@ -191,7 +191,9 @@ const mapStateToProps = state => {
   return {
     idToken: state.idToken,
     localId: state.localId,
-    email: state.user.email
+    email: state.user.email,
+    lastName: state.user.lastName, 
+    firstName: state.user.firstName
   }
 }
 

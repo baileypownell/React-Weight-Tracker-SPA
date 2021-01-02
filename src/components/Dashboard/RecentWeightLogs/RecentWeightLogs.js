@@ -1,5 +1,6 @@
 import React from 'react';
 import WeightHistory from './WeightHistory/WeightHistory';
+import './RecentWeightLogs.scss';
 
 const RecentWeightLogs = (props) => {
   return (

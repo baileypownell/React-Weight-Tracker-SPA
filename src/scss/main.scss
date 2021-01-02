@@ -96,4 +96,53 @@ a.sidenav-trigger {
   background-color: $orange!important;
 }
 
+.content-parent {
+  background-color: $gray;
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px;
+  @include tablet {
+      min-height: 0px;
+      margin: 0 auto;
+      border-radius: 10px;
+      width: 75%;
+      padding: 30px 50px;
+      min-height: none;
+      button {
+        margin: 10px auto 0 0;
+      }
+    }
+  @include desktop {
+      width: 40%;
+    }
+}
 
+.modal {
+  width: 300px;
+}
+
+.spinner-layer {
+  border-color: white!important;
+}
+
+.preloader-wrapper.big {
+  width: 100px!important;
+  height: 100px!important;
+}
+
+.white-box {
+  background-color: white;
+  color: $gray;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  margin-bottom: 5vh;
+  h6 {
+    margin-top: 0px;
+  }
+  @include desktop {
+    padding: 30px;
+  }
+}

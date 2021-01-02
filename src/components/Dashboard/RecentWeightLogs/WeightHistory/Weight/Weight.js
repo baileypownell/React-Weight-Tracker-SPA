@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './Weight.scss';
 
 const Weight = (props) => (
   <div className="row" key={props.index}>

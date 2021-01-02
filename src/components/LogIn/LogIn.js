@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actionCreators'
 import axios from 'axios'
-import './Login.scss'
 import M from 'materialize-css'
 import { withRouter } from 'react-router-dom'
 
@@ -89,7 +88,7 @@ class LogIn extends React.Component {
 
   render() {
     return (
-      <div className="login">
+      <div className="content-parent">
         <h4>Log In</h4>
         <form onSubmit={this.handleSubmit}>
               <label>Email
