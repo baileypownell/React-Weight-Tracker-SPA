@@ -85,7 +85,7 @@ export class WeightLogger extends React.Component {
       <div id="weight-logger">
           <div id="modal1" className="modal">
             <div className="modal-content">
-              <div className="input-field">
+                <div className="input-field">
                 <label className="active" for="update-weight">Update today's weight</label>
                 <input 
                   type="text" 
@@ -105,28 +105,35 @@ export class WeightLogger extends React.Component {
             </div>
           </div>
           <form>
-            <div className="input-field">
-              <label for="weight">Record Weight</label>
-              <input 
-                id="weight" 
-                value={this.state.todaysWeight} 
-                onChange={this.handleChange} 
-                type="text">
-              </input>
-            </div>
+              {
+                !this.props.todaysWeight ? 
+                <div className="input-field">
+                <label for="weight">Record Weight</label>
+                <input 
+                  id="weight" 
+                  value={this.state.todaysWeight} 
+                  onChange={this.handleChange} 
+                  type="text">
+                </input>
+                </div> : null 
+              }
               <div>
-                <button
-                  disabled={formInputEmpty || this.props.todaysWeight}
-                  onClick={this.logWeight} 
-                  className="waves-effect waves-light btn">
-                    Log Weight
-                </button>
-                <button
-                  disabled={this.props.todaysWeight ? false : true}
-                  data-target="modal1"
-                  className={"waves-effect waves-light btn modal-trigger"}>
-                    Edit today's weight
-                </button>
+                {
+                  !this.props.todaysWeight ? 
+                  <button
+                    disabled={formInputEmpty || this.props.todaysWeight}
+                    onClick={this.logWeight} 
+                    className="waves-effect waves-light btn">
+                      Log Weight
+                  </button>
+                  : 
+                  <button
+                    disabled={this.props.todaysWeight ? false : true}
+                    data-target="modal1"
+                    className={"waves-effect waves-light btn modal-trigger"}>
+                      Edit today's weight
+                  </button>
+                }
               </div>
           </form>
         {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
