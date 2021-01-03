@@ -79,6 +79,7 @@ label {
 input,
 input:focus {
   border-color: $orange!important;
+  box-shadow: none!important;
 }
 
 a.sidenav-trigger {
@@ -117,7 +118,7 @@ a.sidenav-trigger {
     }
 }
 
-.modal {
+#weight-logger .modal {
   width: 300px;
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs'
 import LineGraph from './LineGraph/LineGraph'
 import WeightLogger from './WeightLogger/WeightLogger'
+import Goal from '../Goal/Goal'
 import './Dashboard.scss'
 import { compare } from '../../compare'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
@@ -61,6 +62,7 @@ class Dashboard extends React.Component {
                     key={sortedWeights}  
                   /> 
               </div>
+              <Goal/>
             </>
              : 
              <div id="center">
@@ -68,9 +70,11 @@ class Dashboard extends React.Component {
                 <div className="spinner-layer ">
                   <div className="circle-clipper left">
                     <div className="circle"></div>
-                  </div><div className="gap-patch">
+                  </div>
+                  <div className="gap-patch">
                     <div className="circle"></div>
-                  </div><div className="circle-clipper right">
+                  </div>
+                  <div className="circle-clipper right">
                     <div className="circle"></div>
                   </div>
                 </div>
