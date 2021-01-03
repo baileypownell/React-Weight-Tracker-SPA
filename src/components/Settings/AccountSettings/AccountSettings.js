@@ -14,6 +14,11 @@ class AccountSettings extends React.Component {
     newEmail: null,
   }
 
+  logout = () => {
+    this.props.logoutUser();
+    this.props.history.push('/');
+  }
+
   componentDidMount() {
     var elems = document.querySelectorAll('.collapsible');
     M.Collapsible.init(elems, {});
@@ -58,7 +63,6 @@ class AccountSettings extends React.Component {
       email: newEmail,
       returnSecureToken: true
     }
-    console.log(payloadEmail)
     axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.FIREBASE_API_KEY}`, payloadEmail)
     .then(response => {
       this.props.changeEmail(idToken, newEmail);
@@ -124,6 +128,7 @@ class AccountSettings extends React.Component {
     axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`, payloadPassword)
     .then(response => {
       M.toast({html: 'Password link sent.'})
+      this.logout();
     })
     .catch(error => {
       console.log('Error: ', error.response.data.error)
@@ -134,7 +139,6 @@ class AccountSettings extends React.Component {
   render() {
     return (
       <div className="white-box" id="accountSettings">
-        <h6>Account Settings</h6>
         <div >
           <ul className="collapsible">
               <li>
@@ -168,7 +172,7 @@ class AccountSettings extends React.Component {
               <li>
                   <div className="collapsible-header">Update Password</div>
                   <div className="collapsible-body">
-                      <p>Click the button below to receive an email with a link to reset your password.</p>
+                      <p>Click the button below to receive an email with a link to reset your password. You will be automatically logged out after clicking the button, and will need to re-authenticate.</p>
                       <button className="waves-effect waves-light btn" onClick={this.changePassword}>Email my link</button>
                   </div>
                 </li>
@@ -200,6 +204,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     deleteUser: () => dispatch(actions.deleteUser()),
+    logoutUser: () => dispatch(actions.logoutUserAsync()),
     changeEmail: (idToken, newEmail) => dispatch(actions.changeEmail(idToken, newEmail)),
     changeFirstName: (firstName) => dispatch(actions.changeFirstName(firstName)),
     changeLastName: (lastName) => dispatch(actions.changeLastName(lastName))
