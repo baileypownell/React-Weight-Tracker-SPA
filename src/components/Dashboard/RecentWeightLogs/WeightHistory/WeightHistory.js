@@ -142,7 +142,7 @@ class WeightHistory extends React.Component {
         })
       }
       { showingMore && recordsByTens.length > 1 ?
-         <div class="button-div">
+         <div className="button-div">
           <button
               disabled={extraRecordPosition === 0}
               className="waves-effect waves-light btn"

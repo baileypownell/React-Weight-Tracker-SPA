@@ -86,7 +86,7 @@ export class WeightLogger extends React.Component {
           <div id="modal1" className="modal">
             <div className="modal-content">
                 <div className="input-field">
-                <label className="active" for="update-weight">Update today's weight</label>
+                <label className="active" htmlFor="update-weight">Update today's weight</label>
                 <input 
                   type="text" 
                   placeholder={this.props.todaysWeight} 
@@ -108,7 +108,7 @@ export class WeightLogger extends React.Component {
               {
                 !this.props.todaysWeight ? 
                 <div className="input-field">
-                <label for="weight">Record Weight</label>
+                <label htmlFor="weight">Record Weight</label>
                 <input 
                   id="weight" 
                   value={this.state.todaysWeight} 
