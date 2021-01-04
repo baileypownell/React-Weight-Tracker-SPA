@@ -15,7 +15,7 @@ class Goal extends React.Component {
         var instances = M.Datepicker.init(elems, {
             minDate: new Date(),
             format: 'mmm dd, yyyy',
-            onSelect: (e) => {this.setState({ goalTarget: e})}
+            onSelect: (e) => { console.log(e); this.setState({ goalTarget: e})}
         });
         this.setState({
             datepicker: instances
@@ -40,19 +40,37 @@ class Goal extends React.Component {
         })
         .then(res => {
             M.toast({ html: 'Goal added!'})
+            this.setState({
+                goalWeight: '', 
+                goalTarget: ''
+            })   
         })
         .catch(err => console.log(err))
     }
 
 
     render() {
+        const { goal } = this.props; 
+
         return (
             <div id="goal">
                 { this.props.goal ? 
-                <p>You have a goal</p> : 
+                <>
+                    <h5>Goal</h5>
+                    <div className="goal-item">
+                        <div>
+                            <p>Target Weight: {goal.goalWeight}</p>
+                            <p>Goal Date: {goal.goalTarget.seconds}</p>
+                        </div>
+                        
+                        <div className="delete-goal">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                </> : 
                 <>
                     <h5>Add a goal</h5>
-                    <input type="text" placeholder="Select goal target date" className="datepicker"></input>
+                    <input value={this.state.goalTarget} type="text" placeholder="Select goal target date" className="datepicker"></input>
                     <input 
                         type="text" 
                         value={this.state.goalWeight} 

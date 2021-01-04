@@ -14,7 +14,8 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       sortedWeights: [],
-      loaded: false
+      loaded: false, 
+      goal: null
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -30,6 +31,7 @@ class Dashboard extends React.Component {
       this.setState({
         sortedWeights: sortedAllWeightsRecorded,
         loaded: true,
+        goal: doc.data().goals[0]
       })
     })
     .catch(err => console.log(err))
@@ -40,7 +42,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { sortedWeights, loaded } = this.state;
+    const { sortedWeights, loaded, goal } = this.state;
     const todaysWeight = calculateTodaysWeight(this.state.sortedWeights)
 
     return (
@@ -62,7 +64,7 @@ class Dashboard extends React.Component {
                     key={sortedWeights}  
                   /> 
               </div>
-              <Goal/>
+              <Goal goal={goal} />
             </>
              : 
              <div id="center">

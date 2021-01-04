@@ -37,3 +37,25 @@
         width: 48%;
     }
 }
+
+.goal-item {
+    background-color: white;
+    
+    border-radius: 5px;
+    color: $gray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > div {
+        padding: 10px;
+    }
+    .delete-goal {
+        height: 100%;
+        background-color: $gray;
+        i {
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+        }
+    }
+}
