@@ -20,6 +20,10 @@ class Goal extends React.Component {
         this.setState({
             datepicker: instances
         })
+
+        // confirmation modal 
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems, options);
     }
 
     handleChange = (e)  => {
@@ -48,6 +52,14 @@ class Goal extends React.Component {
         .catch(err => console.log(err))
     }
 
+    deleteGoal = () => {
+        db.collection("users").doc(this.props.localId).update({
+            goals: []
+        })
+        .then(() => M.toast({ html: 'Goal deleted.'}))
+        .catch(err => console.log(err))
+    }
+
 
     render() {
         const { goal } = this.props; 
@@ -56,15 +68,26 @@ class Goal extends React.Component {
             <div id="goal">
                 { this.props.goal ? 
                 <>
-                    <h5>Goal</h5>
+                    <h5>Your Goal</h5>
                     <div className="goal-item">
                         <div>
                             <p>Target Weight: {goal.goalWeight}</p>
                             <p>Goal Date: {goal.goalTarget.seconds}</p>
                         </div>
                         
-                        <div className="delete-goal">
+                        <div className="delete-goal modal-trigger" href="#confirmationModal">
                             <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    {/* confirmation modal */}
+                    <div id="confirmationModal" class="modal">
+                        <div class="modal-content">
+                            <h4>Confirm Goal Deletion</h4>
+                            <p>Are you sure you want to delete your goal?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="modal-close waves-effect btn-flat">No</a>
+                            <a class="modal-close waves-effect btn-flat" onClick={this.deleteGoal}>Yes</a>
                         </div>
                     </div>
                 </> : 
