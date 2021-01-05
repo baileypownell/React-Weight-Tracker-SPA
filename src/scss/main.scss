@@ -40,9 +40,6 @@ body {
     li {
       cursor: pointer;
     }
-    @include tablet {
-      margin-bottom: 50px;
-    }
     i {
       height: auto;
       cursor: pointer;
@@ -145,5 +142,13 @@ a.sidenav-trigger {
   }
   @include desktop {
     padding: 30px;
+  }
+}
+
+.modal {
+  color: $gray;
+  a {
+    color: white;
+    margin: 2px!important;
   }
 }

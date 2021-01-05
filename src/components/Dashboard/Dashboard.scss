@@ -3,18 +3,11 @@
 .dashboard {
   background-color: $gray;
   padding: 20px;
-  margin: 0 auto;
   width: 100%;
-  max-width: 800px;
   h4, h5, h6 {
     margin: 0px;
   }
   @include tablet {
-    padding: 30px;
-    margin: 0 auto 50px auto!important;
-    background-color: rgb(48, 48, 48);
-    border-radius: 10px;
-    width: 75%;
     padding: 30px 50px;
     text-align: left;
     form {
@@ -22,9 +15,6 @@
       width: 100%;
       margin-bottom: 10px;
     }
-  }
-  @include desktop {
-    margin: 0 auto;
   }
 }
 

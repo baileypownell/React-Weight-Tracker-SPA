@@ -38,27 +38,38 @@
     }
 }
 
+#add-goal {
+    padding: 20px 0;
+}
+
 .goal-item {
     background-color: white;
-    
+    cursor: pointer;
+    margin: 10px 0;
     border-radius: 5px;
     color: $gray;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
     > div {
         padding: 10px;
     }
     .delete-goal {
         position: absolute;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         top: 0; 
         bottom: 0; 
         right: 0;
         height: 100%;
-        background-color: $gray;
+        background-color: $orange;
         transition: background-color .4s;
         &:hover {
-            background-color: lighten($gray, 10%);
+            background-color: lighten($orange, 10%);
         }
         i {
             cursor: pointer;
