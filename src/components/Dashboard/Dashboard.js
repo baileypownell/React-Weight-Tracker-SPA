@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
     return (
         <div className="dashboard z-depth-15">
           { loaded ? 
-            <>
+            <div class="dashboard-content">
               <h4 id="dashboard">Dashboard</h4>
               <WeightLogger 
                 weights={sortedWeights} 
@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
                   /> 
               </div>
               <Goal updateGoals={this.updateWeightHistory} goals={goals} />
-            </>
+            </div>
              : 
              <div id="center">
                 <div className="preloader-wrapper big active">

@@ -9,23 +9,20 @@ class Goal extends React.Component {
     state = {
         goalWeight: '',
         goalTarget: '',
-        datepicker: ''
+        goalToDeleteId: ''
     }
 
     componentDidMount() {
         var elems = document.querySelectorAll('.datepicker');
-        var instances = M.Datepicker.init(elems, {
+        M.Datepicker.init(elems, {
             minDate: new Date(),
             format: 'mmm dd, yyyy',
             onSelect: (e) => { this.setState({ goalTarget: e})}
         });
-        this.setState({
-            datepicker: instances
-        })
 
         // confirmation modal 
         var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {});
+        M.Modal.init(elems, {});
     }
 
     handleChange = (e)  => {
@@ -57,14 +54,27 @@ class Goal extends React.Component {
     }
 
     deleteGoal = () => {
+        let updatedGoals = this.props.goals.filter(goal => goal.id !== this.state.goalToDeleteId)
+        const db = firebase.firestore();
         db.collection("users").doc(this.props.localId).update({
-            goals: []
+            goals: updatedGoals
         })
         .then(() => {
             M.toast({ html: 'Goal deleted.'})
             this.props.updateGoals()
         })
         .catch(err => console.log(err))
+    }
+
+    openConfirmationDialog = (goalId) => {
+        this.setState({
+            goalToDeleteId: goalId
+        }, () => {
+            // confirmation modal 
+            var elems = document.querySelector('#confirmationModal');
+            let instance = M.Modal.init(elems, {});
+            instance.open()
+        })
     }
 
 
@@ -99,22 +109,22 @@ class Goal extends React.Component {
                                     <p>Goal Date: {  DateTime.fromISO(new Date(goal.goalTarget.seconds * 1000 ).toISOString()).toFormat('yyyy LLL dd') }</p>
                                 </div>
                                 
-                                <div className="delete-goal modal-trigger" href="#confirmationModal">
-                                    <i class="fas fa-trash"></i>
+                                <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
+                                    <i className="fas fa-trash"></i>
                                 </div>
                             </div>
                             )
                         })
                     }
                     {/* confirmation modal */}
-                    <div id="confirmationModal" class="modal">
-                        <div class="modal-content">
+                    <div id="confirmationModal" className="modal">
+                        <div className="modal-content">
                             <h4>Confirm Goal Deletion</h4>
                             <p>Are you sure you want to delete your goal?</p>
                         </div>
-                        <div class="modal-footer">
-                            <a class="modal-close waves-effect btn-flat">No</a>
-                            <a class="modal-close waves-effect btn-flat" onClick={this.deleteGoal}>Yes</a>
+                        <div className="modal-footer">
+                            <a className="modal-close waves-effect btn-flat" >No</a>
+                            <a className="modal-close waves-effect btn-flat" onClick={this.deleteGoal}>Yes</a>
                         </div>
                     </div>
             </div>

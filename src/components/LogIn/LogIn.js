@@ -88,7 +88,8 @@ class LogIn extends React.Component {
 
   render() {
     return (
-      <div className="content-parent">
+      <div id="mobile-center">
+        <div className="content-parent">
         <h4>Log In</h4>
         <form onSubmit={this.handleSubmit}>
               <label>Email
@@ -106,6 +107,7 @@ class LogIn extends React.Component {
           </div>
           : null
         }
+      </div>
       </div>
     )
   }

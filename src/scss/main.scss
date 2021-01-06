@@ -97,7 +97,7 @@ a.sidenav-trigger {
 .content-parent {
   background-color: $gray;
   width: 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
   padding: 30px;
   @include tablet {
       min-height: 0px;
@@ -151,4 +151,11 @@ a.sidenav-trigger {
     color: white;
     margin: 2px!important;
   }
+}
+
+#mobile-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 64px)
 }
