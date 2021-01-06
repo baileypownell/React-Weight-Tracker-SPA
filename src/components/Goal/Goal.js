@@ -23,6 +23,25 @@ class Goal extends React.Component {
         // confirmation modal 
         var elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
+
+        // doughnut chart 
+        var ctx = document.getElementById('goalGraph');
+        var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Red', 'Blue'],
+                datasets: [{
+                    label: 'number of votes', 
+                    data: [10, 20],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
     }
 
     handleChange = (e)  => {
@@ -120,6 +139,7 @@ class Goal extends React.Component {
                             )
                         })
                     }
+                    <canvas id="goalGraph" width="400" height="400"></canvas>
                     {/* confirmation modal */}
                     <div id="confirmationModal" className="modal">
                         <div className="modal-content">
