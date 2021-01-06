@@ -17,7 +17,7 @@ class Goal extends React.Component {
         M.Datepicker.init(elems, {
             minDate: new Date(),
             format: 'mmm dd, yyyy',
-            onSelect: (e) => { this.setState({ goalTarget: e})}
+            onSelect: (e) => { this.setState({ goalTarget: DateTime.fromISO(new Date(e).toISOString()).toFormat('DDD')})}
         });
 
         // confirmation modal 
@@ -77,6 +77,10 @@ class Goal extends React.Component {
         })
     }
 
+    showGraph = (goalId) => {
+
+    }
+
 
     render() {
         const { goals } = this.props; 
@@ -103,16 +107,16 @@ class Goal extends React.Component {
                     {
                         goals.map(goal => {
                             return (
-                                <div className="goal-item">
-                                <div>
-                                    <p>Target Weight: {goal.goalWeight}</p>
-                                    <p>Goal Date: {  DateTime.fromISO(new Date(goal.goalTarget.seconds * 1000 ).toISOString()).toFormat('yyyy LLL dd') }</p>
+                                <div className="goal-item" onClick={() => this.showGraph(goal.id)}>
+                                    <div>
+                                        <p>Target Weight: {goal.goalWeight}</p>
+                                        <p>Goal Date: {  goal.goalTarget }</p>
+                                    </div>
+                                    
+                                    <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
+                                        <i className="fas fa-trash"></i>
+                                    </div>
                                 </div>
-                                
-                                <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
-                                    <i className="fas fa-trash"></i>
-                                </div>
-                            </div>
                             )
                         })
                     }
