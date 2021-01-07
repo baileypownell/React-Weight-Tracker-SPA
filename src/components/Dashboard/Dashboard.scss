@@ -50,4 +50,7 @@
     width: 75%;
     margin: 0 auto;
   }
+  @include desktop {
+    width: 65%;
+  }
 }

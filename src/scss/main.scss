@@ -135,8 +135,6 @@ a.sidenav-trigger {
   flex-direction: column;
   padding: 20px;
   border-radius: 5px;
-  margin-bottom: 30px;
-  margin-bottom: 5vh;
   h6 {
     margin-top: 0px;
   }
@@ -158,4 +156,12 @@ a.sidenav-trigger {
   align-items: center;
   justify-content: center;
   height: calc(100vh - 64px)
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  .tab {
+    width: 100%;
+  }
 }

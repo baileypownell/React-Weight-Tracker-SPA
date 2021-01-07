@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
     return (
         <div className="dashboard z-depth-15">
           { loaded ? 
-            <div class="dashboard-content">
+            <div className="dashboard-content">
               <h4 id="dashboard">Dashboard</h4>
               <WeightLogger 
                 weights={sortedWeights} 
@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
                     key={sortedWeights}  
                   /> 
               </div>
-              <Goal updateGoals={this.updateWeightHistory} goals={goals} />
+              <Goal updateGoals={this.updateWeightHistory} goals={goals} weights={sortedWeights} />
             </div>
              : 
              <div id="center">

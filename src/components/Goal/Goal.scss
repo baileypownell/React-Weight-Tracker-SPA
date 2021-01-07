@@ -34,7 +34,12 @@
 
 #goal {
     @include tablet {
-        width: 48%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > div {
+            width: 48%;
+        }
     }
 }
 
@@ -43,6 +48,7 @@
 }
 
 .goal-item {
+    transition: all .4s;
     background-color: white;
     cursor: pointer;
     margin: 10px 0;
@@ -81,4 +87,10 @@
 
 #confirmationModal, #modal1 {
     top: 32%!important;
+}
+
+.selected-goal {
+    padding: 10px;
+    font-weight: bold;
+    border: 2px solid $orange;
 }
