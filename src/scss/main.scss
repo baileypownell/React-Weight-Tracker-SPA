@@ -15,6 +15,10 @@ input {
   outline:0;
 }
 
+#app {
+  height: 100vh;
+}
+
 
 body {
   background: url("https://res.cloudinary.com/djad06sng/image/upload/v1596586267/victor-freitas-KIzBvHNe7hY-unsplash.jpg"), rgba(232, 156, 26, 0.3);
@@ -133,7 +137,7 @@ a.sidenav-trigger {
   color: $gray;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   h6 {
     margin-top: 0px;
@@ -164,4 +168,8 @@ a.sidenav-trigger {
   .tab {
     width: 100%;
   }
+}
+
+.input-field {
+  overflow: hidden;
 }

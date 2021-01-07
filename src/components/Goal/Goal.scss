@@ -32,6 +32,10 @@
     opacity: 0.5;
 }
 
+#goal-parent {
+    padding: 5vw 0;
+}
+
 #goal {
     @include tablet {
         display: flex;
@@ -93,4 +97,8 @@
     padding: 10px;
     font-weight: bold;
     border: 2px solid $orange;
+}
+
+.hidden {
+    display: none;
 }

@@ -4,6 +4,7 @@
   background-color: $gray;
   padding: 20px;
   width: 100%;
+  min-height: calc(100% - 64px);
   h4, h5, h6 {
     margin: 0px;
   }
@@ -19,14 +20,21 @@
 }
 
 #account-options {
+  > div {
+    margin: 10px 0;
+  }
   @include desktop {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: no-wrap;
     justify-content: space-between;
+    > div {
+      width: 100%;
+      margin: 0 10px;
+    }
     .white-box {
-      width: 48%;
+      min-width: 300px;
     }
     #accountSettings {
       width: 100%;
@@ -52,5 +60,6 @@
   }
   @include desktop {
     width: 65%;
+    max-width: 850px;
   }
 }

@@ -12,7 +12,7 @@ class Goal extends React.Component {
         goalWeight: '',
         goalTarget: '',
         goalToDeleteId: '',
-        selectedGoal: null,
+        selectedGoal: '',
     }
 
     componentDidMount() {
@@ -36,24 +36,29 @@ class Goal extends React.Component {
         var elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
 
-        let lastWeight = Number(this.props.weights[0].weight)
-        let goalWeightDifference = Number(this.props.goals[0].goalWeight) - lastWeight 
-        let data = {
-            labels: ['Current weight', 'Pounds left to reach your goal'],
-            datasets: [{
-                data: [lastWeight, goalWeightDifference],
-                backgroundColor: [
-                    '#f79c40',
-                ],
-                borderWidth: 1
-            }]
-        }
-        var ctx = document.getElementById('goalGraph');
-        myDoughnutChart = new Chart(ctx, {
-            type: 'doughnut',
-            data,
-            options: {}
-        });
+  
+            let lastWeight = this.props.weights ? Number(this.props.weights[0].weight) : 0
+            let goalWeightDifference = this.props.goals[0] ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
+            console.log(lastWeight, goalWeightDifference)
+            let data = {
+                labels: ['Current weight', 'Pounds left to reach your goal'],
+                datasets: [{
+                    data: [lastWeight, goalWeightDifference],
+                    backgroundColor: [
+                        '#f79c40',
+                    ],
+                    borderWidth: 1
+                }]
+            }
+            var ctx = document.getElementById('goalGraph');
+            console.log('ctx ', ctx)
+            myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data,
+                options: {}
+            });
+        
+
     }
 
     constructChart = () => {
@@ -138,7 +143,7 @@ class Goal extends React.Component {
         const { goals } = this.props; 
 
         return (
-            <>
+            <div id="goal-parent">
                 <h5>Your Goals</h5>
                 <div id="goal">
                     <div>
@@ -175,10 +180,10 @@ class Goal extends React.Component {
                             })
                         }
                     </div>
-                    <div className="white-box">
+               
+                    <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
                         <canvas id="goalGraph" width="300" height="300"></canvas>
-                    </div>
-                        
+                    </div> 
                         {/* confirmation modal */}
                         <div id="confirmationModal" className="modal">
                             <div className="modal-content">
@@ -191,7 +196,7 @@ class Goal extends React.Component {
                             </div>
                         </div>
                 </div>
-            </>
+            </div>
         )
     }
 }

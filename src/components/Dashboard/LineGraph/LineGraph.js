@@ -111,9 +111,9 @@ class LineGraph extends React.Component {
 
   render() {
     return (   
-      <>   
+      <div id="line-graph">   
           { this.props.weights.length ? 
-          <div className="white-box">
+          <div className="white-box" id="charts">
             <h6>Your weight over the past: </h6>
             <div>
               <ul className="tabs z-depth-1"
@@ -131,7 +131,7 @@ class LineGraph extends React.Component {
           </div>
           : null
           }
-      </>
+      </div>
     )
   }
 }
