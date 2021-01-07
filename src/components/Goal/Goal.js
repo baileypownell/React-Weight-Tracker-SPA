@@ -36,27 +36,24 @@ class Goal extends React.Component {
         var elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
 
-  
-            let lastWeight = this.props.weights ? Number(this.props.weights[0].weight) : 0
-            let goalWeightDifference = this.props.goals[0] ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
-            console.log(lastWeight, goalWeightDifference)
-            let data = {
-                labels: ['Current weight', 'Pounds left to reach your goal'],
-                datasets: [{
-                    data: [lastWeight, goalWeightDifference],
-                    backgroundColor: [
-                        '#f79c40',
-                    ],
-                    borderWidth: 1
-                }]
-            }
-            var ctx = document.getElementById('goalGraph');
-            console.log('ctx ', ctx)
-            myDoughnutChart = new Chart(ctx, {
-                type: 'doughnut',
-                data,
-                options: {}
-            });
+        let lastWeight = this.props.weights ? Number(this.props.weights[0].weight) : 0
+        let goalWeightDifference = this.props.goals[0] ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
+        let data = {
+            labels: ['Current weight', 'Pounds left to reach your goal'],
+            datasets: [{
+                data: [lastWeight, goalWeightDifference],
+                backgroundColor: [
+                    '#f79c40',
+                ],
+                borderWidth: 1
+            }]
+        }
+        var ctx = document.getElementById('goalGraph');
+        myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data,
+            options: {}
+        });
         
 
     }
