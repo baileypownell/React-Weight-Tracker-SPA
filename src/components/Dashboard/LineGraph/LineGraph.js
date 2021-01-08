@@ -9,10 +9,15 @@ class LineGraph extends React.Component {
       labels: [],
       data: [],
       noHistoryMessageDisplay: false,
-      graphTimePeriod: null
+      graphTimePeriod: null,
+      weights: null
   }
 
   componentDidMount() {
+
+    this.setState({
+      weights: this.props.weights
+    })
 
     let el = document.querySelector('.tabs')
     setTimeout(() => {
@@ -22,11 +27,22 @@ class LineGraph extends React.Component {
     this.setGraphTimePeriod('week')
   }
 
-    setGraphTimePeriod = (e) => {
-        this.setState({
-          graphTimePeriod: e
-        }, () => { this.graphData() })
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.state.weights && this.props.weights[0].weight !== prevProps.weights[0].weight) {
+      console.log(this.props.weights[0].weight)
     }
+  }
+
+  shouldComponentUpdate() {
+    console.log('should component update')
+  }
+
+  setGraphTimePeriod = (e) => {
+    this.setState({
+      graphTimePeriod: e
+    }, () => { this.graphData() })
+  }
 
     drawChart = () => {
         var ctx = document.getElementById('myChart');
