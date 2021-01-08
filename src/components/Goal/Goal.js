@@ -179,6 +179,7 @@ class Goal extends React.Component {
                     </div>
                
                     <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
+                    <h6>Target Weight</h6><span id="goal-weight">{this.state.selectedGoal.goalWeight} lbs.</span>
                         <canvas id="goalGraph" width="300" height="300"></canvas>
                     </div> 
                         {/* confirmation modal */}

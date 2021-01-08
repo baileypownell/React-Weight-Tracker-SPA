@@ -94,11 +94,24 @@
 }
 
 .selected-goal {
+    background-color: lighten($orange, 10%);
+    color: white;
+    .delete-goal {
+        background-color: lighten($gray, 20%);
+    }
     padding: 10px;
-    font-weight: bold;
-    border: 2px solid $orange;
+    // font-weight: bold;
+    // border: 2px solid $orange;
 }
 
 .hidden {
     display: none;
+}
+
+#goal-weight {
+    font-size: 30px;
+    font-weight: bold;
+    @include desktop {
+        font-size: 40px;
+    }
 }
