@@ -3,18 +3,12 @@
 .dashboard {
   background-color: $gray;
   padding: 20px;
-  margin: 0 auto;
   width: 100%;
-  max-width: 800px;
+  min-height: calc(100% - 64px);
   h4, h5, h6 {
     margin: 0px;
   }
   @include tablet {
-    padding: 30px;
-    margin: 0 auto 50px auto!important;
-    background-color: rgb(48, 48, 48);
-    border-radius: 10px;
-    width: 75%;
     padding: 30px 50px;
     text-align: left;
     form {
@@ -23,20 +17,22 @@
       margin-bottom: 10px;
     }
   }
-  @include desktop {
-    margin: 0 auto;
-  }
 }
 
 #account-options {
+  > div {
+    margin: 10px 0;
+    //min-width: 250px;
+  }
   @include desktop {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: no-wrap;
     justify-content: space-between;
-    .white-box {
-      width: 48%;
+    > div {
+      width: 100%;
+      margin: 0 10px;
     }
     #accountSettings {
       width: 100%;
@@ -53,4 +49,14 @@
 
 #dashboard {
   padding-bottom: 25px;
+}
+
+.dashboard-content {
+  @include tablet {
+    width: 70%;
+    margin: 0 auto;
+  }
+  @include desktop {
+    max-width: 850px;
+  }
 }

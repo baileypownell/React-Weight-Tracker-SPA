@@ -41,7 +41,6 @@
       margin-left:8px;
     }
     form {
-      align-items: center;
       @include tablet {
         align-items: flex-start;
       }
@@ -52,6 +51,9 @@
       @include desktop {
         font-size: 30px;
         width: 150px;
+      }
+      .input-field {
+        overflow: hidden;
       }
     }
     button {

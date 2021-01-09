@@ -15,11 +15,13 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="content-parent">
-        <h5>It's never been <br/><span id="fancy">easier</span><br/> to track your progress.</h5>
-        <button 
-          className="waves-effect waves-light btn" 
-          onClick={this.directUser}>get started</button>
+      <div id="mobile-center">
+        <div className="content-parent">
+          <h5>It's never been <br/><span id="fancy">easier</span><br/> to track your progress.</h5>
+          <button 
+            className="waves-effect waves-light btn" 
+            onClick={this.directUser}>get started</button>
+        </div>
       </div>
     )
   }

@@ -1,15 +1,16 @@
-import React from 'react';
-import './LineGraph.scss';
-import { connect } from 'react-redux';
-import M from 'materialize-css';
+import React from 'react'
+import './LineGraph.scss'
+import { connect } from 'react-redux'
+import M from 'materialize-css'
+import { filter } from 'async'
+
+let myChart
 
 class LineGraph extends React.Component {
 
   state = {
-      labels: [],
-      data: [],
       noHistoryMessageDisplay: false,
-      graphTimePeriod: null
+      graphTimePeriod: '',
   }
 
   componentDidMount() {
@@ -20,44 +21,74 @@ class LineGraph extends React.Component {
     }, 1000);
 
     this.setGraphTimePeriod('week')
+
+    console.log(this.props)
+
+    let data = {
+      datasets: [{
+          data: this.props.weights,
+          backgroundColor: [
+              '#f79c40',
+          ],
+          borderWidth: 1
+      }]
+    }
+
+    var ctx = document.getElementById('myChart');
+    myChart = new Chart(ctx, {
+      type: 'line', 
+      data, 
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+    })
   }
 
-    setGraphTimePeriod = (e) => {
-        this.setState({
-          graphTimePeriod: e
-        }, () => { this.graphData() })
-    }
+  setGraphTimePeriod = (e) => {
+    this.setState({
+      graphTimePeriod: e
+    }, () => { this.graphData() })
+  }
 
-    drawChart = () => {
-        var ctx = document.getElementById('myChart');
-        Chart.defaults.global.legend.display = false;
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: this.state.labels,
-                datasets: [{
-                    label: 'Pounds',
-                    data: this.state.data,
-                    backgroundColor: '#f79c40',
-                    hoverBackgroundColor: '#f79c40',
-                    borderColor: [
-                        '#f79c40'
-                    ],
-                    borderWidth: 2,
-                    spanGaps: true
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+  componentDidUpdate(prevProps) {
+    console.log(prevProps)
+    let graphTimePeriod = this.state.graphTimePeriod
+    if (graphTimePeriod === 'week') {
+      this.prepareChartData(604800)
+    } else if (graphTimePeriod === 'month') {
+      this.prepareChartData(2592000)
+    } else if (graphTimePeriod === 'year') {
+      this.prepareChartData(31556952)
     }
+  }
+
+  drawChart = (labels, filteredWeights) => {
+    Chart.defaults.global.legend.display = false;
+    let data = {
+      labels: labels,
+      datasets: [{
+          label: 'Pounds',
+          data: filteredWeights,
+          backgroundColor: '#f79c40',
+          hoverBackgroundColor: '#f79c40',
+          borderColor: [
+              '#f79c40'
+          ],
+          borderWidth: 2,
+          spanGaps: true
+      }]          
+    }
+    myChart.data.labels = data.labels
+    myChart.data.datasets = data.datasets 
+
+    myChart.update()
+  }
 
     prepareChartData(num) {
       const { weights } = this.props
@@ -92,10 +123,7 @@ class LineGraph extends React.Component {
           let fulldate = [month, day].join(' ');
           labelsParsed.push(fulldate);
       })
-      this.setState({
-          labels: labelsParsed,
-          data: data
-      }, () => { this.drawChart() });
+      this.drawChart(labelsParsed, data) 
     }
 
     graphData = () => {
@@ -111,9 +139,9 @@ class LineGraph extends React.Component {
 
   render() {
     return (   
-      <>   
+      <div id="line-graph">   
           { this.props.weights.length ? 
-          <div className="white-box">
+          <div className="white-box" id="charts">
             <h6>Your weight over the past: </h6>
             <div>
               <ul className="tabs z-depth-1"
@@ -131,7 +159,7 @@ class LineGraph extends React.Component {
           </div>
           : null
           }
-      </>
+      </div>
     )
   }
 }

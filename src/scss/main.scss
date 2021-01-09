@@ -15,6 +15,10 @@ input {
   outline:0;
 }
 
+#app {
+  height: 100vh;
+}
+
 
 body {
   background: url("https://res.cloudinary.com/djad06sng/image/upload/v1596586267/victor-freitas-KIzBvHNe7hY-unsplash.jpg"), rgba(232, 156, 26, 0.3);
@@ -39,9 +43,6 @@ body {
     align-items: center;
     li {
       cursor: pointer;
-    }
-    @include tablet {
-      margin-bottom: 50px;
     }
     i {
       height: auto;
@@ -79,6 +80,7 @@ label {
 input,
 input:focus {
   border-color: $orange!important;
+  box-shadow: none!important;
 }
 
 a.sidenav-trigger {
@@ -99,7 +101,7 @@ a.sidenav-trigger {
 .content-parent {
   background-color: $gray;
   width: 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
   padding: 30px;
   @include tablet {
       min-height: 0px;
@@ -117,7 +119,7 @@ a.sidenav-trigger {
     }
 }
 
-.modal {
+#weight-logger .modal {
   width: 300px;
 }
 
@@ -135,14 +137,35 @@ a.sidenav-trigger {
   color: $gray;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
-  margin-bottom: 30px;
-  margin-bottom: 5vh;
   h6 {
     margin-top: 0px;
   }
   @include desktop {
     padding: 30px;
+  }
+}
+
+.modal {
+  color: $gray;
+  a {
+    color: white;
+    margin: 2px!important;
+  }
+}
+
+#mobile-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 64px)
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  .tab {
+    width: 100%;
   }
 }

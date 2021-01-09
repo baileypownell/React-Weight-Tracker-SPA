@@ -1,0 +1,117 @@
+@import '../../scss/variables.scss';
+
+.datepicker-container {
+    button {
+        background-color: transparent!important;
+        margin-top: 0;
+        color: $gray;
+        &:hover {
+            background-color: transparent!important;
+        }
+    }
+    .datepicker-date-display {
+        background-color: $orange;
+    }
+    input {
+        color: $gray;
+    }
+    .datepicker-table td.is-selected {
+        background-color: $gray;
+        button {
+
+            color: white;
+        }
+    }
+}
+
+.dropdown-content li > span {
+    color: $gray!important;
+}
+
+.is-disabled {
+    opacity: 0.5;
+}
+
+#goal-parent {
+    padding: 5vw 0;
+}
+
+#goal {
+    @include tablet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > div {
+            width: 48%;
+        }
+    }
+}
+
+#add-goal {
+    padding: 20px 0;
+}
+
+.goal-item {
+    transition: all .4s;
+    background-color: white;
+    cursor: pointer;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: $gray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    > div {
+        padding: 10px;
+    }
+    .delete-goal {
+        position: absolute;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 0; 
+        bottom: 0; 
+        right: 0;
+        height: 100%;
+        background-color: $orange;
+        transition: background-color .4s;
+        &:hover {
+            background-color: lighten($orange, 10%);
+        }
+        i {
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+        }
+    }
+}
+
+#confirmationModal, #modal1 {
+    top: 32%!important;
+}
+
+.selected-goal {
+    background-color: lighten($orange, 10%);
+    color: white;
+    .delete-goal {
+        background-color: lighten($gray, 20%);
+    }
+    padding: 10px;
+    // font-weight: bold;
+    // border: 2px solid $orange;
+}
+
+.hidden {
+    display: none;
+}
+
+#goal-weight {
+    font-size: 30px;
+    font-weight: bold;
+    @include desktop {
+        font-size: 40px;
+    }
+}

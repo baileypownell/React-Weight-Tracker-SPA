@@ -1,6 +1,7 @@
 @import '../../../scss/variables.scss';
 
 
+
 #canvas-parent {
   position: relative;
   width: 100%;
@@ -15,4 +16,10 @@
 
 .noData {
   padding-top: 15px;
+}
+
+#charts {
+  @include desktop {
+    max-width: 375px;
+  }
 }

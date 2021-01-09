@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs'
 import LineGraph from './LineGraph/LineGraph'
 import WeightLogger from './WeightLogger/WeightLogger'
+import Goal from '../Goal/Goal'
 import './Dashboard.scss'
 import { compare } from '../../compare'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
@@ -13,7 +14,8 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       sortedWeights: [],
-      loaded: false
+      loaded: false, 
+      goals: null
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -24,11 +26,13 @@ class Dashboard extends React.Component {
     const db = firebase.firestore();
     db.collection("users").doc(this.props.localId).get()
     .then((doc) => {
+      console.log(doc.data())
       let weightHistory = doc.data().weights;
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
       this.setState({
         sortedWeights: sortedAllWeightsRecorded,
         loaded: true,
+        goals: doc.data().goals
       })
     })
     .catch(err => console.log(err))
@@ -39,13 +43,13 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { sortedWeights, loaded } = this.state;
+    const { sortedWeights, loaded, goals } = this.state;
     const todaysWeight = calculateTodaysWeight(this.state.sortedWeights)
 
     return (
         <div className="dashboard z-depth-15">
           { loaded ? 
-            <>
+            <div className="dashboard-content">
               <h4 id="dashboard">Dashboard</h4>
               <WeightLogger 
                 weights={sortedWeights} 
@@ -56,22 +60,32 @@ class Dashboard extends React.Component {
                   <RecentWeightLogs 
                     weights={sortedWeights} 
                   /> 
-                  <LineGraph 
-                    weights={sortedWeights} 
-                    key={sortedWeights}  
-                  /> 
+                  { sortedWeights.length ? 
+                    <LineGraph 
+                      weights={sortedWeights} 
+                    /> 
+                  : null}
+                  
               </div>
-            </>
+              <Goal 
+                key={goals}
+                updateGoals={this.updateWeightHistory} 
+                goals={goals} 
+                weights={sortedWeights} 
+              />
+            </div>
              : 
              <div id="center">
-                <div class="preloader-wrapper big active">
-                <div class="spinner-layer ">
-                  <div class="circle-clipper left">
-                    <div class="circle"></div>
-                  </div><div class="gap-patch">
-                    <div class="circle"></div>
-                  </div><div class="circle-clipper right">
-                    <div class="circle"></div>
+                <div className="preloader-wrapper big active">
+                <div className="spinner-layer ">
+                  <div className="circle-clipper left">
+                    <div className="circle"></div>
+                  </div>
+                  <div className="gap-patch">
+                    <div className="circle"></div>
+                  </div>
+                  <div className="circle-clipper right">
+                    <div className="circle"></div>
                   </div>
                 </div>
               </div>

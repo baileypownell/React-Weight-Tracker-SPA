@@ -44,7 +44,8 @@ class CreateAccount extends React.Component {
           lastName: this.state.lastName,
           email: this.state.email,
           firebaseAuthID: localId,
-          weights: []
+          weights: [],
+          goals: []
         })
       // then update redux by logging in and creating account
       this.props.createAccount(this.state.firstName, this.state.lastName, email, localId, expiresIn, idToken, refreshToken);
@@ -72,30 +73,32 @@ class CreateAccount extends React.Component {
 
   render() {
     return (
-      <div className="content-parent">
-        <h4>Create an Account</h4>
-        <form onSubmit={this.handleSubmit}>
-              <label>
-                  First Name
-                <input id="firstName" placeholder="First Name" type="text" onChange={this.handleChange}></input>
-              </label>
-              <label>
-                  Last Name
-                  <input id="lastName" placeholder="Last Name" type="test" type="text" onChange={this.handleChange}></input>
-              </label>
-              <label >
-                  Email
-                  <input type="email" placeholder="Email" name="email" id="email" onChange={this.handleChange}>
-                  </input>
-               </label>
-              <label>
-                  Password
-                  <input placeholder="Password" type="password" name="password" id="password" onChange={this.handleChange}>
-              </input>
-              </label>
+      <div id="mobile-center">
+        <div className="content-parent">
+          <h4>Create an Account</h4>
+          <form onSubmit={this.handleSubmit}>
+                <label>
+                    First Name
+                  <input id="firstName" placeholder="First Name" type="text" onChange={this.handleChange}></input>
+                </label>
+                <label>
+                    Last Name
+                    <input id="lastName" placeholder="Last Name" type="test" type="text" onChange={this.handleChange}></input>
+                </label>
+                <label >
+                    Email
+                    <input type="email" placeholder="Email" name="email" id="email" onChange={this.handleChange}>
+                    </input>
+                </label>
+                <label>
+                    Password
+                    <input placeholder="Password" type="password" name="password" id="password" onChange={this.handleChange}>
+                </input>
+                </label>
 
-            <button className="waves-effect waves-light btn">Sign Up</button>
-        </form>
+              <button className="waves-effect waves-light btn">Sign Up</button>
+          </form>
+      </div>
       </div>
     )
   }

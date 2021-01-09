@@ -93,7 +93,8 @@ class LogInOrSignUp extends React.Component {
           lastName: this.state.lastName,
           email: this.state.email,
           firebaseAuthID: localId,
-          weights: []
+          weights: [],
+          goals: []
         })
       // then update redux by logging in and creating account
       this.props.createAccount(this.state.firstName, this.state.lastName, email, localId, expiresIn, idToken, refreshToken);
