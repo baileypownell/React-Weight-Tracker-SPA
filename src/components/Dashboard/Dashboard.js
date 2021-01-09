@@ -23,7 +23,6 @@ class Dashboard extends React.Component {
   }
 
   updateWeightHistory() {
-    console.log('updateWeightHistory()')
     const db = firebase.firestore();
     db.collection("users").doc(this.props.localId).get()
     .then((doc) => {

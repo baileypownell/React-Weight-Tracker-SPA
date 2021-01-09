@@ -2,24 +2,18 @@ import React from 'react'
 import './LineGraph.scss'
 import { connect } from 'react-redux'
 import M from 'materialize-css'
+import { filter } from 'async'
 
 let myChart
 
 class LineGraph extends React.Component {
 
   state = {
-      labels: [],
-      data: [],
       noHistoryMessageDisplay: false,
-      graphTimePeriod: null,
-      weights: null
+      graphTimePeriod: '',
   }
 
   componentDidMount() {
-
-    this.setState({
-      weights: this.props.weights
-    })
 
     let el = document.querySelector('.tabs')
     setTimeout(() => {
@@ -30,7 +24,7 @@ class LineGraph extends React.Component {
 
     let data = {
       datasets: [{
-          data: [0],
+          data: this.props.weights,
           backgroundColor: [
               '#f79c40',
           ],
@@ -60,26 +54,37 @@ class LineGraph extends React.Component {
     }, () => { this.graphData() })
   }
 
-  drawChart = () => {
-      Chart.defaults.global.legend.display = false;
-      let data = {
-        labels: this.state.labels,
-        datasets: [{
-            label: 'Pounds',
-            data: this.state.data,
-            backgroundColor: '#f79c40',
-            hoverBackgroundColor: '#f79c40',
-            borderColor: [
-                '#f79c40'
-            ],
-            borderWidth: 2,
-            spanGaps: true
-        }]          
-      }
-      myChart.data.labels = data.labels
-      myChart.data.datasets = data.datasets 
+  componentDidUpdate(prevProps) {
+    let graphTimePeriod = this.state.graphTimePeriod
+    if (graphTimePeriod === 'week') {
+      this.prepareChartData(604800)
+    } else if (graphTimePeriod === 'month') {
+      this.prepareChartData(2592000)
+    } else if (graphTimePeriod === 'year') {
+      this.prepareChartData(31556952)
+    }
+  }
 
-      myChart.update()
+  drawChart = (labels, filteredWeights) => {
+    Chart.defaults.global.legend.display = false;
+    let data = {
+      labels: labels,
+      datasets: [{
+          label: 'Pounds',
+          data: filteredWeights,
+          backgroundColor: '#f79c40',
+          hoverBackgroundColor: '#f79c40',
+          borderColor: [
+              '#f79c40'
+          ],
+          borderWidth: 2,
+          spanGaps: true
+      }]          
+    }
+    myChart.data.labels = data.labels
+    myChart.data.datasets = data.datasets 
+
+    myChart.update()
   }
 
     prepareChartData(num) {
@@ -115,10 +120,7 @@ class LineGraph extends React.Component {
           let fulldate = [month, day].join(' ');
           labelsParsed.push(fulldate);
       })
-      this.setState({
-          labels: labelsParsed,
-          data: data
-      }, () => { this.drawChart() });
+      this.drawChart(labelsParsed, data) 
     }
 
     graphData = () => {
