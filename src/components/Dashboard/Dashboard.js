@@ -23,6 +23,7 @@ class Dashboard extends React.Component {
   }
 
   updateWeightHistory() {
+    console.log('updateWeightHistory()')
     const db = firebase.firestore();
     db.collection("users").doc(this.props.localId).get()
     .then((doc) => {
@@ -61,7 +62,6 @@ class Dashboard extends React.Component {
                   /> 
                   <LineGraph 
                     weights={sortedWeights} 
-                    key={sortedWeights}  
                   /> 
               </div>
               <Goal updateGoals={this.updateWeightHistory} goals={goals} weights={sortedWeights} />

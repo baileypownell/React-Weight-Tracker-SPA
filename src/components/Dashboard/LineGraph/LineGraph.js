@@ -1,7 +1,9 @@
-import React from 'react';
-import './LineGraph.scss';
-import { connect } from 'react-redux';
-import M from 'materialize-css';
+import React from 'react'
+import './LineGraph.scss'
+import { connect } from 'react-redux'
+import M from 'materialize-css'
+
+let myChart
 
 class LineGraph extends React.Component {
 
@@ -25,17 +27,31 @@ class LineGraph extends React.Component {
     }, 1000);
 
     this.setGraphTimePeriod('week')
+
+    let data = {
+      datasets: [{
+          data: [0],
+          backgroundColor: [
+              '#f79c40',
+          ],
+          borderWidth: 1
+      }]
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.state.weights && this.props.weights[0].weight !== prevProps.weights[0].weight) {
-      console.log(this.props.weights[0].weight)
-    }
-  }
-
-  shouldComponentUpdate() {
-    console.log('should component update')
+    var ctx = document.getElementById('myChart');
+    myChart = new Chart(ctx, {
+      type: 'line', 
+      data, 
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+    })
   }
 
   setGraphTimePeriod = (e) => {
@@ -44,36 +60,27 @@ class LineGraph extends React.Component {
     }, () => { this.graphData() })
   }
 
-    drawChart = () => {
-        var ctx = document.getElementById('myChart');
-        Chart.defaults.global.legend.display = false;
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: this.state.labels,
-                datasets: [{
-                    label: 'Pounds',
-                    data: this.state.data,
-                    backgroundColor: '#f79c40',
-                    hoverBackgroundColor: '#f79c40',
-                    borderColor: [
-                        '#f79c40'
-                    ],
-                    borderWidth: 2,
-                    spanGaps: true
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    }
+  drawChart = () => {
+      Chart.defaults.global.legend.display = false;
+      let data = {
+        labels: this.state.labels,
+        datasets: [{
+            label: 'Pounds',
+            data: this.state.data,
+            backgroundColor: '#f79c40',
+            hoverBackgroundColor: '#f79c40',
+            borderColor: [
+                '#f79c40'
+            ],
+            borderWidth: 2,
+            spanGaps: true
+        }]          
+      }
+      myChart.data.labels = data.labels
+      myChart.data.datasets = data.datasets 
+
+      myChart.update()
+  }
 
     prepareChartData(num) {
       const { weights } = this.props
