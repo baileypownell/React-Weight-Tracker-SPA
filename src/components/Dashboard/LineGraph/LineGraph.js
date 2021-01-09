@@ -22,6 +22,8 @@ class LineGraph extends React.Component {
 
     this.setGraphTimePeriod('week')
 
+    console.log(this.props)
+
     let data = {
       datasets: [{
           data: this.props.weights,
@@ -30,7 +32,7 @@ class LineGraph extends React.Component {
           ],
           borderWidth: 1
       }]
-  }
+    }
 
     var ctx = document.getElementById('myChart');
     myChart = new Chart(ctx, {
@@ -55,6 +57,7 @@ class LineGraph extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log(prevProps)
     let graphTimePeriod = this.state.graphTimePeriod
     if (graphTimePeriod === 'week') {
       this.prepareChartData(604800)

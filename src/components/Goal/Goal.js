@@ -8,6 +8,7 @@ var { DateTime } = require('luxon')
 let myDoughnutChart
 
 class Goal extends React.Component {
+
     state = {
         goalWeight: '',
         goalTarget: '',
@@ -36,8 +37,9 @@ class Goal extends React.Component {
         var elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
 
-        let lastWeight = this.props.weights ? Number(this.props.weights[0].weight) : 0
-        let goalWeightDifference = this.props.goals[0] ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
+        let lastWeight = this.props.weights.length ? Number(this.props.weights[0].weight) : 0
+        let goalWeightDifference = this.props.goals.length ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
+     
         let data = {
             labels: ['Current weight', 'Pounds left to reach your goal'],
             datasets: [{
@@ -53,9 +55,7 @@ class Goal extends React.Component {
             type: 'doughnut',
             data,
             options: {}
-        });
-        
-
+        })
     }
 
     constructChart = () => {
@@ -97,7 +97,7 @@ class Goal extends React.Component {
             M.toast({ html: 'Goal added!'})
             this.setState({
                 goalWeight: '', 
-                goalTarget: ''
+                goalTarget: '',
             })   
             this.props.updateGoals()
         })
@@ -112,6 +112,9 @@ class Goal extends React.Component {
         })
         .then(() => {
             M.toast({ html: 'Goal deleted.'})
+            this.setState({
+                selectedGoal: ''
+            })
             this.props.updateGoals()
         })
         .catch(err => console.log(err))
