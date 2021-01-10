@@ -90,7 +90,9 @@
 }
 
 #confirmationModal, #modal1 {
-    top: 32%!important;
+    @include tablet {
+        top: 32%!important;
+    }
 }
 
 .selected-goal {
@@ -100,8 +102,6 @@
         background-color: lighten($gray, 20%);
     }
     padding: 10px;
-    // font-weight: bold;
-    // border: 2px solid $orange;
 }
 
 .hidden {
