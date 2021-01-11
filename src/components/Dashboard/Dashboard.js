@@ -5,7 +5,7 @@ import LineGraph from './LineGraph/LineGraph'
 import WeightLogger from './WeightLogger/WeightLogger'
 import Goal from '../Goal/Goal'
 import './Dashboard.scss'
-import { compare } from '../../compare'
+import { compare, compareGoals } from '../../compare'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
 
 class Dashboard extends React.Component {
@@ -26,13 +26,13 @@ class Dashboard extends React.Component {
     const db = firebase.firestore();
     db.collection("users").doc(this.props.localId).get()
     .then((doc) => {
-      console.log(doc.data())
       let weightHistory = doc.data().weights;
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
+      let sortedGoals = doc.data().goals.sort(compareGoals)
       this.setState({
         sortedWeights: sortedAllWeightsRecorded,
         loaded: true,
-        goals: doc.data().goals
+        goals: sortedGoals
       })
     })
     .catch(err => console.log(err))

@@ -22,8 +22,6 @@ class LineGraph extends React.Component {
 
     this.setGraphTimePeriod('week')
 
-    console.log(this.props)
-
     let data = {
       datasets: [{
           data: this.props.weights,

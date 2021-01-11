@@ -14,6 +14,7 @@ class Goal extends React.Component {
         goalTarget: '',
         goalToDeleteId: '',
         selectedGoal: '',
+        goalTargetUnix: ''
     }
 
     componentDidMount() {
@@ -21,7 +22,12 @@ class Goal extends React.Component {
         M.Datepicker.init(elems, {
             minDate: new Date(),
             format: 'mmm dd, yyyy',
-            onSelect: (e) => { this.setState({ goalTarget: DateTime.fromISO(new Date(e).toISOString()).toFormat('DDD')})}
+            onSelect: (e) => { 
+                this.setState({ 
+                    goalTarget: DateTime.fromISO(new Date(e).toISOString()).toFormat('DDD'),
+                    goalTargetUnix: DateTime.fromISO(new Date(e).toISOString()).toFormat('X'),
+                })
+            }
         })
 
         if (this.props.goals.length) {
@@ -90,7 +96,8 @@ class Goal extends React.Component {
            goals: this.props.goals.concat({
                 goalWeight: this.state.goalWeight, 
                 goalTarget: this.state.goalTarget,
-                id: uuidv4()
+                goalTargetUnix: this.state.goalTargetUnix,
+                id: uuidv4(),
             })
         })
         .then(res => {
@@ -98,6 +105,7 @@ class Goal extends React.Component {
             this.setState({
                 goalWeight: '', 
                 goalTarget: '',
+                goalTargetUnix: ''
             })   
             this.props.updateGoals()
         })
