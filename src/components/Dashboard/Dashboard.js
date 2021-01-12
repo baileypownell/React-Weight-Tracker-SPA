@@ -4,6 +4,7 @@ import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs'
 import LineGraph from './LineGraph/LineGraph'
 import WeightLogger from './WeightLogger/WeightLogger'
 import Goal from '../Goal/Goal'
+import GoalNotifier from '../GoalNotifier/GoalNotifier'
 import './Dashboard.scss'
 import { compare, compareGoals } from '../../compare'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
@@ -73,6 +74,12 @@ class Dashboard extends React.Component {
                 goals={goals} 
                 weights={sortedWeights} 
               />
+              {
+                goals[0] ? 
+                  <GoalNotifier 
+                    primaryGoal={goals[0]}/>
+                : null
+              }
             </div>
              : 
              <div id="center">

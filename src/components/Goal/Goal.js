@@ -204,7 +204,7 @@ class Goal extends React.Component {
                                 <a className="modal-close waves-effect btn-flat" onClick={this.deleteGoal}>Yes</a>
                             </div>
                         </div>
-                </div>
+                </div>            
             </div>
         )
     }
