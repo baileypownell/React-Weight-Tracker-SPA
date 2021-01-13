@@ -23,8 +23,9 @@ class GoalNotifier extends React.Component {
         let nowDate = DateTime.fromISO(now.toISOString())
         let targetDate = DateTime.fromISO((new Date(this.props.primaryGoal.goalTargetUnix * 1000).toISOString()))
         let daysLeft = targetDate.diff(nowDate, 'days').values.days
+        let daysLeftRounded = Math.round(daysLeft)
         this.setState({
-            daysLeft: Math.round(daysLeft)
+            daysLeft: daysLeftRounded
         })
      }
 
@@ -41,9 +42,20 @@ class GoalNotifier extends React.Component {
                 <a id="menu" ></a>
                 <div className="tap-target" data-target="menu">
                     <div className="tap-target-content">
-                        <h5>Your next goal of {primaryGoal.goalWeight} lbs. is set for {primaryGoal.goalTarget}</h5>
-                        <p>Only {this.state.daysLeft} more days to go!</p>
-                        <button id="dismiss" onClick={this.closeNotifier} className="waves-effect waves-light btn">Dismiss</button>
+                        { this.state.daysLeft > 1 ? 
+                            <>
+                                <h5>Your next goal of {primaryGoal.goalWeight} lbs. is set for {primaryGoal.goalTarget}</h5>
+                                <p>Only {this.state.daysLeft} more days to go!</p>
+                            </> 
+                          : 
+                          <h5>Today is your target date!</h5>
+                        }
+                        <button 
+                            id="dismiss" 
+                            onClick={this.closeNotifier} 
+                            className="waves-effect waves-light btn">
+                            Dismiss
+                        </button>
                     </div>
                 </div>
             </div>

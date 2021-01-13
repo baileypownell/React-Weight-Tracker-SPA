@@ -71,6 +71,9 @@ export class WeightLogger extends React.Component {
       .then(() => {
         M.toast({html: 'Weight updated.'})
         this.props.updateWeightHistory()
+        this.setState({
+          updatedWeight: ''
+        })
       })
       .catch(err => {
         console.log(err);
@@ -80,7 +83,7 @@ export class WeightLogger extends React.Component {
 
 
   render() {
-    const { todaysWeight, formInputEmpty } = this.state;
+    const { todaysWeight, formInputEmpty, updatedWeight } = this.state;
     return (
       <div id="weight-logger">
           <div id="modal1" className="modal">
@@ -90,7 +93,7 @@ export class WeightLogger extends React.Component {
                 <input 
                   type="text" 
                   placeholder={this.props.todaysWeight} 
-                  value={this.state.updatedWeight} 
+                  value={updatedWeight} 
                   id="updatedWeight" 
                   onChange={this.handleUpdateChange}>
                 </input>
