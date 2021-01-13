@@ -187,7 +187,15 @@ a.sidenav-trigger {
 }
 
 .tap-target-wrapper {
-  right: -333px!important;
+    left: -260px!important;
     bottom: -327px!important;
     position: fixed!important;
+    @include tablet {
+      bottom: -450px!important;
+      left: -300px!important;
+    }
+    @include desktop {
+      bottom: -370px!important;
+      left: -350px!important;
+    }
 }
