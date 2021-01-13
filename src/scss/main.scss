@@ -172,3 +172,22 @@ a.sidenav-trigger {
     width: 100%;
   }
 }
+
+.tap-target {
+  background-color: $orange;
+}
+
+.tap-target-content {
+  height: 260px!important;
+  width: 250px!important;
+  @include desktop {
+    height: 400px!important;
+    width: 350px!important;
+  }
+}
+
+.tap-target-wrapper {
+  right: -333px!important;
+    bottom: -327px!important;
+    position: fixed!important;
+}

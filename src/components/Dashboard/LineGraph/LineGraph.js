@@ -55,7 +55,6 @@ class LineGraph extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps)
     let graphTimePeriod = this.state.graphTimePeriod
     if (graphTimePeriod === 'week') {
       this.prepareChartData(604800)

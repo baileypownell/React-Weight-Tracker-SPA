@@ -97,6 +97,7 @@ class Goal extends React.Component {
                 goalWeight: this.state.goalWeight, 
                 goalTarget: this.state.goalTarget,
                 goalTargetUnix: this.state.goalTargetUnix,
+                baseWeight: this.props.weights[0],
                 id: uuidv4(),
             })
         })
@@ -204,7 +205,7 @@ class Goal extends React.Component {
                                 <a className="modal-close waves-effect btn-flat" onClick={this.deleteGoal}>Yes</a>
                             </div>
                         </div>
-                </div>
+                </div>            
             </div>
         )
     }
