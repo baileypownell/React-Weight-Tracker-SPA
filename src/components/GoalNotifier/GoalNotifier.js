@@ -20,15 +20,11 @@ class GoalNotifier extends React.Component {
 
         let now = new Date()
         // compare the difference between now and the end date to see how many days are left
-        // should probably use ISO so that I don't have to round a decimal number...
-        console.log(DateTime.fromISO(now.toISOString()))
         let nowDate = DateTime.fromISO(now.toISOString())
-        console.log(DateTime.fromSeconds(Number(this.props.primaryGoal.goalTargetUnix)))
-        let targetDate = DateTime.fromSeconds(Number(this.props.primaryGoal.goalTargetUnix))
+        let targetDate = DateTime.fromISO((new Date(this.props.primaryGoal.goalTargetUnix * 1000).toISOString()))
         let daysLeft = targetDate.diff(nowDate, 'days').values.days
-        console.log(daysLeft)
         this.setState({
-            daysLeft
+            daysLeft: Math.round(daysLeft)
         })
      }
 
