@@ -60,7 +60,11 @@ class Goal extends React.Component {
         myDoughnutChart = new Chart(ctx, {
             type: 'doughnut',
             data,
-            options: {}
+            options: {
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                }
+            }
         })
     }
 
@@ -92,12 +96,15 @@ class Goal extends React.Component {
 
     addGoal = () => {
         const db = firebase.firestore();
+        console.log(this.props.weights[0])
         db.collection("users").doc(this.props.localId).update({
            goals: this.props.goals.concat({
                 goalWeight: this.state.goalWeight, 
                 goalTarget: this.state.goalTarget,
                 goalTargetUnix: this.state.goalTargetUnix,
-                baseWeight: this.props.weights[0],
+                baseWeight: this.props.weights[0].weight,
+                complete: false, 
+                incomplete: false,
                 id: uuidv4(),
             })
         })

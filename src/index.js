@@ -1,32 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from "redux-thunk";
-import reducer from './store/reducer';
-import Nav from './components/Nav/Nav';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from "redux-thunk"
+import reducer from './store/reducer'
+import Nav from './components/Nav/Nav'
 import {
   BrowserRouter,
   Route,
   Switch,
   Redirect
-} from "react-router-dom";
+} from "react-router-dom"
 
 
 // for presisting redux store through page refreshes
-import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage' 
 
-import CreateAccount from './components/CreateAccount/CreateAccount';
-import Home from './components/Home/Home';
-import Dashboard from './components/Dashboard/Dashboard';
-import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp';
-import LogIn from './components/LogIn/LogIn';
-import Settings from './components/Settings/Settings';
-import RequireAuthComponent from './components/RequireAuthComponent';
+import CreateAccount from './components/CreateAccount/CreateAccount'
+import Home from './components/Home/Home'
+import Dashboard from './components/Dashboard/Dashboard'
+import LogIn from './components/LogIn/LogIn'
+import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp'
+import Settings from './components/Settings/Settings'
+import RequireAuthComponent from './components/RequireAuthComponent'
 
-import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/css/materialize.min.css'
 import './scss/main.scss';
 
 const persistConfig = {

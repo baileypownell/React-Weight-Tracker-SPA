@@ -7,6 +7,7 @@ import Goal from '../Goal/Goal'
 import GoalNotifier from '../GoalNotifier/GoalNotifier'
 import './Dashboard.scss'
 import { compare, compareGoals } from '../../compare'
+import { determineGoalStatus } from '../../determine-goal-status'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
 
 class Dashboard extends React.Component {
@@ -30,6 +31,9 @@ class Dashboard extends React.Component {
       let weightHistory = doc.data().weights;
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
       let sortedGoals = doc.data().goals.sort(compareGoals)
+      const lastWeight = sortedAllWeightsRecorded[0].weight
+      console.log(lastWeight)
+      let mappedGoals = sortedGoals.map(goal => determineGoalStatus(goal, lastWeight))
       this.setState({
         sortedWeights: sortedAllWeightsRecorded,
         loaded: true,

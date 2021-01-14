@@ -4,6 +4,7 @@ import * as actions from '../../store/actionCreators'
 import axios from 'axios'
 import M from 'materialize-css'
 import { withRouter } from 'react-router-dom'
+import './Login.scss'
 
 class LogIn extends React.Component {
 
@@ -67,6 +68,10 @@ class LogIn extends React.Component {
     });
   }
 
+  createAccount = () => {
+    this.props.history.replace('/signup');
+  }
+
   sendPasswordResetEmail = () => {
     const payloadPassword = {
       requestType: 'PASSWORD_RESET',
@@ -91,7 +96,7 @@ class LogIn extends React.Component {
       <div id="mobile-center">
         <div className="content-parent">
         <h4>Log In</h4>
-        <form onSubmit={this.handleSubmit}>
+        <form id="login" onSubmit={this.handleSubmit}>
               <label>Email
               <input placeholder="Email" id="email" type="email" onChange={this.handleChange} ></input>
               </label>
@@ -107,6 +112,10 @@ class LogIn extends React.Component {
           </div>
           : null
         }
+        <div id="no-account">
+          <p>Don't have an account?</p>
+          <button  onClick={this.createAccount} className="waves-effect waves-light btn">Sign Up <i className="fas fa-arrow-alt-circle-right"></i></button>
+        </div>
       </div>
       </div>
     )
