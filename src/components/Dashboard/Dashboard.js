@@ -51,12 +51,6 @@ class Dashboard extends React.Component {
         }
       })
       .catch(err => console.log(err))
-      
-      // this.setState({
-      //   sortedWeights: sortedAllWeightsRecorded,
-      //   loaded: true,
-      //   goals: sortedGoals
-      // })
     })
     .catch(err => console.log(err))
   }
