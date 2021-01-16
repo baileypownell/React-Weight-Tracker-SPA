@@ -96,7 +96,6 @@ class Goal extends React.Component {
 
     addGoal = () => {
         const db = firebase.firestore();
-        console.log(this.props.weights[0])
         db.collection("users").doc(this.props.localId).update({
            goals: this.props.goals.concat({
                 goalWeight: this.state.goalWeight, 
@@ -186,6 +185,7 @@ class Goal extends React.Component {
                                         <div>
                                             <p>Target Weight: {goal.goalWeight}</p>
                                             <p>Goal Date: {  goal.goalTarget }</p>
+                                            <p>{goal.incomplete === true ? 'Goal Not Completed' : null}</p>
                                         </div>
                                         
                                         <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>

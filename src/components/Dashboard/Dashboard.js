@@ -32,13 +32,31 @@ class Dashboard extends React.Component {
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
       let sortedGoals = doc.data().goals.sort(compareGoals)
       const lastWeight = sortedAllWeightsRecorded[0].weight
-      console.log(lastWeight)
-      let mappedGoals = sortedGoals.map(goal => determineGoalStatus(goal, lastWeight))
-      this.setState({
-        sortedWeights: sortedAllWeightsRecorded,
-        loaded: true,
-        goals: sortedGoals
+      //sortedGoals.map(goal => 
+      determineGoalStatus(sortedGoals, lastWeight, this.props.localId)
+      .then((res) => {
+        console.log(res)
+        if (res.updatedGoals) {
+          this.setState({
+            sortedWeights: sortedAllWeightsRecorded,
+            loaded: true,
+            goals: res.updatedGoals
+          })
+        } else {
+          this.setState({
+            sortedWeights: sortedAllWeightsRecorded,
+            loaded: true,
+            goals: sortedGoals
+          })
+        }
       })
+      .catch(err => console.log(err))
+      
+      // this.setState({
+      //   sortedWeights: sortedAllWeightsRecorded,
+      //   loaded: true,
+      //   goals: sortedGoals
+      // })
     })
     .catch(err => console.log(err))
   }
