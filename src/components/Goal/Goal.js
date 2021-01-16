@@ -192,6 +192,13 @@ class Goal extends React.Component {
                                                 </div> 
                                             ) : null
                                             }
+                                            { 
+                                            goal.complete === true ? (
+                                                <div class="chip completed">
+                                                    Completed
+                                                </div> 
+                                            ) : null
+                                            }
                                         </div>
                                         
                                         <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
@@ -206,6 +213,7 @@ class Goal extends React.Component {
                     <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
                     <h6>Target Weight</h6><span id="goal-weight">{this.state.selectedGoal.goalWeight} lbs. </span>
                     <span>{this.state.selectedGoal.incomplete === true ? '(Not Completed)' : null}</span>
+                    <span>{this.state.selectedGoal.complete === true ? '(Completed)' : null}</span>
                         <canvas id="goalGraph" width="300" height="300"></canvas>
                     </div> 
                         {/* confirmation modal */}
