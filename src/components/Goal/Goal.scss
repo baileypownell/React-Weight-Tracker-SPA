@@ -102,6 +102,10 @@
         background-color: lighten($gray, 20%);
     }
     padding: 10px;
+    .completed, .incomplete {
+        background-color: white!important;
+        color: $gray!important;
+    }
 }
 
 .hidden {
@@ -114,4 +118,18 @@
     @include desktop {
         font-size: 40px;
     }
+}
+
+.incomplete {
+    transition: all .5s;
+    margin: 10px 0;
+    color: white!important;
+    background-color: #c74d4d!important;
+}
+
+.completed {
+    transition: all .5s;
+    margin: 10px 0;
+    color: white!important;
+    background-color: #4ed449!important;
 }

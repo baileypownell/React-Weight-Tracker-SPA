@@ -60,7 +60,11 @@ class Goal extends React.Component {
         myDoughnutChart = new Chart(ctx, {
             type: 'doughnut',
             data,
-            options: {}
+            options: {
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                }
+            }
         })
     }
 
@@ -97,7 +101,9 @@ class Goal extends React.Component {
                 goalWeight: this.state.goalWeight, 
                 goalTarget: this.state.goalTarget,
                 goalTargetUnix: this.state.goalTargetUnix,
-                baseWeight: this.props.weights[0],
+                baseWeight: this.props.weights[0].weight,
+                complete: false, 
+                incomplete: false,
                 id: uuidv4(),
             })
         })
@@ -179,6 +185,20 @@ class Goal extends React.Component {
                                         <div>
                                             <p>Target Weight: {goal.goalWeight}</p>
                                             <p>Goal Date: {  goal.goalTarget }</p>
+                                            { 
+                                            goal.incomplete === true ? (
+                                                <div class="chip incomplete">
+                                                    Incomplete
+                                                </div> 
+                                            ) : null
+                                            }
+                                            { 
+                                            goal.complete === true ? (
+                                                <div class="chip completed">
+                                                    Completed
+                                                </div> 
+                                            ) : null
+                                            }
                                         </div>
                                         
                                         <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
@@ -191,7 +211,9 @@ class Goal extends React.Component {
                     </div>
                
                     <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
-                    <h6>Target Weight</h6><span id="goal-weight">{this.state.selectedGoal.goalWeight} lbs.</span>
+                    <h6>Target Weight</h6><span id="goal-weight">{this.state.selectedGoal.goalWeight} lbs. </span>
+                    <span>{this.state.selectedGoal.incomplete === true ? '(Not Completed)' : null}</span>
+                    <span>{this.state.selectedGoal.complete === true ? '(Completed)' : null}</span>
                         <canvas id="goalGraph" width="300" height="300"></canvas>
                     </div> 
                         {/* confirmation modal */}

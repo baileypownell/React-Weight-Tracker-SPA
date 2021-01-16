@@ -12,11 +12,8 @@ class RequireAuthComponent extends React.Component {
         const { userAuthenticated } = this.state
         return (
             <>
-            {
-                userAuthenticated ? this.props.children : <Redirect to="/login" />
-            }   
+             { userAuthenticated ? this.props.children : <Redirect to="/login" /> }   
             </>
-            
         )
     }
 }

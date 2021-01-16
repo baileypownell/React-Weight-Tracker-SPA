@@ -1,22 +1,21 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-// imports for connecting this component to Redux state store
-import { connect } from 'react-redux';
-import './Nav.scss';
-import * as actions from '../../store/actionCreators';
-import { withRouter } from 'react-router-dom';
-import M from 'materialize-css';
+import React from 'react'
+import { Link } from "react-router-dom"
+import { connect } from 'react-redux'
+import './Nav.scss'
+import * as actions from '../../store/actionCreators'
+import { withRouter } from 'react-router-dom'
+import M from 'materialize-css'
 
 class Nav extends React.Component {
 
   logout = () => {
-    this.props.logoutUser();
-    this.props.history.push('/');
+    this.props.logoutUser()
+    this.props.history.push('/')
   }
 
   componentDidMount() {
-    var elems = document.querySelectorAll('.sidenav');
-    M.Sidenav.init(elems, { edge: 'right'});
+    var elems = document.querySelectorAll('.sidenav')
+    M.Sidenav.init(elems, { edge: 'right'})
   }
 
   render() {
@@ -38,7 +37,7 @@ class Nav extends React.Component {
             <li><div className="divider"></div></li>
             {this.props.userLoggedIn ? <li><a onClick={this.logout}>Log Out</a></li> : <li><Link to="/login">Login</Link></li>}
         </ul>         
-        </>
+      </>
     )
   }
 }
