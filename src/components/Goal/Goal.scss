@@ -37,7 +37,7 @@
 }
 
 #goal {
-    @include tablet {
+    @include desktop {
         display: flex;
         justify-content: space-between;
         align-items: center;
