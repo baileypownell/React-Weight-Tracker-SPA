@@ -19,7 +19,6 @@ class GoalNotifier extends React.Component {
         instance.open()
 
         let now = new Date()
-        // compare the difference between now and the end date to see how many days are left
         let nowDate = DateTime.fromISO(now.toISOString())
         let targetDate = DateTime.fromISO((new Date(this.props.primaryGoal.goalTargetUnix * 1000).toISOString()))
         let daysLeft = targetDate.diff(nowDate, 'days').values.days
@@ -35,7 +34,6 @@ class GoalNotifier extends React.Component {
 
 
     render() {
-        const { primaryGoal } = this.props; 
 
         return (
             <div>
@@ -44,11 +42,14 @@ class GoalNotifier extends React.Component {
                     <div className="tap-target-content">
                         { this.state.daysLeft > 1 ? 
                             <>
-                                <h5>Your next goal of {primaryGoal.goalWeight} lbs. is set for {primaryGoal.goalTarget}</h5>
+                                <h5>Your next goal of {this.props.primaryGoal.goalWeight} lbs. is set for {this.props.primaryGoal.goalTarget}</h5>
                                 <p>Only {this.state.daysLeft} more days to go!</p>
                             </> 
                           : 
-                          <h5>Today is your target date!</h5>
+                          null
+                        }
+                        {
+                            this.state.daysLeft === 0 ? <h5>Today is your target date!</h5> : null
                         }
                         <button 
                             id="dismiss" 

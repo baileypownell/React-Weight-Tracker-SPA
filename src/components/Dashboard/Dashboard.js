@@ -17,7 +17,8 @@ class Dashboard extends React.Component {
     this.state = {
       sortedWeights: [],
       loaded: false, 
-      goals: null
+      goals: null,
+      primaryGoal: null,
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -32,21 +33,23 @@ class Dashboard extends React.Component {
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
       let sortedGoals = doc.data().goals.sort(compareGoals)
       const lastWeight = sortedAllWeightsRecorded[0].weight
-      //sortedGoals.map(goal => 
       determineGoalStatus(sortedGoals, lastWeight, this.props.localId)
       .then((res) => {
-        console.log(res)
         if (res.updatedGoals) {
+          let futureGoals = res.updatedGoals.filter(goal => !goal.complete && !goal.incomplete)
           this.setState({
             sortedWeights: sortedAllWeightsRecorded,
             loaded: true,
-            goals: res.updatedGoals
+            goals: res.updatedGoals,
+            primaryGoal: futureGoals[0]
           })
         } else {
+          let futureGoals = sortedGoals.filter(goal => !goal.complete && !goal.incomplete)
           this.setState({
             sortedWeights: sortedAllWeightsRecorded,
             loaded: true,
-            goals: sortedGoals
+            goals: sortedGoals,
+            primaryGoal: futureGoals[0]
           })
         }
       })
@@ -60,7 +63,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { sortedWeights, loaded, goals } = this.state;
+    const { sortedWeights, loaded, goals, primaryGoal } = this.state;
     const todaysWeight = calculateTodaysWeight(this.state.sortedWeights)
 
     return (
@@ -91,9 +94,9 @@ class Dashboard extends React.Component {
                 weights={sortedWeights} 
               />
               {
-                goals[0] ? 
-                  <GoalNotifier 
-                    primaryGoal={goals[0]}/>
+                primaryGoal ? 
+                  <GoalNotifier primaryGoal={primaryGoal}
+                    />
                 : null
               }
             </div>
