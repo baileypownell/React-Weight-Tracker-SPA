@@ -1,5 +1,6 @@
-import axios from 'axios'
+
 import * as actionTypes from './actionTypes'
+import firebase from '../firebase-config'
 
 export const createAccount = (firstName, lastName, email, uid) => {
   return {
@@ -98,32 +99,32 @@ export const changeEmail = (idToken, newEmail) => {
 }
 
 // redux-thunk in action = using dispatch as a return value, and only when request has resolved do we dispatch an action itself. Then, wherever we need to call the async function in our project, we use mapDispatchToProps to call the async function with the required parameters
-export const changeEmailAsync = (idToken, newEmail) => {
-  return (dispatch) => {
-    const payloadEmail = {
-      idToken: idToken,
-      email: newEmail,
-      returnSecureToken: true
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.FIREBASE_API_KEY}`, payloadEmail)
-    .then(response => {
-      alert('Your email has been successfully updated to:', response.data.email)
-    })
-    .catch(err => {
-      console.log(err)
-    });
-  }
-}
+// export const changeEmailAsync = (idToken, newEmail) => {
+//   return (dispatch) => {
+//     const payloadEmail = {
+//       idToken: idToken,
+//       email: newEmail,
+//       returnSecureToken: true
+//     }
+//     axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.FIREBASE_API_KEY}`, payloadEmail)
+//     .then(response => {
+//       alert('Your email has been successfully updated to:', response.data.email)
+//     })
+//     .catch(err => {
+//       console.log(err)
+//     });
+//   }
+// }
 
-export const changePassword = () => {
-  return (dispatch) => {
-    const payload = {
-      requestType: 'PASSWORD_RESET',
-      email: action.email
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`).then(response => {
-    }).catch(err => {
-      console.log(err)
-    });
-  }
-}
+// export const changePassword = () => {
+//   return (dispatch) => {
+//     const payload = {
+//       requestType: 'PASSWORD_RESET',
+//       email: action.email
+//     }
+//     axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`).then(response => {
+//     }).catch(err => {
+//       console.log(err)
+//     });
+//   }
+// }

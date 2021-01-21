@@ -9,6 +9,7 @@ import './Dashboard.scss'
 import { compare, compareGoals } from '../../compare'
 import { determineGoalStatus } from '../../determine-goal-status'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
+import firebase from '../../firebase-config'
 
 class Dashboard extends React.Component {
 
