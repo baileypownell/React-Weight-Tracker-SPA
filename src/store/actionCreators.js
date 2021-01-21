@@ -1,28 +1,22 @@
 import axios from 'axios'
 import * as actionTypes from './actionTypes'
 
-export const createAccount = (firstName, lastName, email, localId, expiresIn, idToken, refreshToken) => {
+export const createAccount = (firstName, lastName, email, uid) => {
   return {
     type: actionTypes.CREATE_ACCOUNT,
     email: email,
     firstName: firstName,
     lastName: lastName,
-    firebaseAuthID: localId,
-    expiresIn: expiresIn,
-    idToken: idToken,
-    localId: localId,
-    refreshToken: refreshToken
+    firebaseAuthID: uid,
+    uid: uid,
   }
 }
 
-export const loginUser = (email, expiresIn, idToken, localId, refreshToken) => {
+export const loginUser = (email, uid) => {
   return {
     type: actionTypes.SET_USER_LOGGED_IN,
     email: email,
-    expiresIn: expiresIn,
-    idToken: idToken,
-    localId: localId,
-    refreshToken: refreshToken
+    uid: uid,
   }
 }
 
@@ -35,14 +29,14 @@ export const setUserData = (firstName, lastName) => {
 }
 
 // thunk action creator
-export const getUserDataAsync = (localId) => {
+export const getUserDataAsync = (uid) => {
   return (dispatch, getState) => {
     // grab current state
     const state = getState();
     let firstName, lastName, weightHistory;
     // based on the localId, which is the firebaseAuthID property in the "users" database, get information specific to the user
     const db = firebase.firestore();
-    db.collection("users").doc(localId).get().then((doc) => {
+    db.collection("users").doc(uid).get().then((doc) => {
       if (doc.exists) {
         firstName = doc.data().firstName;
         lastName = doc.data().lastName;

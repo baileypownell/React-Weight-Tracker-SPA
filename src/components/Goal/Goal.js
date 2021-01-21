@@ -96,7 +96,7 @@ class Goal extends React.Component {
 
     addGoal = () => {
         const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).update({
+        db.collection("users").doc(this.props.uid).update({
            goals: this.props.goals.concat({
                 goalWeight: this.state.goalWeight, 
                 goalTarget: this.state.goalTarget,
@@ -122,7 +122,7 @@ class Goal extends React.Component {
     deleteGoal = () => {
         let updatedGoals = this.props.goals.filter(goal => goal.id !== this.state.goalToDeleteId)
         const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).update({
+        db.collection("users").doc(this.props.uid).update({
             goals: updatedGoals
         })
         .then(() => {
@@ -235,7 +235,7 @@ class Goal extends React.Component {
 
 const mapStateToProps = state => {
     return {
-      localId: state.localId,
+        uid: state.uid,
     }
   }
 

@@ -39,8 +39,8 @@ class AccountSettings extends React.Component {
     axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.FIREBASE_API_KEY}`, payload)
     .then(response => {
       const db = firebase.firestore();
-      let localId = this.props.localId;
-        db.collection("users").doc(localId).delete()
+      let uid = this.props.uid;
+        db.collection("users").doc(uid).delete()
         .then(() => {
           M.toast({html: 'Account successfully deleted.'})
           this.props.deleteUser();
@@ -67,7 +67,7 @@ class AccountSettings extends React.Component {
     .then(response => {
       this.props.changeEmail(idToken, newEmail);
       const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).set({
+        db.collection("users").doc(this.props.uid).set({
           email: newEmail
         }, { merge: true })
         M.toast({html: 'Email updated successfully.'});
@@ -80,7 +80,7 @@ class AccountSettings extends React.Component {
 
   changeFirstName = () => {
     const db = firebase.firestore();
-      db.collection("users").doc(this.props.localId).set({
+      db.collection("users").doc(this.props.uid).set({
         firstName: this.state.newFirstName
       }, { merge: true })
       .then(() => {
@@ -96,7 +96,7 @@ class AccountSettings extends React.Component {
   changeLastName = () => {
       // update "users" database
       const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).set({
+        db.collection("users").doc(this.props.uid).set({
           lastName: this.state.newLastName
         }, { merge: true })
         .then(() => {
@@ -194,7 +194,7 @@ class AccountSettings extends React.Component {
 const mapStateToProps = state => {
   return {
     idToken: state.idToken,
-    localId: state.localId,
+    uid: state.uid,
     email: state.user.email,
     lastName: state.user.lastName, 
     firstName: state.user.firstName

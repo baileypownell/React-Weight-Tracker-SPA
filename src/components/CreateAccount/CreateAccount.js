@@ -33,10 +33,7 @@ class CreateAccount extends React.Component {
     .then(response => {
       //update Redux state
       let email = response.data.email;
-      let expiresIn = response.data.expiresIn;
-      let idToken = response.data.idToken;
       let localId = response.data.localId;
-      let refreshToken = response.data.refreshToken;
 
       const db = firebase.firestore();
         db.collection("users").doc(localId).set({
@@ -48,7 +45,7 @@ class CreateAccount extends React.Component {
           goals: []
         })
       // then update redux by logging in and creating account
-      this.props.createAccount(this.state.firstName, this.state.lastName, email, localId, expiresIn, idToken, refreshToken);
+      this.props.createAccount(this.state.firstName, this.state.lastName, email, localId);
       M.toast({html: 'Success! Redirecting...'})
       this.props.history.replace('/dashboard');
     })
@@ -112,7 +109,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createAccount: (firstName, lastName, email, localId, expiresIn, idToken, refreshToken) => dispatch(actions.createAccount(firstName, lastName, email, localId, expiresIn, idToken, refreshToken)),
+    createAccount: (firstName, lastName, email, uid) => dispatch(actions.createAccount(firstName, lastName, email, uid)),
     logout: () => dispatch(actions.logoutUser())
   }
 }

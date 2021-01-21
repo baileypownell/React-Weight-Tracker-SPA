@@ -21,11 +21,7 @@ class GoalNotifier extends React.Component {
         let now = new Date()
         let nowDate = DateTime.fromISO(now.toISOString())
         let targetDate = DateTime.fromISO((new Date(this.props.primaryGoal.goalTargetUnix * 1000).toISOString()))
-        console.log(nowDate)
-        console.log(targetDate)
         let daysLeft = targetDate.diff(nowDate, 'days').values.days
-        console.log(daysLeft)
-        let daysLeftRounded = Math.round(daysLeft)
         this.setState({
             daysLeft: daysLeft
         })
@@ -72,7 +68,7 @@ class GoalNotifier extends React.Component {
 
 const mapStateToProps = state => {
     return {
-      localId: state.localId,
+      uid: state.uid,
     }
   }
 
