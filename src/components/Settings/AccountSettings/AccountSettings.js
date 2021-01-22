@@ -34,32 +34,32 @@ class AccountSettings extends React.Component {
   }
 
   deleteAccount = () => {
-    let payload = {
-      idToken: this.props.idToken
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.FIREBASE_API_KEY}`, payload)
-    .then(response => {
+    let user = firebase.auth().currentUser;
+    user.delete()
+    .then((res) => {
+      console.log(res)
+      // User deleted.
       const db = firebase.firestore();
+      console.log(this.props.uid)
       let uid = this.props.uid;
-        db.collection("users").doc(uid).delete()
-        .then(() => {
-          M.toast({html: 'Account successfully deleted.'})
-          this.props.deleteUser();
-          this.props.history.push('/');
-        })
-        .catch((error) => {
-          console.log('Error: ', error.response.data.error);
-          M.toast({html: 'There was an error.'})
-        })
+      db.collection("users").doc(uid).delete()
+      .then((res) => {
+        console.log('the re = ', res)
+        M.toast({html: 'Account successfully deleted.'})
+        this.props.deleteUser();
+        this.props.history.push('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     })
-    .catch(error => {
-      M.toast({html: 'There was an error.'});
-      console.log('Error: ', error.response.data.error);
+    .catch((err) => {
+      console.log(err)
     });
   }
 
   updateEmail = (newEmail) => {
-    var user = firebase.auth().currentUser;
+    let user = firebase.auth().currentUser;
     user.updateEmail(newEmail)
     .then((res) => {
       const db = firebase.firestore();
