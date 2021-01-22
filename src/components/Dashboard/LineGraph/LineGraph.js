@@ -2,7 +2,7 @@ import React from 'react'
 import './LineGraph.scss'
 import { connect } from 'react-redux'
 import M from 'materialize-css'
-import { filter } from 'async'
+
 
 let myChart
 

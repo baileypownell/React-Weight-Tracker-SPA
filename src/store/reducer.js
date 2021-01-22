@@ -102,8 +102,7 @@ const reducer = (state = initialState, action) => {
         user: {
           ...state.user,
           email: action.newEmail
-        },
-        idToken: action.idToken
+        }
       }
     default:
       return state;

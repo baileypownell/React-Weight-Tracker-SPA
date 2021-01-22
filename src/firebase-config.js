@@ -15,5 +15,10 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig)
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        console.log('User Identified.')
+    } 
+  });
 
 export default firebase

@@ -2,6 +2,7 @@ import React from 'react'
 import M from 'materialize-css'
 import './WeightLogger.scss'
 import { connect } from 'react-redux'
+import firebase from '../../../firebase-config'
 
 export class WeightLogger extends React.Component {
 

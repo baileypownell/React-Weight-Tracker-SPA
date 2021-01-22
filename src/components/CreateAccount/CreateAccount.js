@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
+import firebase from '../../firebase-config'
 import axios from 'axios'
 
 class CreateAccount extends React.Component {
@@ -24,47 +25,30 @@ class CreateAccount extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const payload = {
-      email: this.state.email,
-      password: this.state.password,
-      returnSecureToken: true
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.FIREBASE_API_KEY}`, payload)
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(response => {
-      //update Redux state
-      let email = response.data.email;
-      let localId = response.data.localId;
+      let email = response.user.email;
+      let uid = response.user.uid;
 
       const db = firebase.firestore();
-        db.collection("users").doc(localId).set({
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          firebaseAuthID: localId,
-          weights: [],
-          goals: []
-        })
-      // then update redux by logging in and creating account
-      this.props.createAccount(this.state.firstName, this.state.lastName, email, localId);
-      M.toast({html: 'Success! Redirecting...'})
-      this.props.history.replace('/dashboard');
+      db.collection("users").doc(uid).set({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        firebaseAuthID: uid,
+        weights: [],
+        goals: []
+      })
+      .then((res) => {
+          // then update redux by logging in and creating account
+          this.props.createAccount(this.state.firstName, this.state.lastName, email, uid);
+          this.props.history.push('/dashboard');
+      })
+      .catch(err => console.log(err))
     })
     .catch((error) => {
-      console.log('Error: ', error.response.data.error);
-      let errorMessage = error.response.data.error.message;
-        let messageToUser = '';
-        if (errorMessage === 'INVALID_EMAIL') {
-          messageToUser = 'The email is invalid.';
-        } else if (errorMessage === 'INVALID_PASSWORD') {
-          messageToUser = 'The password is invalid';
-        } else if (errorMessage === 'EMAIL_EXISTS') {
-          messageToUser = 'The email address is already in use by another account.';
-        } else if (errorMessage === 'WEAK_PASSWORD') {
-          messageToUser = 'The password must be 6 characters long or more.';
-        } else {
-          messageToUser = "There has been an error."
-        }
-      M.toast({html: messageToUser})
+      console.log(error)
+      M.toast({html: error.message})
     });
    }
 

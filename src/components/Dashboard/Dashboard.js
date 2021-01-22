@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
       let weightHistory = doc.data().weights;
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
       let sortedGoals = doc.data().goals.sort(compareGoals)
-      const lastWeight = sortedAllWeightsRecorded[0].weight
+      const lastWeight = sortedAllWeightsRecorded.length ? sortedAllWeightsRecorded[0].weight : null
       determineGoalStatus(sortedGoals, lastWeight, this.props.uid)
       .then((res) => {
         if (res.updatedGoals) {

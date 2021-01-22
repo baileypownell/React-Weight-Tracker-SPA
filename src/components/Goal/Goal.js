@@ -3,6 +3,7 @@ import React from 'react'
 import './Goal.scss'
 import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
+import firebase from '../../firebase-config'
 var { DateTime } = require('luxon')
 
 let myDoughnutChart
@@ -187,14 +188,14 @@ class Goal extends React.Component {
                                             <p>Goal Date: {  goal.goalTarget }</p>
                                             { 
                                             goal.incomplete === true ? (
-                                                <div class="chip incomplete">
+                                                <div className="chip incomplete">
                                                     Incomplete
                                                 </div> 
                                             ) : null
                                             }
                                             { 
                                             goal.complete === true ? (
-                                                <div class="chip completed">
+                                                <div className="chip completed">
                                                     Completed
                                                 </div> 
                                             ) : null
