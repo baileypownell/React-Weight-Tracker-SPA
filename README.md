@@ -1,4 +1,4 @@
-# Weight Tracker Web App
+# Pounder
 
 Simply a web app to track your weight. Built with React, MaterializeCSS, Firebase, and Node/Express. 
 
