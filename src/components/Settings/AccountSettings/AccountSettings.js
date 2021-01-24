@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
 import * as actions from '../../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import M from 'materialize-css'
@@ -34,28 +33,24 @@ class AccountSettings extends React.Component {
   }
 
   deleteAccount = () => {
-    let user = firebase.auth().currentUser;
-    user.delete()
-    .then((res) => {
-      console.log(res)
-      // User deleted.
-      const db = firebase.firestore();
-      console.log(this.props.uid)
+    const db = firebase.firestore();
       let uid = this.props.uid;
       db.collection("users").doc(uid).delete()
       .then((res) => {
-        console.log('the re = ', res)
         M.toast({html: 'Account successfully deleted.'})
-        this.props.deleteUser();
-        this.props.history.push('/');
+          let user = this.props.user;
+          user.delete()
+        .then((res) => {
+          this.props.deleteUser();
+          this.props.history.push('/');
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       })
       .catch((error) => {
         console.log(error);
       })
-    })
-    .catch((err) => {
-      console.log(err)
-    });
   }
 
   updateEmail = (newEmail) => {

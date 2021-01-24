@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import * as actions from '../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import firebase from '../../firebase-config'
-import axios from 'axios'
 
 class CreateAccount extends React.Component {
   state = {
