@@ -2,7 +2,7 @@ import React from 'react'
 import './LineGraph.scss'
 import { connect } from 'react-redux'
 import M from 'materialize-css'
-import { filter } from 'async'
+
 
 let myChart
 
@@ -163,7 +163,7 @@ class LineGraph extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    localId: state.localId
+    uid: state.uid
   }
 }
 

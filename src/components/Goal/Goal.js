@@ -3,6 +3,7 @@ import React from 'react'
 import './Goal.scss'
 import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
+import firebase from '../../firebase-config'
 var { DateTime } = require('luxon')
 
 let myDoughnutChart
@@ -96,7 +97,7 @@ class Goal extends React.Component {
 
     addGoal = () => {
         const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).update({
+        db.collection("users").doc(this.props.uid).update({
            goals: this.props.goals.concat({
                 goalWeight: this.state.goalWeight, 
                 goalTarget: this.state.goalTarget,
@@ -122,7 +123,7 @@ class Goal extends React.Component {
     deleteGoal = () => {
         let updatedGoals = this.props.goals.filter(goal => goal.id !== this.state.goalToDeleteId)
         const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).update({
+        db.collection("users").doc(this.props.uid).update({
             goals: updatedGoals
         })
         .then(() => {
@@ -187,14 +188,14 @@ class Goal extends React.Component {
                                             <p>Goal Date: {  goal.goalTarget }</p>
                                             { 
                                             goal.incomplete === true ? (
-                                                <div class="chip incomplete">
+                                                <div className="chip incomplete">
                                                     Incomplete
                                                 </div> 
                                             ) : null
                                             }
                                             { 
                                             goal.complete === true ? (
-                                                <div class="chip completed">
+                                                <div className="chip completed">
                                                     Completed
                                                 </div> 
                                             ) : null
@@ -235,7 +236,7 @@ class Goal extends React.Component {
 
 const mapStateToProps = state => {
     return {
-      localId: state.localId,
+        uid: state.uid,
     }
   }
 

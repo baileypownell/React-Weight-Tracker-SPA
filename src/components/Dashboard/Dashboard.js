@@ -9,6 +9,7 @@ import './Dashboard.scss'
 import { compare, compareGoals } from '../../compare'
 import { determineGoalStatus } from '../../determine-goal-status'
 import { calculateTodaysWeight } from '../../calculate-todays-weight'
+import firebase from '../../firebase-config'
 
 class Dashboard extends React.Component {
 
@@ -27,13 +28,13 @@ class Dashboard extends React.Component {
 
   updateWeightHistory() {
     const db = firebase.firestore();
-    db.collection("users").doc(this.props.localId).get()
+    db.collection("users").doc(this.props.uid).get()
     .then((doc) => {
       let weightHistory = doc.data().weights;
       let sortedAllWeightsRecorded = weightHistory.sort(compare)
       let sortedGoals = doc.data().goals.sort(compareGoals)
-      const lastWeight = sortedAllWeightsRecorded[0].weight
-      determineGoalStatus(sortedGoals, lastWeight, this.props.localId)
+      const lastWeight = sortedAllWeightsRecorded.length ? sortedAllWeightsRecorded[0].weight : null
+      determineGoalStatus(sortedGoals, lastWeight, this.props.uid)
       .then((res) => {
         if (res.updatedGoals) {
           let futureGoals = res.updatedGoals.filter(goal => !goal.complete && !goal.incomplete)
@@ -59,7 +60,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-      this.updateWeightHistory(this.props.localId)
+      this.updateWeightHistory(this.props.uid)
   }
 
   render() {
@@ -124,7 +125,7 @@ class Dashboard extends React.Component {
 const mapStateToProps = state => {
   return {
     userLoggedIn: state.userLoggedIn,
-    localId: state.localId,
+    uid: state.uid,
   }
 }
 

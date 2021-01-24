@@ -1,5 +1,6 @@
 
 var { DateTime } = require('luxon') 
+import firebase from './firebase-config'
 
 export const determineGoalStatus = async (goals, lastWeight, userID) => {
 

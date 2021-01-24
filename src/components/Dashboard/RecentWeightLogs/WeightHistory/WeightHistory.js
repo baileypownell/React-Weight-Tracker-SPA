@@ -174,7 +174,7 @@ class WeightHistory extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    localId: state.localId
+    uid: state.uid
   }
 }
 

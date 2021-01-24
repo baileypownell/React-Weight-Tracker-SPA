@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
 import * as actions from '../../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import M from 'materialize-css'
 import './AccountSettings.scss'
+import firebase from '../../../firebase-config'
 
 class AccountSettings extends React.Component {
 
@@ -33,54 +33,45 @@ class AccountSettings extends React.Component {
   }
 
   deleteAccount = () => {
-    let payload = {
-      idToken: this.props.idToken
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.FIREBASE_API_KEY}`, payload)
-    .then(response => {
-      const db = firebase.firestore();
-      let localId = this.props.localId;
-        db.collection("users").doc(localId).delete()
-        .then(() => {
-          M.toast({html: 'Account successfully deleted.'})
+    const db = firebase.firestore();
+      let uid = this.props.uid;
+      db.collection("users").doc(uid).delete()
+      .then((res) => {
+        M.toast({html: 'Account successfully deleted.'})
+          let user = this.props.user;
+          user.delete()
+        .then((res) => {
           this.props.deleteUser();
           this.props.history.push('/');
         })
-        .catch((error) => {
-          console.log('Error: ', error.response.data.error);
-          M.toast({html: 'There was an error.'})
+        .catch((err) => {
+          console.log(err)
         })
-    })
-    .catch(error => {
-      M.toast({html: 'There was an error.'});
-      console.log('Error: ', error.response.data.error);
-    });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
-  updateEmail = (idToken, newEmail) => {
-    const payloadEmail = {
-      idToken: idToken,
-      email: newEmail,
-      returnSecureToken: true
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.FIREBASE_API_KEY}`, payloadEmail)
-    .then(response => {
-      this.props.changeEmail(idToken, newEmail);
+  updateEmail = (newEmail) => {
+    let user = firebase.auth().currentUser;
+    user.updateEmail(newEmail)
+    .then((res) => {
       const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).set({
-          email: newEmail
-        }, { merge: true })
-        M.toast({html: 'Email updated successfully.'});
+      db.collection("users").doc(this.props.uid).set({
+        email: newEmail
+      }, { merge: true })
+      M.toast({html: 'Email updated successfully.'});
     })
     .catch(err => {
-      console.log(err);
-      M.toast({html: 'There was an error.'});
+      console.log(err)
+      M.toast({html: 'There was an error.'})
     });
   }
 
   changeFirstName = () => {
     const db = firebase.firestore();
-      db.collection("users").doc(this.props.localId).set({
+      db.collection("users").doc(this.props.uid).set({
         firstName: this.state.newFirstName
       }, { merge: true })
       .then(() => {
@@ -96,7 +87,7 @@ class AccountSettings extends React.Component {
   changeLastName = () => {
       // update "users" database
       const db = firebase.firestore();
-        db.collection("users").doc(this.props.localId).set({
+        db.collection("users").doc(this.props.uid).set({
           lastName: this.state.newLastName
         }, { merge: true })
         .then(() => {
@@ -121,18 +112,13 @@ class AccountSettings extends React.Component {
 
 
   changePassword = () => {
-    const payloadPassword = {
-      requestType: 'PASSWORD_RESET',
-      email: this.props.email
-    }
-    axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.FIREBASE_API_KEY}`, payloadPassword)
-    .then(response => {
-      M.toast({html: 'Password link sent.'})
-      this.logout();
+    firebase.auth().sendPasswordResetEmail(this.props.email)
+    .then(() => {
+      M.toast({ html: 'Password reset email sent.'})
     })
-    .catch(error => {
-      console.log('Error: ', error.response.data.error)
-      M.toast({html: 'There was an error.'})
+    .catch((err) => {
+      console.log(err) 
+      M.toast({ html: 'There was an error.' })
     });
   }
   
@@ -164,7 +150,7 @@ class AccountSettings extends React.Component {
                     </div>
                     <button
                       className="waves-effect waves-light btn"
-                      onClick={() => this.updateEmail(this.props.idToken, this.state.newEmail)}>
+                      onClick={() => this.updateEmail(this.state.newEmail)}>
                       Submit
                     </button>
                   </div>
@@ -194,7 +180,7 @@ class AccountSettings extends React.Component {
 const mapStateToProps = state => {
   return {
     idToken: state.idToken,
-    localId: state.localId,
+    uid: state.uid,
     email: state.user.email,
     lastName: state.user.lastName, 
     firstName: state.user.firstName
@@ -205,7 +191,7 @@ const mapDispatchToProps = dispatch => {
   return {
     deleteUser: () => dispatch(actions.deleteUser()),
     logoutUser: () => dispatch(actions.logoutUserAsync()),
-    changeEmail: (idToken, newEmail) => dispatch(actions.changeEmail(idToken, newEmail)),
+    changeEmail: (newEmail) => dispatch(actions.changeEmail(newEmail)),
     changeFirstName: (firstName) => dispatch(actions.changeFirstName(firstName)),
     changeLastName: (lastName) => dispatch(actions.changeLastName(lastName))
   }

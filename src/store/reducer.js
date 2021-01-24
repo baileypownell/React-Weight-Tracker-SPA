@@ -9,10 +9,7 @@ const initialState = {
     firebaseAuthID: null,
   },
   userLoggedIn: false,
-  expiresIn: '',
-  idToken: '',
-  localId: '',
-  refreshToken: '',
+  uid: '',
   error: ''
 };
 
@@ -25,10 +22,7 @@ const reducer = (state = initialState, action) => {
           ...state.user,
           email: action.email,
         },
-        expiresIn: action.expiresIn,
-        idToken: action.idToken,
-        localId: action.localId,
-        refreshToken: action.refreshToken,
+        uid: action.uid,
         userLoggedIn: true
       };
     case actionTypes.SET_USER_LOGGED_OUT:
@@ -40,10 +34,7 @@ const reducer = (state = initialState, action) => {
           email: '',
           firebaseAuthID: '',
         },
-        expiresIn: '',
-        idToken: '',
-        localId: '',
-        refreshToken: '',
+        uid: '',
         userLoggedIn: false,
         error: ''
     }
@@ -56,10 +47,7 @@ const reducer = (state = initialState, action) => {
           email: '',
           firebaseAuthID: '',
         },
-        expiresIn: '',
-        idToken: '',
-        localId: '',
-        refreshToken: '',
+        uid: '',
         userLoggedIn: false,
         error: ''
     }
@@ -83,10 +71,7 @@ const reducer = (state = initialState, action) => {
           firebaseAuthID: action.firebaseAuthID,
         },
         userLoggedIn: true,
-        expiresIn: action.expiresIn,
-        idToken: action.idToken,
-        localId: action.localId,
-        refreshToken: action.refreshToken
+        uid: action.uid,
       };
     case actionTypes.CHANGE_FIRST_NAME:
       return {
@@ -117,8 +102,7 @@ const reducer = (state = initialState, action) => {
         user: {
           ...state.user,
           email: action.newEmail
-        },
-        idToken: action.idToken
+        }
       }
     default:
       return state;

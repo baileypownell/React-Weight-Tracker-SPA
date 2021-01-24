@@ -2,6 +2,7 @@ import React from 'react'
 import M from 'materialize-css'
 import './WeightLogger.scss'
 import { connect } from 'react-redux'
+import firebase from '../../../firebase-config'
 
 export class WeightLogger extends React.Component {
 
@@ -45,7 +46,7 @@ export class WeightLogger extends React.Component {
       date: {date},
       weight: this.state.todaysWeight
     });
-    db.collection("users").doc(this.props.localId).update({
+    db.collection("users").doc(this.props.uid).update({
       weights: updatedWeights
     })
     .then(() => {
@@ -65,7 +66,7 @@ export class WeightLogger extends React.Component {
       let recordToUpdate = allWeights[0];
       recordToUpdate.weight = this.state.updatedWeight;
       const db = firebase.firestore();
-      db.collection("users").doc(this.props.localId).update({
+      db.collection("users").doc(this.props.uid).update({
           weights: allWeights
       })
       .then(() => {
@@ -147,7 +148,7 @@ export class WeightLogger extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    localId: state.localId,
+    uid: state.uid,
   }
 }
 
