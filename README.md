@@ -1,4 +1,4 @@
-# Pounder
+# Happy Balance
 
 Simply a web app to track your weight. Built with React, MaterializeCSS, Firebase, and Node/Express. 
 
