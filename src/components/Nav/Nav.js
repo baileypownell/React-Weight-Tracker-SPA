@@ -22,7 +22,7 @@ class Nav extends React.Component {
     return (
       <>
         <nav>      
-            <Link to="/" >Pounder</Link>
+            <Link to="/" >Happy Balance</Link>
             <a data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
         <ul id="slide-out" className="sidenav sidenav-close">
