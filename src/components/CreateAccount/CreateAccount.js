@@ -52,6 +52,7 @@ class CreateAccount extends React.Component {
    }
 
   render() {
+    const { firstName, lastName, email, password } = this.state
     return (
       <div id="mobile-center">
         <div className="content-parent">
@@ -76,7 +77,7 @@ class CreateAccount extends React.Component {
                 </input>
                 </label>
 
-              <button className="waves-effect waves-light btn">Sign Up</button>
+              <button disabled={!firstName || !lastName || !email || !password} className="waves-effect waves-light btn">Sign Up</button>
           </form>
       </div>
       </div>

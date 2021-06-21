@@ -58,6 +58,7 @@ class LogIn extends React.Component {
   }
 
   render() {
+    const { email, password } = this.state
     return (
       <div id="mobile-center">
         <div className="content-parent">
@@ -69,18 +70,29 @@ class LogIn extends React.Component {
               <label>Password
               <input placeholder="Password" id="password" type="password" onChange={this.handleChange} ></input>
               </label>
-          <button className="waves-effect waves-light btn">log in</button>
+          <button disabled={!email || !password} className="waves-effect waves-light btn">Log In</button>
         </form>
         {this.state.authError ? 
-          <div>
-            <p>Forgot password? Receive a link to reset your password</p>
-            <button className="waves-effect waves-light btn" onClick={this.sendPasswordResetEmail}>Send link</button>
+          <div style={{ padding: '10px 0'}}>
+            <p>Forgot password? Receive a link to reset your password.</p>
+            <button 
+              className="waves-effect waves-light btn" 
+              id="send-link"
+              onClick={this.sendPasswordResetEmail}>
+                Send link 
+              <i class="fas fa-envelope"></i>
+            </button>
           </div>
           : null
         }
         <div id="no-account">
           <p>Don't have an account?</p>
-          <button  onClick={this.createAccount} className="waves-effect waves-light btn">Sign Up <i className="fas fa-arrow-alt-circle-right"></i></button>
+          <button  
+            onClick={this.createAccount} 
+            className="waves-effect waves-light btn">
+            Sign Up 
+            <i className="fas fa-arrow-alt-circle-right"></i>
+          </button>
         </div>
       </div>
       </div>
