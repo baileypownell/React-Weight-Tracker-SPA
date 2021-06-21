@@ -16,7 +16,7 @@ const RecentWeightLogs = (props) => {
             key={props.weights}  
             weights={props.weights}/>
         </> : 
-      <p>You haven't recorded any weights yet.</p> }
+      <p>Record a weight to start seeing your progress and setting goals.</p> }
     </div>
   )
 }

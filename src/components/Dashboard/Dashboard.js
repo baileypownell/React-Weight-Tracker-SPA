@@ -88,12 +88,13 @@ class Dashboard extends React.Component {
                   : null}
                   
               </div>
-              <Goal 
-                key={goals}
-                updateGoals={this.updateWeightHistory} 
-                goals={goals} 
-                weights={sortedWeights} 
-              />
+              {sortedWeights.length ? 
+                  <Goal 
+                  key={goals}
+                  updateGoals={this.updateWeightHistory} 
+                  goals={goals} 
+                  weights={sortedWeights} 
+                /> : null}
               {
                 primaryGoal ? 
                   <GoalNotifier primaryGoal={primaryGoal}
