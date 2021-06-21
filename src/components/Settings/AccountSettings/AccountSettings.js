@@ -33,24 +33,24 @@ class AccountSettings extends React.Component {
   }
 
   deleteAccount = () => {
-    const db = firebase.firestore();
-      let uid = this.props.uid;
-      db.collection("users").doc(uid).delete()
+    const db = firebase.firestore()
+    let uid = this.props.uid;
+    db.collection("users").doc(uid).delete()
+    .then((res) => {
+        let user = this.props.user
+        user.delete()
       .then((res) => {
+        this.props.deleteUser()
         M.toast({html: 'Account successfully deleted.'})
-          let user = this.props.user;
-          user.delete()
-        .then((res) => {
-          this.props.deleteUser();
-          this.props.history.push('/');
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+        this.props.history.push('/')
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err)
       })
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   updateEmail = (newEmail) => {
@@ -166,7 +166,11 @@ class AccountSettings extends React.Component {
                   <div className="collapsible-header">Delete Account</div>
                   <div className="collapsible-body">
                         <p>This action cannot be undone.</p>
-                        <button className="waves-effect waves-light btn" onClick={this.deleteAccount}>Delete Account</button>
+                        <button 
+                          className="waves-effect waves-light btn" 
+                          onClick={this.deleteAccount}>
+                          Delete Account
+                        </button>
                   </div>
                 </li>
               </ul>

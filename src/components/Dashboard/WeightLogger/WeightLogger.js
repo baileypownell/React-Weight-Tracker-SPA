@@ -84,7 +84,7 @@ export class WeightLogger extends React.Component {
 
 
   render() {
-    const { todaysWeight, formInputEmpty, updatedWeight } = this.state;
+    const { formInputEmpty, updatedWeight } = this.state;
     return (
       <div id="weight-logger">
           <div id="modal1" className="modal">
@@ -103,6 +103,7 @@ export class WeightLogger extends React.Component {
             <div className="modal-footer">
               <a 
                 onClick={this.updateTodaysWeight} 
+                disabled={!updatedWeight}
                 className="modal-close waves-effect waves-light btn">
                 Update
               </a>
