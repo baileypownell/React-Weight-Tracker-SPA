@@ -9,8 +9,9 @@ nav a {
 
 #slide-out {
     min-width: 250px;
+    background-color: $white;
     img {
-        width: 100px;
+        width: 200px;
         display: block;
         margin: 0 auto;
     }
@@ -18,4 +19,10 @@ nav a {
 
 .fa-bars {
     color: darken($pink, 5%);
+}
+
+#wide {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
 }

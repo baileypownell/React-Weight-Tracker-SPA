@@ -5,7 +5,8 @@ import './Nav.scss'
 import * as actions from '../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import M from 'materialize-css'
-import logo from '../../assets/default.png'
+import logo from '../../assets/default-white.png'
+import logoWide from '../../assets/default-monochrome.svg'
 
 class Nav extends React.Component {
 
@@ -23,7 +24,7 @@ class Nav extends React.Component {
     return (
       <>
         <nav>      
-            <Link to="/" >Happy Balance</Link>
+            <Link to="/" ><img id="wide" src={logoWide}></img></Link>
             <a data-target="slide-out" className="sidenav-trigger"><i className="fas fa-bars"></i></a>   
         </nav>
         <ul id="slide-out" className="sidenav sidenav-close">
