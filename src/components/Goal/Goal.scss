@@ -10,7 +10,7 @@
         }
     }
     .datepicker-date-display {
-        background-color: $orange;
+        background-color: $pink;
     }
     input {
         color: $gray;
@@ -18,7 +18,6 @@
     .datepicker-table td.is-selected {
         background-color: $gray;
         button {
-
             color: white;
         }
     }
@@ -76,14 +75,14 @@
         bottom: 0; 
         right: 0;
         height: 100%;
-        background-color: $orange;
+        background-color: $pink;
         transition: background-color .4s;
         &:hover {
-            background-color: lighten($orange, 10%);
+            background-color: darken($gold, 10%);
         }
         i {
             cursor: pointer;
-            color: white;
+            color: $white;
             font-size: 20px;
         }
     }
@@ -96,14 +95,14 @@
 }
 
 .selected-goal {
-    background-color: lighten($orange, 10%);
-    color: white;
+    // background-color: lighten($pink, 10%);
+    color: $gray;
     .delete-goal {
         background-color: lighten($gray, 20%);
     }
     padding: 10px;
     .completed, .incomplete {
-        background-color: white!important;
+        // background-color:$white!important;
         color: $gray!important;
     }
 }
@@ -124,7 +123,7 @@
     transition: all .5s;
     margin: 10px 0;
     color: white!important;
-    background-color: #c74d4d!important;
+    // background-color: #c74d4d!important;
 }
 
 .completed {

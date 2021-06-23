@@ -3,6 +3,10 @@
 #accountSettings {
   color: $gray;
   flex-grow: 1;
+  input, 
+  input:focus {
+    border-color: $gray!important;
+  }
 }
 
 .collapsible-body {
