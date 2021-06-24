@@ -19,16 +19,13 @@ export class WeightLogger extends React.Component {
   }
 
   handleChange = (e) => {
-    if (e.target.value > 1) {
-      this.setState({
-        formInputEmpty: false,
-        todaysWeight: e.target.value
-      });
-    } else {
-      this.setState({
-        formInputEmpty: true
-      });
-    }
+    this.setState({
+      todaysWeight: e.target.value
+    })
+
+    thise.setState({
+      formInputEmpty: e.target.value > 1 ? false : true
+    })
   }
 
   handleUpdateChange = (e) => {
@@ -113,13 +110,13 @@ export class WeightLogger extends React.Component {
               {
                 !this.props.todaysWeight ? 
                 <div className="input-field">
-                <label htmlFor="weight">Record Weight</label>
-                <input 
-                  id="weight" 
-                  value={this.state.todaysWeight} 
-                  onChange={this.handleChange} 
-                  type="text">
-                </input>
+                  <label htmlFor="weight">Record Weight</label>
+                  <input 
+                    id="weight" 
+                    value={this.state.todaysWeight} 
+                    onChange={this.handleChange} 
+                    type="text">
+                  </input>
                 </div> : null 
               }
               <div>
