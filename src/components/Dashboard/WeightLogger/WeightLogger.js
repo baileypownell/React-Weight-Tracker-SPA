@@ -9,7 +9,7 @@ export class WeightLogger extends React.Component {
 
   state = {
     formInputEmpty: true,
-    todaysWeight: null,
+    todaysWeight: undefined,
     updatedWeight: ''
   }
 
@@ -19,11 +19,12 @@ export class WeightLogger extends React.Component {
   }
 
   handleChange = (e) => {
+    const numValue = e.target.value.replace(/[^0-9.]/g, '')
     this.setState({
-      todaysWeight: e.target.value
+      todaysWeight: numValue
     })
 
-    thise.setState({
+    this.setState({
       formInputEmpty: e.target.value > 1 ? false : true
     })
   }

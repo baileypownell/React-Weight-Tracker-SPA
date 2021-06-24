@@ -34,6 +34,9 @@
     border-bottom: 2px solid white;
     margin-bottom: 25px;
     padding-bottom: 25px;
+    label {
+      color: $white!important;
+    }
     button {
         margin-right: 10px;
     }
