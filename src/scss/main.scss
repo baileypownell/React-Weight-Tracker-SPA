@@ -70,7 +70,7 @@ button {
   color: $gray!important;
   margin-top: 15px;
   &:hover {
-    background-color: darken($pink, 5%)!important;
+    background-color: lighten($pink, 5%)!important;
   }
 }
 
@@ -82,6 +82,9 @@ input,
 input:focus {
   border-color: $white!important;
   box-shadow: none!important;
+}
+input:focus {
+  border-color: $pink!important;
 }
 
 a.sidenav-trigger {
@@ -158,8 +161,11 @@ a.sidenav-trigger {
     height:auto;
   }
   input, input:focus {
-    border-color: $gold!important;
+    border-color: $gray-light!important;
     color: $gray;
+  }
+  input:focus {
+    border-color: $pink!important;
   }
   a {
     color: $gray!important;

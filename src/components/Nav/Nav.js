@@ -5,8 +5,8 @@ import './Nav.scss'
 import * as actions from '../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import M from 'materialize-css'
-import logo from '../../assets/default-white.png'
-import logoWide from '../../assets/default-monochrome.svg'
+import logo from '../../assets/default-dark-2.png'
+import logoWide from '../../assets/default-dark-monochrome.svg'
 
 class Nav extends React.Component {
 

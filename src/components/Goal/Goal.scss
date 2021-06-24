@@ -78,7 +78,7 @@
         background-color: $pink;
         transition: background-color .4s;
         &:hover {
-            background-color: darken($gold, 10%);
+            background-color: $gold;
         }
         i {
             cursor: pointer;

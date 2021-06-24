@@ -77,7 +77,7 @@ class Goal extends React.Component {
             datasets: [{
                 data: [lastWeight, goalWeightDifference],
                 backgroundColor: [
-                    '#99AA38',
+                    '#B6C757',
                     '#595758'
                 ],
                 borderWidth: 0.5

@@ -3,9 +3,11 @@
 #accountSettings {
   color: $gray;
   flex-grow: 1;
-  input, 
-  input:focus {
+  input {
     border-color: $gray!important;
+  }
+  input:focus {
+    border-color: $pink!important;
   }
 }
 

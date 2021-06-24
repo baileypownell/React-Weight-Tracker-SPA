@@ -26,7 +26,7 @@ class LineGraph extends React.Component {
       datasets: [{
           data: this.props.weights,
           backgroundColor: [
-              '#99AA38',
+              '#B6C757',
           ],
           borderWidth: 1
       }]
@@ -72,8 +72,8 @@ class LineGraph extends React.Component {
       datasets: [{
           label: 'Pounds',
           data: filteredWeights,
-          backgroundColor: '#99AA38',
-          hoverBackgroundColor: '#e8ffb7',
+          backgroundColor: '#B6C757',
+          hoverBackgroundColor: '#B6C757',
           borderColor: [
               '#e8ffb7'
           ],
