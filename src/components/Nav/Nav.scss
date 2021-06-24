@@ -6,3 +6,23 @@ nav a {
         font-size: 24px;
     }
 }
+
+#slide-out {
+    min-width: 250px;
+    background-color: $white;
+    img {
+        width: 200px;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.fa-bars {
+    color: darken($pink, 5%);
+}
+
+#wide {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+}

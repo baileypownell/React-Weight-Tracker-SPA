@@ -1,7 +1,11 @@
 
 
-$gray: #303030;
-$orange: #f79c40;
+$gray: #595758;
+$gray-light: #949494;
+$pink: #FFADBE;
+$white: #F7F7F7;
+$gold: #E7C088;
+$green: #B6C757; // 99AA38
 
 @mixin tablet {
     @media only screen and (min-width: 650px) {

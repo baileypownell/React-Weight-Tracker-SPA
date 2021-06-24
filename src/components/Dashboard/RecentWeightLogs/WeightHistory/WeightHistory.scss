@@ -19,8 +19,9 @@
 
 #toggler {
     width: 100%;
-    background-color: $gray!important;
+    background-color: $green!important;
+    color: $white!important;
     &:hover {
-        background-color: lighten($gray, 10%)!important;
+        background-color: lighten($green, 5%)!important;
     }
 }

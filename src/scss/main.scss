@@ -21,7 +21,7 @@ input {
 
 
 body {
-  background: url("https://res.cloudinary.com/djad06sng/image/upload/v1596586267/victor-freitas-KIzBvHNe7hY-unsplash.jpg"), rgba(232, 156, 26, 0.3);
+  background: url("../assets/scales.jpg"), rgba(232, 156, 26, 0.3);
   min-height: 100vh;
   background-blend-mode: hard-light;
   background-position: center;
@@ -35,7 +35,7 @@ body {
     color: white;
   }
   nav {
-    background-color: $orange;
+    background-color: $white;
     padding: 10px 15px;
     display: flex;
     flex-direction: row;
@@ -66,21 +66,25 @@ body {
 }
 
 button {
-  background-color: $orange!important;
+  background-color: $pink!important;
+  color: $gray!important;
   margin-top: 15px;
   &:hover {
-    background-color: lighten($orange, 10%)!important;
+    background-color: lighten($pink, 5%)!important;
   }
 }
 
 label {
-  color: $orange!important;
+  color: $gray!important;
 }
 
 input,
 input:focus {
-  border-color: $orange!important;
+  border-color: $white!important;
   box-shadow: none!important;
+}
+input:focus {
+  border-color: $pink!important;
 }
 
 a.sidenav-trigger {
@@ -95,7 +99,7 @@ a.sidenav-trigger {
 }
 
 .toast {
-  background-color: $orange!important;
+  background-color: $green!important;
 }
 
 .content-parent {
@@ -156,6 +160,16 @@ a.sidenav-trigger {
   .modal-footer {
     height:auto;
   }
+  input, input:focus {
+    border-color: $gray-light!important;
+    color: $gray;
+  }
+  input:focus {
+    border-color: $pink!important;
+  }
+  a {
+    color: $gray!important;
+  }
 }
 
 #mobile-center {
@@ -174,7 +188,7 @@ a.sidenav-trigger {
 }
 
 .tap-target {
-  background-color: $orange;
+  background-color: darken($pink, 5%);
 }
 
 .tap-target-content {
@@ -198,4 +212,8 @@ a.sidenav-trigger {
       bottom: -370px!important;
       left: -350px!important;
     }
+}
+
+.is-selected .datepicker-day-button {
+  color: $white!important;
 }
