@@ -30,9 +30,10 @@ export class WeightLogger extends React.Component {
   }
 
   handleUpdateChange = (e) => {
+    const numValue = e.target.value.replace(/[^0-9.]/g, '')
     this.setState({
-      updatedWeight: e.target.value
-    });
+      updatedWeight: numValue
+    })
   }
 
 
@@ -88,14 +89,14 @@ export class WeightLogger extends React.Component {
           <div id="modal1" className="modal">
             <div className="modal-content">
                 <div className="input-field">
-                <label className="active" htmlFor="update-weight">Update today's weight</label>
-                <input 
-                  type="text" 
-                  placeholder={this.props.todaysWeight} 
-                  value={updatedWeight} 
-                  id="updatedWeight" 
-                  onChange={this.handleUpdateChange}>
-                </input>
+                  <label className="active" htmlFor="update-weight">Update today's weight</label>
+                  <input 
+                    type="text" 
+                    placeholder={this.props.todaysWeight} 
+                    value={updatedWeight} 
+                    id="updatedWeight" 
+                    onChange={this.handleUpdateChange}>
+                  </input>
               </div>
             </div>
             <div className="modal-footer">
