@@ -130,7 +130,7 @@ class WeightHistory extends React.Component {
       <div>
         <div id="data-row">
           { noHistory ? <p>You haven't recorded any weights.</p> :
-           limitedForDisplay.map((weight) => {
+           limitedForDisplay.map((weight, index) => {
             let date = (new Date(weight.date.date.seconds * 1000)).toString();
             let dateStringArray = date.split(' ');
             let dateString = [dateStringArray[1], dateStringArray[2], dateStringArray[3]].join(' ');
@@ -138,6 +138,7 @@ class WeightHistory extends React.Component {
               index={weight.date.date.seconds}
               weight={weight.weight}
               date={dateString}
+              key={index}
             />
         })
       }
@@ -162,10 +163,12 @@ class WeightHistory extends React.Component {
        }
         </div>
       {
-        extraRecordPosition === 0 && this.props.weights.length > 5 ? <button 
-        className="waves-effect waves-light btn"
-        id="toggler"
-        onClick={this.toggleMore}>View {showingMore ? "less" : "more"}</button> : null
+        extraRecordPosition === 0 && this.props.weights.length > 5 ? 
+          <button 
+            className="waves-effect waves-light btn"
+            id="toggler"
+            onClick={this.toggleMore}>View {showingMore ? "less" : "more"}
+          </button> : null
       }
       </div>
       )

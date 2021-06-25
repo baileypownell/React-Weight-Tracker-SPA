@@ -165,7 +165,13 @@ class Goal extends React.Component {
                     <div>
                         <div id="add-goal">
                             <h6>Add a goal</h6>
-                            <input value={this.state.goalTarget} type="text" placeholder="Select goal target date" className="datepicker"></input>
+                            <input 
+                                value={this.state.goalTarget} 
+                                type="text" 
+                                placeholder="Select goal target date" 
+                                readOnly
+                                className="datepicker">
+                            </input>
                             <input 
                                 type="text" 
                                 value={this.state.goalWeight} 
@@ -179,36 +185,38 @@ class Goal extends React.Component {
                                     Add Goal
                             </button>
                         </div>
-                        {
-                            goals.map(goal => {
-                                return (
-                                    <div className={this.state.selectedGoal && this.state.selectedGoal.id === goal.id ? "goal-item selected-goal": "goal-item"} onClick={() => this.showGraph(goal.id)}>
-                                        <div>
-                                            <p>Target Weight: {goal.goalWeight}</p>
-                                            <p>Goal Date: {  goal.goalTarget }</p>
-                                            { 
-                                            goal.incomplete === true ? (
-                                                <div className="chip incomplete">
-                                                    Incomplete
-                                                </div> 
-                                            ) : null
-                                            }
-                                            { 
-                                            goal.complete === true ? (
-                                                <div className="chip completed">
-                                                    Completed
-                                                </div> 
-                                            ) : null
-                                            }
-                                        </div>
-                                        
-                                        <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
-                                            <i className="fas fa-trash"></i>
-                                        </div>
+                        {goals.map((goal, index) => {
+                            return (
+                                <div 
+                                    key={index}
+                                    className={this.state.selectedGoal && this.state.selectedGoal.id === goal.id ? 
+                                        "goal-item selected-goal": 
+                                        "goal-item"} 
+                                    onClick={() => this.showGraph(goal.id)}>
+                                    <div>
+                                        <p>Target Weight: {goal.goalWeight}</p>
+                                        <p>Goal Date: {  goal.goalTarget }</p>
+                                        { goal.incomplete ? (
+                                            <div className="chip incomplete">
+                                                Incomplete
+                                            </div> 
+                                        ) : 
+                                        null }
+                                        { goal.complete ? (
+                                            <div className="chip completed">
+                                                Completed
+                                            </div> 
+                                        ) :
+                                        null }
                                     </div>
-                                )
-                            })
-                        }
+                                    
+                                    <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
+                                        <i className="fas fa-trash"></i>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
                     </div>
                
                     <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
