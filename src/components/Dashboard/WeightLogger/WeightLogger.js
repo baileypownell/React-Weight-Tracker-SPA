@@ -61,10 +61,10 @@ export class WeightLogger extends React.Component {
   
 
   updateTodaysWeight = () => {
-      let allWeights = this.props.weights;
-      let recordToUpdate = allWeights[0];
-      recordToUpdate.weight = this.state.updatedWeight;
-      const db = firebase.firestore();
+      let allWeights = this.props.weights
+      let recordToUpdate = allWeights[0]
+      recordToUpdate.weight = this.state.updatedWeight
+      const db = firebase.firestore()
       db.collection("users").doc(this.props.uid).update({
           weights: allWeights
       })
@@ -76,7 +76,7 @@ export class WeightLogger extends React.Component {
         })
       })
       .catch(err => {
-        console.log(err);
+        console.log(err)
         M.toast({html: 'Weight could not be updated.'})
       })
     }
@@ -109,8 +109,7 @@ export class WeightLogger extends React.Component {
             </div>
           </div>
           <form>
-              {
-                !this.props.todaysWeight ? 
+              {!this.props.todaysWeight ? 
                 <div className="input-field">
                   <label htmlFor="weight">Record Weight</label>
                   <input 
@@ -119,11 +118,10 @@ export class WeightLogger extends React.Component {
                     onChange={this.handleChange} 
                     type="text">
                   </input>
-                </div> : null 
-              }
+                </div> : 
+                null }
               <div>
-                {
-                  !this.props.todaysWeight ? 
+                {!this.props.todaysWeight ? 
                   <button
                     disabled={formInputEmpty || this.props.todaysWeight}
                     onClick={this.logWeight} 
@@ -140,7 +138,9 @@ export class WeightLogger extends React.Component {
                 }
               </div>
           </form>
-        {this.props.todaysWeight ? <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : null }
+        { this.props.todaysWeight ? 
+          <h6>Today's Weight: {this.props.todaysWeight} lbs.</h6> : 
+          null }
       </div>
     )
   }
