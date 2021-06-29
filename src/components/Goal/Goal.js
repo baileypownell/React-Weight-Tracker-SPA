@@ -198,13 +198,13 @@ class Goal extends React.Component {
                                         <p>Goal Date: {  goal.goalTarget }</p>
                                         { goal.incomplete ? (
                                             <div className="chip incomplete">
-                                                Incomplete
+                                                Incomplete 
                                             </div> 
                                         ) : 
                                         null }
                                         { goal.complete ? (
                                             <div className="chip completed">
-                                                Completed
+                                                Complete <i class="fas fa-check"></i>
                                             </div> 
                                         ) :
                                         null }
@@ -224,14 +224,14 @@ class Goal extends React.Component {
                     <span>
                         { this.state.selectedGoal.incomplete === true ? 
                             <div className="chip incomplete">
-                                Incomplete
+                                Incomplete 
                             </div> 
                         : null }
                     </span>
                     <span>
                         {this.state.selectedGoal.complete === true ? 
                             <div className="chip completed">
-                                    Completed
+                                Complete <i class="fas fa-check"></i>
                             </div> 
                         : null }
                     </span>

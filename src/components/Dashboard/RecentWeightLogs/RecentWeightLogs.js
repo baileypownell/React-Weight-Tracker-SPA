@@ -13,14 +13,14 @@ const RecentWeightLogs = (props) => {
     { weights.length ? 
       <Table>
         <Table.Head>
-          <Table.TextHeaderCell>Weight</Table.TextHeaderCell>
-          <Table.TextHeaderCell style={{'text-align': 'right'}}>Date</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Date</Table.TextHeaderCell>
+          <Table.TextHeaderCell style={{'text-align': 'right'}}>Weight</Table.TextHeaderCell>
         </Table.Head>
-        <Table.Body height={240}>
+        <Table.Body height={355}>
           {weights.map((weightEntry, index) => (
             <Table.Row key={index} height={40}>
-              <Table.TextCell>{weightEntry.weight}</Table.TextCell>
-              <Table.TextCell style={{'text-align': 'right'}}>{weightEntry.parsedDate}</Table.TextCell>
+              <Table.TextCell>{weightEntry.parsedDate}</Table.TextCell>
+              <Table.TextCell style={{'text-align': 'right'}}>{weightEntry.weight}</Table.TextCell>
             </Table.Row>
           ))}
         </Table.Body>
