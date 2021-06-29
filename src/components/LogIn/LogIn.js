@@ -76,7 +76,7 @@ class LogIn extends React.Component {
           <div style={{ padding: '10px 0'}}>
             <p>Forgot password? Receive a link to reset your password.</p>
             <button 
-              className="waves-effect waves-light btn" 
+              className="waves-effect waves-light btn-flat" 
               id="send-link"
               onClick={this.sendPasswordResetEmail}>
                 Send link 

@@ -66,9 +66,9 @@ body {
   }
 }
 
-button {
+button:not(.btn-flat) {
   background-color: $pink!important;
-  color: $gray!important;
+  color: $white!important;
   margin-top: 15px;
   &:hover {
     background-color: lighten($pink, 5%)!important;
@@ -126,6 +126,7 @@ a.sidenav-trigger {
     }
   @include desktop {
       width: 50%;
+      max-width: 550px;
     }
 }
 
@@ -172,9 +173,6 @@ a.sidenav-trigger {
   }
   input:focus {
     border-color: $pink!important;
-  }
-  a {
-    color: $gray!important;
   }
 }
 
