@@ -20,8 +20,12 @@ class AccountSettings extends React.Component {
   }
 
   componentDidMount() {
-    var elems = document.querySelectorAll('.collapsible');
-    M.Collapsible.init(elems, {});
+    const elems = document.querySelectorAll('.collapsible')
+    M.Collapsible.init(elems, {})
+
+    const modals = document.querySelectorAll('.modal')
+    console.log(modals)
+    M.Modal.init(modals, {})
   }
   
   handleChange = (e) => {
@@ -52,6 +56,7 @@ class AccountSettings extends React.Component {
       console.log(error);
     })
   }
+
 
   updateEmail = (newEmail) => {
     let user = firebase.auth().currentUser;
@@ -125,6 +130,26 @@ class AccountSettings extends React.Component {
   render() {
     return (
       <div className="white-box" id="accountSettings">
+
+
+        <div id="delete-user-modal" className="modal">
+            <div className="modal-content">
+              <p>Are you sure you want to delete your account? This is a permanent action.</p>
+            </div>
+            <div className="modal-footer">
+              <a 
+                className="modal-close waves-effect waves-light btn-flat">
+                Cancel
+              </a>
+              <a 
+                onClick={this.deleteAccount} 
+                className="modal-close waves-effect waves-light btn">
+                Yes, Delete My Account
+              </a>
+            </div>
+          </div>
+
+
         <div >
           <ul className="collapsible">
               <li>
@@ -158,19 +183,19 @@ class AccountSettings extends React.Component {
               <li>
                   <div className="collapsible-header">Update Password</div>
                   <div className="collapsible-body">
-                      <p>Click the button below to receive an email with a link to reset your password. You will be automatically logged out after clicking the button, and will need to re-authenticate.</p>
+                      <p>Click the button below to receive an email with a link to reset your password.</p>
                       <button className="waves-effect waves-light btn" onClick={this.changePassword}>Email my link</button>
                   </div>
                 </li>
                 <li>
                   <div className="collapsible-header">Delete Account</div>
                   <div className="collapsible-body">
-                        <p>This action cannot be undone.</p>
-                        <button 
-                          className="waves-effect waves-light btn" 
-                          onClick={this.deleteAccount}>
-                          Delete Account
-                        </button>
+                      <p>This action cannot be undone.</p>
+                      <button 
+                        className="waves-effect waves-light btn modal-trigger" 
+                        data-target="delete-user-modal">
+                        Delete Account
+                      </button>
                   </div>
                 </li>
               </ul>

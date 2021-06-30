@@ -9,17 +9,17 @@
   font-family: 'Caveat', cursive;
 }
 
-ul {
-  padding-bottom: 2rem;
-  li {
-    font-size: 1.25rem;
-  }
-}
-
 #features {
   padding-top: 3rem;
   i {
     margin-left: 10px;
+  }
+
+  ul {
+    padding-bottom: 2rem;
+    li {
+      font-size: 1.25rem;
+    }
   }
 }
 
