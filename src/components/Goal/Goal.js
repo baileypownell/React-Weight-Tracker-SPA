@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import firebase from '../../firebase-config'
 var { DateTime } = require('luxon')
+import { Pane, Dialog, Button } from 'evergreen-ui'
 
 let myDoughnutChart
 
@@ -15,7 +16,8 @@ class Goal extends React.Component {
         goalTarget: '',
         goalToDeleteId: '',
         selectedGoal: '',
-        goalTargetUnix: ''
+        goalTargetUnix: '',
+        showGoalDeleteConfirmationModal: false
     }
 
     componentDidMount() {
@@ -138,12 +140,20 @@ class Goal extends React.Component {
 
     openConfirmationDialog = (goalId) => {
         this.setState({
-            goalToDeleteId: goalId
+            goalToDeleteId: goalId,
+            showGoalDeleteConfirmationModal: true
         }, () => {
             // confirmation modal 
-            var elems = document.querySelector('#confirmationModal');
-            let instance = M.Modal.init(elems, {});
-            instance.open()
+            // var elems = document.querySelector('#confirmationModal');
+            // let instance = M.Modal.init(elems, {});
+            // instance.open()
+        })
+    }
+
+    handleUserSelection = (userSelection) => {
+        console.log(userSelection)
+        this.setState({
+            showGoalDeleteConfirmationModal: false
         })
     }
 
@@ -157,6 +167,7 @@ class Goal extends React.Component {
 
     render() {
         const { goals } = this.props; 
+        const { showGoalDeleteConfirmationModal } = this.state;
 
         return (
             <div id="goal-parent">
@@ -237,17 +248,15 @@ class Goal extends React.Component {
                     </span>
                     <canvas id="goalGraph" width="300" height="300"></canvas>
                     </div> 
-                        {/* confirmation modal */}
-                        <div id="confirmationModal" className="modal">
-                            <div className="modal-content">
-                                <h4>Confirm Goal Deletion</h4>
-                                <p>Are you sure you want to delete your goal?</p>
-                            </div>
-                            <div className="modal-footer">
-                                <a className="modal-close waves-effect btn-flat" >No</a>
-                                <a className="modal-close waves-effect btn-flat" onClick={this.deleteGoal}>Yes</a>
-                            </div>
-                        </div>
+                    <Dialog
+                        isShown={showGoalDeleteConfirmationModal}
+                        title="Confirm Goal Deletion"
+                        intent="danger"
+                        onConfirm={() => this.deleteGoal()}
+                        onCancel={() => this.setState({showGoalDeleteConfirmationModal: false})}
+                    >
+                            Are you sure you want to delete your goal?
+                    </Dialog>
                 </div>            
             </div>
         )

@@ -14,8 +14,8 @@ class GoalNotifier extends React.Component {
     }
 
     componentDidMount() {   
-        var elem = document.querySelector('.tap-target');
-        instance = M.TapTarget.init(elem, {});
+        var elem = document.querySelector('.tap-target')
+        instance = M.TapTarget.init(elem, {})
         instance.open()
 
         let now = new Date()
@@ -31,7 +31,6 @@ class GoalNotifier extends React.Component {
         instance.close()
      }
 
-
     render() {
 
         const { daysLeft } = this.state;
@@ -42,23 +41,24 @@ class GoalNotifier extends React.Component {
                 <a id="menu" ></a>
                 <div className="tap-target" data-target="menu">
                     <div className="tap-target-content">
-                        { daysLeft >= 1 ? 
-                            <>
-                                <h5>Your next goal of {primaryGoal.goalWeight} lbs. is set for {primaryGoal.goalTarget}</h5>
-                                <p>Only {Math.round(daysLeft)} more {Math.round(daysLeft) > 1 ? 'days' : 'day'} to go!</p>
-                            </> 
-                          : 
-                          null
-                        }
-                        {
-                            daysLeft > 0 && daysLeft < 1 ? <h5>Tomorrow is your target date!</h5> : null
-                        }
-                        <button 
-                            id="dismiss" 
-                            onClick={this.closeNotifier} 
-                            className="waves-effect waves-light btn">
-                            Dismiss
-                        </button>
+                        <div class="goal-content">
+                            { daysLeft >= 1 ? 
+                                <>
+                                    <h5>Your next goal of {primaryGoal.goalWeight} lbs. <br/> is set for {primaryGoal.goalTarget}</h5>
+                                    <p>Only {Math.round(daysLeft)} more {Math.round(daysLeft) > 1 ? 'days' : 'day'} to go!</p>
+                                </> 
+                            : 
+                            null
+                            }
+
+                            { daysLeft > 0 && daysLeft < 1 ? <h5>Tomorrow is your target date!</h5> : null }
+                            <button 
+                                id="dismiss" 
+                                onClick={this.closeNotifier} 
+                                className="waves-effect waves-light btn">
+                                Dismiss
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

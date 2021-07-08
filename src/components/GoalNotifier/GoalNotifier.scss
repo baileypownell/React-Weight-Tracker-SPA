@@ -1,7 +1,16 @@
 
 @import '../../scss/variables.scss'; 
 
-#dismiss {
-    background-color: $gray!important;
-    color: $white!important;
+.goal-content {
+    padding: 15px;
+    margin: 0 0 0 auto;
+    @media screen and (min-width: 1730px) {
+        width: 50%;
+    }
+    #dismiss {
+        background-color: $gray!important;
+        color: $white!important;
+        margin-top: 15px;
+    }
 }
+

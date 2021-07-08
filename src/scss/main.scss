@@ -64,15 +64,6 @@ body {
   }
 }
 
-button:not(.btn-flat) {
-  background-color: $pink!important;
-  color: $white!important;
-  margin-top: 15px;
-  &:hover {
-    background-color: lighten($pink, 5%)!important;
-  }
-}
-
 label {
   color: $gray!important;
 }
@@ -193,27 +184,14 @@ a.sidenav-trigger {
   background-color: darken($pink, 5%);
 }
 
-.tap-target-content {
-  height: 260px!important;
-  width: 250px!important;
-  @include desktop {
-    height: 400px!important;
-    width: 350px!important;
-  }
-}
-
 .tap-target-wrapper {
-    left: -260px!important;
-    bottom: -327px!important;
-    position: fixed!important;
-    @include tablet {
-      bottom: -450px!important;
-      left: -300px!important;
-    }
-    @include desktop {
-      bottom: -370px!important;
-      left: -350px!important;
-    }
+  bottom: -305px !important;
+  left: -295px !important;
+  position: fixed!important;
+  @media screen and (min-width: 600px) {
+    bottom: -400px!important;
+    left: -400px!important;    
+  }
 }
 
 .is-selected .datepicker-day-button {
@@ -222,4 +200,17 @@ a.sidenav-trigger {
 
 .modal .btn-flat {
   background-color: transparent!important;
+}
+
+
+// evergreen styling
+.css-nil {
+  button {
+      background-color: white!important;
+      color: $gray!important;
+      &:hover {
+        background-color: unset!important;
+        color: $gray!important;
+      }
+  }
 }
