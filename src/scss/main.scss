@@ -68,6 +68,15 @@ label {
   color: $gray!important;
 }
 
+button:not(.btn-flat) {
+  background-color: $pink!important;
+  color: $white!important;
+  margin-top: 15px;
+  &:hover {
+    background-color: lighten($pink, 5%)!important;
+  }
+}
+
 input,
 input:focus {
   border-color: $white!important;
@@ -100,7 +109,6 @@ a.sidenav-trigger {
 .content-parent {
   background-color: $gray;
   width: 100%;
-  // min-height: 100vh;
   padding: 30px;
   @include tablet {
       min-height: 0px;

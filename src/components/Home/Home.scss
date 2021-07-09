@@ -18,7 +18,9 @@
   ul {
     padding-bottom: 2rem;
     li {
-      font-size: 1.25rem;
+      @media desktop {
+        font-size: 1.25rem;
+      }
     }
   }
 }
