@@ -95,7 +95,7 @@ a.sidenav-trigger {
   li {
     cursor: pointer!important;
     a {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 300;
       color: lighten($gray, 5%)!important;
     }
@@ -221,4 +221,28 @@ a.sidenav-trigger {
         color: $gray!important;
       }
   }
+}
+
+// button outlines 
+.css-12b25td:not([disabled]):focus, [data-css-12b25td]:not([disabled]):focus, .css-12b25td[data-simulate-notdisabledfocus], [data-css-12b25td][data-simulate-notdisabledfocus] {
+  box-shadow: 0 0 0 2px $pink;
+}
+
+.css-12b25td:not([disabled]):hover, [data-css-12b25td]:not([disabled]):hover, .css-12b25td[data-simulate-notdisabledhover], [data-css-12b25td][data-simulate-notdisabledhover] {
+  border: 1px solid $gray;
+  background-color: #FAFBFF;
+}
+
+// effect for confirm button on intent=danger dialog 
+.css-poadzn:not([disabled]):hover, 
+[data-css-poadzn]:not([disabled]):hover, 
+.css-poadzn[data-simulate-notdisabledhover], 
+[data-css-poadzn][data-simulate-notdisabledhover] {
+  // background-color: #A73636;
+  border-color: $pink;
+}
+
+// close icon button outline 
+.css-1tyjqqv:not([disabled]):focus, [data-css-1tyjqqv]:not([disabled]):focus, .css-1tyjqqv[data-simulate-notdisabledfocus], [data-css-1tyjqqv][data-simulate-notdisabledfocus] {
+  box-shadow: 0 0 0 2px lighten($gray, 50%);
 }
