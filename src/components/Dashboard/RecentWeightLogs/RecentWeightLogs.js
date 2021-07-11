@@ -31,7 +31,7 @@ const RecentWeightLogs = (props) => {
               <TableCell component="th" scope="row">
                 {weightEntry.parsedDate}
               </TableCell>
-              <TableCell align="right">{weightEntry.weight}</TableCell>
+              <TableCell align="right">{ Number(weightEntry.weight).toFixed(1)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

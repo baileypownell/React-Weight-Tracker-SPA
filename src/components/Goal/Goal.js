@@ -48,7 +48,9 @@ class Goal extends React.Component {
 
 
         let lastWeight = this.props.weights.length ? Number(this.props.weights[0].weight) : 0
-        let goalWeightDifference = this.props.goals.length ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
+        let goalWeightDifference = this.props.goals.length ? 
+            (Number(this.props.goals[0].goalWeight) - lastWeight).toFixed(2)
+            : 0
      
         let data = {
             labels: ['Current weight', 'Pounds left to reach your goal'],
@@ -73,8 +75,8 @@ class Goal extends React.Component {
     }
 
     constructChart = () => {
-        let lastWeight = Number(this.props.weights[0].weight)
-        let goalWeightDifference = Number(this.state.selectedGoal.goalWeight) - lastWeight 
+        let lastWeight = Number(this.props.weights[0].weight).toFixed(1)
+        let goalWeightDifference = (Number(this.state.selectedGoal.goalWeight) - lastWeight).toFixed(1) 
         let data = {
             labels: ['Current weight', 'Pounds left to reach your goal'],
             datasets: [{
@@ -203,7 +205,7 @@ class Goal extends React.Component {
                                         "goal-item"} 
                                     onClick={() => this.showGraph(goal.id)}>
                                     <div>
-                                        <p>Target Weight: {goal.goalWeight}</p>
+                                        <p>Target Weight: { Number(goal.goalWeight).toFixed(1) }</p>
                                         <p>Goal Date: {  goal.goalTarget }</p>
                                         { goal.incomplete ? (
                                             <div className="chip incomplete">
@@ -229,7 +231,7 @@ class Goal extends React.Component {
                     </div>
                
                     <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
-                    <h6>Target Weight</h6><span id="goal-weight">{this.state.selectedGoal.goalWeight} lbs. </span>
+                    <h6>Target Weight</h6><span id="goal-weight">{ Number(this.state.selectedGoal.goalWeight).toFixed(1) } lbs. </span>
                     <span>
                         { this.state.selectedGoal.incomplete === true ? 
                             <div className="chip incomplete">
