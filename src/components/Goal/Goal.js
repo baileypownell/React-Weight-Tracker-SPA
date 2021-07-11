@@ -5,7 +5,12 @@ import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import firebase from '../../firebase-config'
 var { DateTime } = require('luxon')
-import { Pane, Dialog, Button } from 'evergreen-ui'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from '@material-ui/core/Dialog'
+import Button from '@material-ui/core/Button'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 
 let myDoughnutChart
 
@@ -41,10 +46,6 @@ class Goal extends React.Component {
             })
         }
 
-  
-        // confirmation modal 
-        var elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems, {});
 
         let lastWeight = this.props.weights.length ? Number(this.props.weights[0].weight) : 0
         let goalWeightDifference = this.props.goals.length ? Number(this.props.goals[0].goalWeight) - lastWeight : 0
@@ -142,11 +143,6 @@ class Goal extends React.Component {
         this.setState({
             goalToDeleteId: goalId,
             showGoalDeleteConfirmationModal: true
-        }, () => {
-            // confirmation modal 
-            // var elems = document.querySelector('#confirmationModal');
-            // let instance = M.Modal.init(elems, {});
-            // instance.open()
         })
     }
 
@@ -167,7 +163,7 @@ class Goal extends React.Component {
 
     render() {
         const { goals } = this.props; 
-        const { showGoalDeleteConfirmationModal } = this.state;
+        const { showGoalDeleteConfirmationModal, goalTarget, goalWeight } = this.state;
 
         return (
             <div id="goal-parent">
@@ -177,7 +173,7 @@ class Goal extends React.Component {
                         <div id="add-goal">
                             <h6>Add a goal</h6>
                             <input 
-                                value={this.state.goalTarget} 
+                                value={goalTarget} 
                                 type="text" 
                                 placeholder="Select goal target date" 
                                 readOnly
@@ -185,16 +181,18 @@ class Goal extends React.Component {
                             </input>
                             <input 
                                 type="text" 
-                                value={this.state.goalWeight} 
+                                value={goalWeight} 
                                 id="goalWeight" 
                                 placeholder="Enter a target weight" 
                                 onChange={this.handleChange}>
                             </input>
-                            <button 
+                            <Button 
                                 onClick={this.addGoal}
-                                className={ this.state.goalTarget && this.state.goalWeight ?  "waves-effect waves-light btn" : "waves-effect waves-light btn disabled"}>
-                                    Add Goal
-                            </button>
+                                variant="contained"
+                                color="secondary"
+                                disabled={goalTarget && goalWeight ? false : true}>
+                                Add Goal
+                            </Button>
                         </div>
                         {goals.map((goal, index) => {
                             return (
@@ -248,14 +246,25 @@ class Goal extends React.Component {
                     </span>
                     <canvas id="goalGraph" width="300" height="300"></canvas>
                     </div> 
-                    <Dialog
-                        isShown={showGoalDeleteConfirmationModal}
-                        title="Confirm Goal Deletion"
-                        intent="danger"
-                        onConfirm={() => this.deleteGoal()}
-                        onCancel={() => this.setState({showGoalDeleteConfirmationModal: false})}
-                    >
-                            Are you sure you want to delete your goal?
+                    <Dialog aria-labelledby="simple-dialog-title" open={showGoalDeleteConfirmationModal}>
+                        <DialogTitle id="simple-dialog-title">Confirm Goal Deletion</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Are you sure you want to delete your goal?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button 
+                            variant="outlined" 
+                            onClick={() => this.setState({showGoalDeleteConfirmationModal: false})}>
+                            Cancel
+                        </Button>
+                        <Button 
+                            variant="outlined" 
+                            color="primary" onClick={this.deleteGoal} autoFocus>
+                            Confirm
+                        </Button>
+                        </DialogActions>
                     </Dialog>
                 </div>            
             </div>

@@ -1,6 +1,5 @@
 @import 'UI/Form';
 @import 'UI/Input';
-@import 'UI/Button';
 
 @import './variables.scss';
 
@@ -68,13 +67,23 @@ label {
   color: $gray!important;
 }
 
-button:not(.btn-flat) {
+button:not(.btn-flat, .MuiButton-text, .MuiButton-root, .datepicker-day-button, .month-next, .month-prev) {
   background-color: $pink!important;
   color: $white!important;
   margin-top: 15px;
-  &:hover {
+}
+
+.MuiButton-containedPrimary:focus {
+  background-color: $pink;
+}
+
+.MuiButton-outlinedPrimary:focus,
+.MuiButton-outlined:focus  {
+  background-color: transparent;
+}
+
+button:not(.btn-flat, .MuiButton-text,.MuiButton-root, .datepicker-day-button, .month-next, .month-prev):hover {
     background-color: lighten($pink, 5%)!important;
-  }
 }
 
 input,
@@ -210,19 +219,6 @@ a.sidenav-trigger {
   background-color: transparent!important;
 }
 
-
-// evergreen styling
-.css-nil {
-  button {
-      background-color: white!important;
-      color: $gray!important;
-      &:hover {
-        background-color: unset!important;
-        color: $gray!important;
-      }
-  }
-}
-
 // button outlines 
 .css-12b25td:not([disabled]):focus, [data-css-12b25td]:not([disabled]):focus, .css-12b25td[data-simulate-notdisabledfocus], [data-css-12b25td][data-simulate-notdisabledfocus] {
   box-shadow: 0 0 0 2px $pink;
@@ -245,4 +241,8 @@ a.sidenav-trigger {
 // close icon button outline 
 .css-1tyjqqv:not([disabled]):focus, [data-css-1tyjqqv]:not([disabled]):focus, .css-1tyjqqv[data-simulate-notdisabledfocus], [data-css-1tyjqqv][data-simulate-notdisabledfocus] {
   box-shadow: 0 0 0 2px lighten($gray, 50%);
+}
+
+.datepicker-controls .select-month input {
+  width: 100px;
 }

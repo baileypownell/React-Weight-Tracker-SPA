@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from "redux-thunk"
+import { createMuiTheme }  from '@material-ui/core/styles'
 import reducer from './store/reducer'
 import Nav from './components/Nav/Nav'
 import {
@@ -22,7 +23,7 @@ import CreateAccount from './components/CreateAccount/CreateAccount'
 import Home from './components/Home/Home'
 import Dashboard from './components/Dashboard/Dashboard'
 import LogIn from './components/LogIn/LogIn'
-import LogInOrSignUp from './components/LogInOrSignUp/LogInOrSignUp'
+import { ThemeProvider } from '@material-ui/styles'
 import Settings from './components/Settings/Settings'
 import RequireAuthComponent from './components/RequireAuthComponent'
 
@@ -42,23 +43,38 @@ const store = createStore(persistedReducer, composeEnhancers(
 
 let persistor = persistStore(store)
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { 
+      main: '#FFADBE',
+      light: '#FFADBE'
+    },
+    secondary: {
+      main: '#B6C757'
+    }
+  },
+})
+
+
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <Nav />
-        <Switch>
-            <Route exact={true} path="/" component={Home}/>
-            <Route path="/signup" component={CreateAccount}/>
-            <Route path="/login" component={LogIn} />
-            <RequireAuthComponent>
-              <Route path="/settings" component={Settings} />
-              <Route path="/dashboard" component={Dashboard}/>
-            </RequireAuthComponent>
-            <Redirect to="/" />
-        </Switch>
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <Nav />
+          <Switch>
+              <Route exact={true} path="/" component={Home}/>
+              <Route path="/signup" component={CreateAccount}/>
+              <Route path="/login" component={LogIn} />
+              <RequireAuthComponent>
+                <Route path="/settings" component={Settings} />
+                <Route path="/dashboard" component={Dashboard}/>
+              </RequireAuthComponent>
+              <Redirect to="/" />
+          </Switch>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+    </ThemeProvider>,
   document.getElementById('app')
 );

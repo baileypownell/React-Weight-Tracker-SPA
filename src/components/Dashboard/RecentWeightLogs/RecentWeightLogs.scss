@@ -1,14 +1,14 @@
 @import '../../../scss/variables.scss';
 
 #weightsHeader {
-    padding-bottom: 10px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    > span {
+    background-color: lighten($green, 15%);
+    th {
       text-transform: uppercase;
-      color: $pink;
+      font-weight: bold;
+      color: $white;
+    }
+    span {
+      text-transform: none;
     }
   }
 

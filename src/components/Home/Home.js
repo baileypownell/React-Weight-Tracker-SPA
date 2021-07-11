@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import './Home.scss'
-
+import Button from '@material-ui/core/Button'
 
 class Home extends React.Component {
 
@@ -29,9 +29,11 @@ class Home extends React.Component {
           </div>
           
 
-          <button 
-            className="waves-effect waves-light btn" 
-            onClick={this.directUser}>get started</button>
+          <Button 
+            variant="outlined"
+            color="primary"
+            onClick={this.directUser}>get started
+          </Button>
         </div>
       </div>
     )

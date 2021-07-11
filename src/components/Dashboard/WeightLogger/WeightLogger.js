@@ -1,7 +1,10 @@
 import React from 'react'
-import M from 'materialize-css'
 import './WeightLogger.scss'
 import { connect } from 'react-redux'
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
 import firebase from '../../../firebase-config'
 
 export class WeightLogger extends React.Component {
@@ -10,7 +13,8 @@ export class WeightLogger extends React.Component {
   state = {
     formInputEmpty: true,
     todaysWeight: undefined,
-    updatedWeight: ''
+    updatedWeight: '',
+    editModalOpen: false
   }
 
   componentDidMount() {
@@ -72,7 +76,8 @@ export class WeightLogger extends React.Component {
         M.toast({html: 'Weight updated.'})
         this.props.updateWeightHistory()
         this.setState({
-          updatedWeight: ''
+          updatedWeight: '',
+          editModalOpen: false
         })
       })
       .catch(err => {
@@ -81,33 +86,44 @@ export class WeightLogger extends React.Component {
       })
     }
 
+  triggerEditModalState = (e) => {
+    e.preventDefault() // this shouldn't be necessary...?
+  
+    const newEditModalOpenState = !this.state.editModalOpen
+    console.log(newEditModalOpenState)
+    this.setState({
+      editModalOpen: newEditModalOpenState
+    })
+  }
+
 
   render() {
-    const { formInputEmpty, updatedWeight } = this.state;
+    const { formInputEmpty, updatedWeight, editModalOpen } = this.state;
     return (
-      <div id="weight-logger">
-          <div id="modal1" className="modal">
-            <div className="modal-content">
-                <div className="input-field">
+      <div id="weight-logger"> 
+          <Dialog aria-labelledby="simple-dialog-title" open={editModalOpen}>
+            <DialogTitle id="simple-dialog-title">Update today's weight</DialogTitle>
+            <div id="edit-weight">
+              <div className="input-field">
                   <label className="active" htmlFor="update-weight">Update today's weight</label>
                   <input 
-                    type="text" 
-                    placeholder={this.props.todaysWeight} 
-                    value={updatedWeight} 
-                    id="updatedWeight" 
-                    onChange={this.handleUpdateChange}>
-                  </input>
+                      type="text" 
+                      placeholder={this.props.todaysWeight} 
+                      value={updatedWeight} 
+                      id="updatedWeight" 
+                      onChange={this.handleUpdateChange}>
+                    </input>
               </div>
             </div>
-            <div className="modal-footer">
-              <a 
-                onClick={this.updateTodaysWeight} 
-                disabled={!updatedWeight}
-                className="modal-close waves-effect waves-light btn">
-                Update
-              </a>
-            </div>
-          </div>
+            <DialogActions>
+              <Button variant="outlined" onClick={() => this.setState({ editModalOpen: false})}>
+                Cancel
+              </Button>
+              <Button variant="outlined" color="primary" onClick={this.updateTodaysWeight} autoFocus>
+                Save
+              </Button>
+            </DialogActions>
+          </Dialog>
           <form>
               {!this.props.todaysWeight ? 
                 <div className="input-field">
@@ -122,19 +138,21 @@ export class WeightLogger extends React.Component {
                 null }
               <div>
                 {!this.props.todaysWeight ? 
-                  <button
-                    disabled={formInputEmpty || this.props.todaysWeight}
+                  <Button
+                    disabled={formInputEmpty || this.props.todaysWeight ? true : false}
                     onClick={this.logWeight} 
-                    className="waves-effect waves-light btn">
+                    variant="contained"
+                    color="primary">
                       Log Weight
-                  </button>
+                  </Button>
                   : 
-                  <button
+                  <Button
+                    variant="contained"
+                    color="primary"
                     disabled={this.props.todaysWeight ? false : true}
-                    data-target="modal1"
-                    className={"waves-effect waves-light btn modal-trigger"}>
+                    onClick={this.triggerEditModalState}>
                       Edit today's weight
-                  </button>
+                  </Button>
                 }
               </div>
           </form>

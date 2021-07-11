@@ -64,15 +64,20 @@
         margin: 5px;
       }
     }
-  
   }
 
   .input-field {
     width: 100%;
   }
 
-#modal1 {
-  label {
-    color: $gray-light!important;
+#edit-weight {
+  text-align: center;
+  padding: 0 24px;
+  input {
+    color: $pink!important;
+  }
+  @include tablet {
+    padding: 2vw 3vw;
+    min-width: 350px;
   }
 }

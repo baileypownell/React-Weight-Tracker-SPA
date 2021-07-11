@@ -4,6 +4,12 @@ import * as actions from '../../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import M from 'materialize-css'
 import './AccountSettings.scss'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from '@material-ui/core/Dialog'
+import Button from '@material-ui/core/Button'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 import firebase from '../../../firebase-config'
 
 class AccountSettings extends React.Component {
@@ -12,6 +18,7 @@ class AccountSettings extends React.Component {
     newFirstName: null,
     newLastName: null,
     newEmail: null,
+    showUserConfirmationModal: false
   }
 
   logout = () => {
@@ -22,18 +29,12 @@ class AccountSettings extends React.Component {
   componentDidMount() {
     const elems = document.querySelectorAll('.collapsible')
     M.Collapsible.init(elems, {})
-
-    const modals = document.querySelectorAll('.modal')
-    console.log(modals)
-    M.Modal.init(modals, {})
   }
   
   handleChange = (e) => {
-    if (e.target.value.trim().length) {
-      this.setState({
-        [e.target.id]: e.target.value.trim()
-      })
-    }
+    this.setState({
+      [e.target.id]: e.target.value.trim()
+    })
   }
 
   deleteAccount = () => {
@@ -58,7 +59,8 @@ class AccountSettings extends React.Component {
   }
 
 
-  updateEmail = (newEmail) => {
+  updateEmail = () => {
+    const newEmail = this.state.newEmail
     let user = firebase.auth().currentUser;
     user.updateEmail(newEmail)
     .then((res) => {
@@ -66,7 +68,10 @@ class AccountSettings extends React.Component {
       db.collection("users").doc(this.props.uid).set({
         email: newEmail
       }, { merge: true })
-      M.toast({html: 'Email updated successfully.'});
+      M.toast({html: 'Email updated successfully.'})
+      this.setState({
+        newEmail: ''
+      })
     })
     .catch(err => {
       console.log(err)
@@ -128,26 +133,33 @@ class AccountSettings extends React.Component {
   }
   
   render() {
+    const { newEmail, showUserConfirmationModal, newFirstName, newLastName } = this.state;
+
     return (
       <div className="white-box" id="accountSettings">
 
-
-        <div id="delete-user-modal" className="modal">
-            <div className="modal-content">
-              <p>Are you sure you want to delete your account? This is a permanent action.</p>
-            </div>
-            <div className="modal-footer">
-              <a 
-                className="modal-close waves-effect waves-light btn-flat">
-                Cancel
-              </a>
-              <a 
-                onClick={this.deleteAccount} 
-                className="modal-close waves-effect waves-light btn">
-                Yes, Delete My Account
-              </a>
-            </div>
-          </div>
+        <Dialog aria-labelledby="simple-dialog-title" open={showUserConfirmationModal}>
+            <DialogTitle id="simple-dialog-title">Confirm Deletion</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete your account? This action is irreversible.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button 
+                variant="outlined" 
+                autoFocus
+                onClick={() => this.setState({showUserConfirmationModal: false})}>
+                No
+            </Button>
+            <Button 
+                variant="outlined" 
+                color="primary" 
+                onClick={this.deleteAccount}>
+                Yes, delete my account
+            </Button>
+            </DialogActions>
+        </Dialog>
 
 
         <div >
@@ -163,7 +175,7 @@ class AccountSettings extends React.Component {
                     <input type="text" placeholder={this.props.lastName} id="newLastName" onChange={this.handleChange}></input>
                     <label className="active" htmlFor="newLastName">New Last Name</label>
                   </div>
-                  <button className="waves-effect waves-light btn" onClick={this.updateName}>Submit</button>
+                  <Button variant="outlined" disabled={!newLastName && !newFirstName} color="secondary" onClick={this.updateName}>Submit</Button>
                   </div>
               </li>
               <li>
@@ -173,29 +185,33 @@ class AccountSettings extends React.Component {
                       <input id="newEmail" placeholder={this.props.email} onChange={this.handleChange} type="text"></input>
                       <label className="active" htmlFor="newEmail">New Email</label>
                     </div>
-                    <button
-                      className="waves-effect waves-light btn"
-                      onClick={() => this.updateEmail(this.state.newEmail)}>
+                    <Button
+                      color="secondary"
+                      variant="outlined"
+                      disabled={!newEmail}
+                      onClick={this.updateEmail}>
                       Submit
-                    </button>
+                    </Button>
                   </div>
               </li>
               <li>
                   <div className="collapsible-header">Update Password</div>
                   <div className="collapsible-body">
                       <p>Click the button below to receive an email with a link to reset your password.</p>
-                      <button className="waves-effect waves-light btn" onClick={this.changePassword}>Email my link</button>
+                      <Button variant="outlined" color="secondary" onClick={this.changePassword}>Email my link</Button>
                   </div>
                 </li>
                 <li>
                   <div className="collapsible-header">Delete Account</div>
                   <div className="collapsible-body">
                       <p>This action cannot be undone.</p>
-                      <button 
-                        className="waves-effect waves-light btn modal-trigger" 
-                        data-target="delete-user-modal">
+                      <Button 
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => this.setState({ showUserConfirmationModal: true })}
+                        >
                         Delete Account
-                      </button>
+                      </Button>
                   </div>
                 </li>
               </ul>

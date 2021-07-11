@@ -1,6 +1,12 @@
 import React from 'react'
-import './RecentWeightLogs.scss';
-import { Table } from 'evergreen-ui'
+import './RecentWeightLogs.scss'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
 const { DateTime } = require("luxon")
 
 const RecentWeightLogs = (props) => {
@@ -9,22 +15,28 @@ const RecentWeightLogs = (props) => {
   }))
 
   return (
-    <div className="white-box">
+    <div className="white-box" style={{'height': '470px'}}>
     { weights.length ? 
+      <TableContainer component={Paper}>
       <Table>
-        <Table.Head>
-          <Table.TextHeaderCell>Date</Table.TextHeaderCell>
-          <Table.TextHeaderCell style={{'textAlign': 'right'}}>Weight</Table.TextHeaderCell>
-        </Table.Head>
-        <Table.Body height={355}>
+        <TableHead id="weightsHeader">
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell align="right">Weight <span>(lbs)</span></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {weights.map((weightEntry, index) => (
-            <Table.Row key={index} height={40}>
-              <Table.TextCell>{weightEntry.parsedDate}</Table.TextCell>
-              <Table.TextCell style={{'textAlign': 'right'}}>{weightEntry.weight}</Table.TextCell>
-            </Table.Row>
+            <TableRow key={index}>
+              <TableCell component="th" scope="row">
+                {weightEntry.parsedDate}
+              </TableCell>
+              <TableCell align="right">{weightEntry.weight}</TableCell>
+            </TableRow>
           ))}
-        </Table.Body>
-      </Table> 
+        </TableBody>
+      </Table>
+    </TableContainer>
       : <p>Record a weight to start seeing your progress and setting goals.</p> }
     </div>
   )

@@ -4,7 +4,7 @@ import * as actions from '../../store/actionCreators'
 import M from 'materialize-css'
 import { withRouter } from 'react-router-dom'
 import './Login.scss'
-
+import Button from '@material-ui/core/Button'
 import firebase from '../../firebase-config'
 
 
@@ -58,7 +58,7 @@ class LogIn extends React.Component {
   }
 
   render() {
-    const { email, password } = this.state
+    const { email, password, authError } = this.state
     return (
       <div id="mobile-center">
         <div className="content-parent">
@@ -70,29 +70,36 @@ class LogIn extends React.Component {
               <label>Password
               <input placeholder="Password" id="password" type="password" onChange={this.handleChange} ></input>
               </label>
-          <button disabled={!email || !password} className="waves-effect waves-light btn">Log In</button>
+          <Button 
+            disabled={!email || !password} 
+            color="primary"
+            type="submit"
+            variant="contained">
+              Log In
+            </Button>
         </form>
-        {this.state.authError ? 
+        {authError ? 
           <div style={{ padding: '10px 0'}}>
             <p>Forgot password? Receive a link to reset your password.</p>
-            <button 
-              className="waves-effect waves-light btn-flat" 
+            <Button 
               id="send-link"
+              variant="outlined"
               onClick={this.sendPasswordResetEmail}>
                 Send link 
               <i class="fas fa-envelope"></i>
-            </button>
+            </Button>
           </div>
           : null
         }
         <div id="no-account">
           <p>Don't have an account?</p>
-          <button  
+          <Button  
             onClick={this.createAccount} 
-            className="waves-effect waves-light btn">
+            variant="outlined"
+            color="secondary">
             Sign Up 
             <i className="fas fa-arrow-alt-circle-right"></i>
-          </button>
+          </Button>
         </div>
       </div>
       </div>

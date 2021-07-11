@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../store/actionCreators'
 import { withRouter } from 'react-router-dom'
 import firebase from '../../firebase-config'
+import Button from '@material-ui/core/Button'
 
 class CreateAccount extends React.Component {
   state = {
@@ -77,7 +78,12 @@ class CreateAccount extends React.Component {
                 </input>
                 </label>
 
-              <button disabled={!firstName || !lastName || !email || !password} className="waves-effect waves-light btn">Sign Up</button>
+              <Button 
+                disabled={!firstName || !lastName || !email || !password}
+                variant="contained"
+                type="submit"
+                color="primary">Sign Up
+              </Button>
           </form>
       </div>
       </div>
