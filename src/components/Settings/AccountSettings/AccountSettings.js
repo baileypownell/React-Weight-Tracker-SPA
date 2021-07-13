@@ -153,8 +153,8 @@ class AccountSettings extends React.Component {
                 No
             </Button>
             <Button 
-                variant="outlined" 
-                color="primary" 
+                variant="outlined"  
+                id="warning-btn"
                 onClick={this.deleteAccount}>
                 Yes, delete my account
             </Button>
@@ -208,6 +208,7 @@ class AccountSettings extends React.Component {
                       <Button 
                         variant="outlined"
                         color="secondary"
+                        id="warning-btn"
                         onClick={() => this.setState({ showUserConfirmationModal: true })}
                         >
                         Delete Account

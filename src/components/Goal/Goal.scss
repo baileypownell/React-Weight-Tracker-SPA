@@ -69,6 +69,8 @@
         position: absolute;
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -76,10 +78,10 @@
         bottom: 0; 
         right: 0;
         height: 100%;
-        background-color: $pink;
-        transition: background-color .4s;
+        transition: background-color .3s;
+        background-color: $warning;
         &:hover {
-            background-color: $gold;
+            background-color: lighten($warning, 5%);
         }
         i {
             cursor: pointer;
@@ -90,8 +92,10 @@
 }
 
 .selected-goal {
+    margin-top: 30px;
+    margin-bottom: 30px;
     .delete-goal {
-        background-color: lighten($gray, 20%);
+        background-color: lighten($warning, 10%);
     }
     padding: 10px;
     .completed {
@@ -115,7 +119,7 @@
     transition: all .5s;
     margin: 10px 0;
     color: white!important;
-    background-color: $gold!important;
+    background-color: $warning!important;
 }
 
 .completed {

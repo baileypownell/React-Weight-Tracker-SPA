@@ -119,7 +119,7 @@ export class WeightLogger extends React.Component {
               <Button variant="outlined" onClick={() => this.setState({ editModalOpen: false})}>
                 Cancel
               </Button>
-              <Button variant="outlined" color="primary" onClick={this.updateTodaysWeight} autoFocus>
+              <Button variant="outlined" color="secondary" onClick={this.updateTodaysWeight} autoFocus>
                 Save
               </Button>
             </DialogActions>

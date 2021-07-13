@@ -11,7 +11,8 @@ import Button from '@material-ui/core/Button'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
-
+import Chip from '@material-ui/core/Chip'
+import DoneIcon from '@material-ui/icons/Done';
 let myDoughnutChart
 
 class Goal extends React.Component {
@@ -205,25 +206,21 @@ class Goal extends React.Component {
                                         "goal-item"} 
                                     onClick={() => this.showGraph(goal.id)}>
                                     <div>
-                                        <p>Target Weight: { Number(goal.goalWeight).toFixed(1) }</p>
+                                        <p>Target Weight: { Number(goal.goalWeight).toFixed(1) } lbs.</p>
                                         <p>Goal Date: {  goal.goalTarget }</p>
                                         { goal.incomplete ? (
-                                            <div className="chip incomplete">
-                                                Incomplete 
-                                            </div> 
+                                            <Chip label="Incomplete" variant="outlined" />
                                         ) : 
                                         null }
                                         { goal.complete ? (
-                                            <div className="chip completed">
-                                                Complete <i class="fas fa-check"></i>
-                                            </div> 
+                                            <Chip icon={<DoneIcon />} color="secondary" label="Complete" variant="outlined" />
                                         ) :
                                         null }
                                     </div>
                                     
-                                    <div className="delete-goal modal-trigger" onClick={() => this.openConfirmationDialog(goal.id)}>
+                                    <Button variant="contained" color="warning" className="delete-goal" onClick={() => this.openConfirmationDialog(goal.id)}>
                                         <i className="fas fa-trash"></i>
-                                    </div>
+                                    </Button>
                                 </div>
                             )
                         })
@@ -233,17 +230,13 @@ class Goal extends React.Component {
                     <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
                     <h6>Target Weight</h6><span id="goal-weight">{ Number(this.state.selectedGoal.goalWeight).toFixed(1) } lbs. </span>
                     <span>
-                        { this.state.selectedGoal.incomplete === true ? 
-                            <div className="chip incomplete">
-                                Incomplete 
-                            </div> 
+                        { this.state.selectedGoal.incomplete ? 
+                            <Chip label="Incomplete" variant="outlined" />
                         : null }
                     </span>
                     <span>
-                        {this.state.selectedGoal.complete === true ? 
-                            <div className="chip completed">
-                                Complete <i class="fas fa-check"></i>
-                            </div> 
+                        {this.state.selectedGoal.complete ?  
+                            <Chip icon={<DoneIcon />} label="Complete" color="secondary" variant="outlined" />
                         : null }
                     </span>
                     <canvas id="goalGraph" width="300" height="300"></canvas>
@@ -263,7 +256,8 @@ class Goal extends React.Component {
                         </Button>
                         <Button 
                             variant="outlined" 
-                            color="primary" onClick={this.deleteGoal} autoFocus>
+                            color="secondary" 
+                            onClick={this.deleteGoal} autoFocus>
                             Confirm
                         </Button>
                         </DialogActions>

@@ -22,12 +22,8 @@
   }
 }
 
-#deleteAccount {
-    margin: 2vw!important;
-    background-color: #3ad8d9;
-    color: white;
-}
 
-#delete-user-modal {
-  max-width: 500px;
+#warning-btn {
+  color: $warning;
+  border-color: $warning;
 }

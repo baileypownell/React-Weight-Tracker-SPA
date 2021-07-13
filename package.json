@@ -8,6 +8,7 @@
   "main": "index.js",
   "dependencies": {
     "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
     "@types/async": "^3.0.3",
     "cors": "^2.8.5",
     "css-loader": "^3.2.0",
