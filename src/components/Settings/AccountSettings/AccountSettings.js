@@ -33,7 +33,7 @@ class AccountSettings extends React.Component {
   
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value.trim()
+      [e.target.id]: e.target.value
     })
   }
 
@@ -60,7 +60,7 @@ class AccountSettings extends React.Component {
 
 
   updateEmail = () => {
-    const newEmail = this.state.newEmail
+    const newEmail = this.state.newEmail.trim()
     let user = firebase.auth().currentUser;
     user.updateEmail(newEmail)
     .then((res) => {
