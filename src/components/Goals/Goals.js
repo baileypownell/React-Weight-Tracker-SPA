@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip'
 import DoneIcon from '@material-ui/icons/Done';
 let myDoughnutChart
 
-class Goal extends React.Component {
+class Goals extends React.Component {
 
     state = {
         goalWeight: '',
@@ -27,7 +27,7 @@ class Goal extends React.Component {
     }
 
     componentDidMount() {
-        var elems = document.querySelectorAll('.datepicker');
+        const elems = document.querySelectorAll('.datepicker')
         M.Datepicker.init(elems, {
             minDate: new Date(),
             format: 'mmm dd, yyyy',
@@ -73,6 +73,10 @@ class Goal extends React.Component {
                 }
             }
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        this.constructChart()
     }
 
     constructChart = () => {
@@ -150,7 +154,6 @@ class Goal extends React.Component {
     }
 
     handleUserSelection = (userSelection) => {
-        console.log(userSelection)
         this.setState({
             showGoalDeleteConfirmationModal: false
         })
@@ -166,7 +169,12 @@ class Goal extends React.Component {
 
     render() {
         const { goals } = this.props; 
-        const { showGoalDeleteConfirmationModal, goalTarget, goalWeight } = this.state;
+        const { 
+            showGoalDeleteConfirmationModal, 
+            goalTarget, 
+            goalWeight, 
+            selectedGoal 
+        } = this.state;
 
         return (
             <div id="goal-parent">
@@ -197,50 +205,47 @@ class Goal extends React.Component {
                                 Add Goal
                             </Button>
                         </div>
-                        {goals.map((goal, index) => {
-                            return (
-                                <div 
-                                    key={index}
-                                    className={this.state.selectedGoal && this.state.selectedGoal.id === goal.id ? 
-                                        "goal-item selected-goal": 
-                                        "goal-item"} 
-                                    onClick={() => this.showGraph(goal.id)}>
-                                    <div>
-                                        <p>Target Weight: { Number(goal.goalWeight).toFixed(1) } lbs.</p>
-                                        <p>Goal Date: {  goal.goalTarget }</p>
-                                        { goal.incomplete ? (
-                                            <Chip label="Incomplete" variant="outlined" />
-                                        ) : 
-                                        null }
-                                        { goal.complete ? (
-                                            <Chip icon={<DoneIcon />} color="secondary" label="Complete" variant="outlined" />
-                                        ) :
-                                        null }
-                                    </div>
-                                    
-                                    <Button variant="contained" color="warning" className="delete-goal" onClick={() => this.openConfirmationDialog(goal.id)}>
-                                        <i className="fas fa-trash"></i>
-                                    </Button>
+                        {goals.map((goal, index) => (
+                            <div 
+                                key={index}
+                                className={selectedGoal && selectedGoal.id === goal.id ? 
+                                    "goal-item selected-goal": 
+                                    "goal-item"} 
+                                onClick={() => this.showGraph(goal.id)}>
+                                <div>
+                                    <p>Target Weight: { Number(goal.goalWeight).toFixed(1) } lbs.</p>
+                                    <p>Goal Date: {  goal.goalTarget }</p>
+                                    { goal.incomplete ? <Chip label="Incomplete" variant="outlined" /> : null }
+                                    { goal.complete ? <Chip icon={<DoneIcon />} color="secondary" label="Complete" variant="outlined" /> : null }
                                 </div>
-                            )
-                        })
+                                
+                                <Button 
+                                    variant="contained" 
+                                    color="warning" 
+                                    className="delete-goal" 
+                                    onClick={() => this.openConfirmationDialog(goal.id)}>
+                                    <i className="fas fa-trash"></i>
+                                </Button>
+                            </div>
+                        ))
                     }
                     </div>
                
-                    <div className={this.state.selectedGoal ? "white-box" : "hidden"}>
-                    <h6>Target Weight</h6><span id="goal-weight">{ Number(this.state.selectedGoal.goalWeight).toFixed(1) } lbs. </span>
-                    <span>
-                        { this.state.selectedGoal.incomplete ? 
-                            <Chip label="Incomplete" variant="outlined" />
-                        : null }
-                    </span>
-                    <span>
-                        {this.state.selectedGoal.complete ?  
-                            <Chip icon={<DoneIcon />} label="Complete" color="secondary" variant="outlined" />
-                        : null }
-                    </span>
-                    <canvas id="goalGraph" width="300" height="300"></canvas>
+                    <div className={selectedGoal ? "white-box" : "hidden"}>
+                        <h6>Target Weight</h6><span id="goal-weight">{ Number(this.state.selectedGoal.goalWeight).toFixed(1) } lbs. </span>
+                        <span>
+                            { selectedGoal.incomplete ? 
+                                <Chip label="Incomplete" variant="outlined" />
+                            : null }
+                        </span>
+                        <span>
+                            { selectedGoal.complete ?  
+                                <Chip icon={<DoneIcon />} label="Complete" color="secondary" variant="outlined" />
+                            : null }
+                        </span>
+                        <canvas id="goalGraph" width="300" height="300"></canvas>
                     </div> 
+
                     <Dialog aria-labelledby="simple-dialog-title" open={showGoalDeleteConfirmationModal}>
                         <DialogTitle id="simple-dialog-title">Confirm Goal Deletion</DialogTitle>
                         <DialogContent>
@@ -274,4 +279,4 @@ const mapStateToProps = state => {
     }
   }
 
-export default connect(mapStateToProps)(Goal);
+export default connect(mapStateToProps)(Goals);

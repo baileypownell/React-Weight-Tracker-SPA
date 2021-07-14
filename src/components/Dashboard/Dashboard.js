@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import RecentWeightLogs from './RecentWeightLogs/RecentWeightLogs'
 import LineGraph from './LineGraph/LineGraph'
 import WeightLogger from './WeightLogger/WeightLogger'
-import Goal from '../Goal/Goal'
+import Goals from '../Goals/Goals'
 import GoalNotifier from '../GoalNotifier/GoalNotifier'
 import './Dashboard.scss'
 import { compare, compareGoals } from '../../compare'
@@ -85,16 +85,15 @@ class Dashboard extends React.Component {
                     <LineGraph 
                       weights={sortedWeights} 
                     /> 
-                  : null}
+                  : null }
                   
               </div>
-              {sortedWeights.length ? 
-                  <Goal 
-                  key={goals}
-                  updateGoals={this.updateWeightHistory} 
-                  goals={goals} 
-                  weights={sortedWeights} 
-                /> : null}
+              { sortedWeights.length ? 
+                  <Goals 
+                    updateGoals={this.updateWeightHistory} 
+                    goals={goals} 
+                    weights={sortedWeights} 
+                /> : null }
               {
                 primaryGoal ? 
                   <GoalNotifier primaryGoal={primaryGoal}
