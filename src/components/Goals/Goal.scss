@@ -48,14 +48,16 @@
 
 #add-goal {
     padding: 20px 0;
-    max-width: 200px;
+    @include tablet {
+        max-width: 200px;
+    }
 }
 
 .goal-item {
     transition: all .4s;
     background-color: white;
     cursor: pointer;
-    margin: 10px 0;
+    margin: 20px 0;
     border-radius: 5px;
     color: $gray;
     display: flex;
@@ -92,8 +94,8 @@
 }
 
 .selected-goal {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    // border: 2px solid $green;
+    box-shadow: $green 3px 3px 20px;
     .delete-goal {
         background-color: lighten($warning, 10%);
     }

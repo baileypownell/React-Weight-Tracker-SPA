@@ -221,7 +221,6 @@ class Goals extends React.Component {
                                 
                                 <Button 
                                     variant="contained" 
-                                    color="warning" 
                                     className="delete-goal" 
                                     onClick={() => this.openConfirmationDialog(goal.id)}>
                                     <i className="fas fa-trash"></i>

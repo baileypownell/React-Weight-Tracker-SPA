@@ -15,9 +15,9 @@ import firebase from '../../../firebase-config'
 class AccountSettings extends React.Component {
 
   state = {
-    newFirstName: null,
-    newLastName: null,
-    newEmail: null,
+    newFirstName: '',
+    newLastName: '',
+    newEmail: '',
     showUserConfirmationModal: false
   }
 
@@ -69,6 +69,7 @@ class AccountSettings extends React.Component {
         email: newEmail
       }, { merge: true })
       M.toast({html: 'Email updated successfully.'})
+      this.props.changeEmail(this.state.newEmail)
       this.setState({
         newEmail: ''
       })
@@ -76,7 +77,7 @@ class AccountSettings extends React.Component {
     .catch(err => {
       console.log(err)
       M.toast({html: 'There was an error.'})
-    });
+    })
   }
 
   changeFirstName = () => {
@@ -86,29 +87,35 @@ class AccountSettings extends React.Component {
       }, { merge: true })
       .then(() => {
         M.toast({html: 'First name updated.'})
+        this.props.changeFirstName(this.state.newFirstName)
+        this.setState({
+          newFirstName: ''
+        })
       })
       .catch((err) => {
         console.log(err);
         M.toast({html: 'First name could not be updated.'})
-      });
-    this.props.changeFirstName(this.state.newFirstName);
+      })
   }
 
   changeLastName = () => {
-      // update "users" database
-      const db = firebase.firestore();
-        db.collection("users").doc(this.props.uid).set({
-          lastName: this.state.newLastName
-        }, { merge: true })
-        .then(() => {
-          M.toast({html: 'Last name updated.'})
+    // update "users" database
+    const db = firebase.firestore();
+      db.collection("users").doc(this.props.uid).set({
+        lastName: this.state.newLastName
+      }, { merge: true })
+      .then(() => {
+        M.toast({html: 'Last name updated.'})
+        //update Redux
+        this.props.changeLastName(this.state.newLastName)
+        this.setState({
+          newLastName: ''
         })
-        .catch((err) => {
-          console.log(err);
-          M.toast({html: 'Last name could not be updated.'})
-        });
-      //update Redux
-      this.props.changeLastName(this.state.newLastName);
+      })
+      .catch((err) => {
+        console.log(err);
+        M.toast({html: 'Last name could not be updated.'})
+      })
   }
 
   updateName = () => {
@@ -168,11 +175,23 @@ class AccountSettings extends React.Component {
                   <div className="collapsible-header">Update Name</div>
                   <div className="collapsible-body">
                   <div className="input-field">
-                    <input type="text" placeholder={this.props.firstName} id="newFirstName" onChange={this.handleChange}></input>
+                    <input 
+                      type="text" 
+                      placeholder={this.props.firstName} 
+                      value={this.state.newFirstName}
+                      id="newFirstName" 
+                      onChange={this.handleChange}>
+                    </input>
                     <label className="active" htmlFor="newFirstName">First Name</label>
                   </div>
                   <div className="input-field">
-                    <input type="text" placeholder={this.props.lastName} id="newLastName" onChange={this.handleChange}></input>
+                    <input 
+                      type="text" 
+                      placeholder={this.props.lastName} 
+                      value={this.state.newLastName}
+                      id="newLastName" 
+                      onChange={this.handleChange}>
+                    </input>
                     <label className="active" htmlFor="newLastName">New Last Name</label>
                   </div>
                   <Button variant="outlined" disabled={!newLastName && !newFirstName} color="secondary" onClick={this.updateName}>Submit</Button>
@@ -182,7 +201,13 @@ class AccountSettings extends React.Component {
                   <div className="collapsible-header">Update Email</div>
                   <div className="collapsible-body">
                     <div className="input-field">
-                      <input id="newEmail" placeholder={this.props.email} onChange={this.handleChange} type="text"></input>
+                      <input 
+                        id="newEmail" 
+                        placeholder={this.props.email} 
+                        value={newEmail}
+                        onChange={this.handleChange} 
+                        type="text">
+                      </input>
                       <label className="active" htmlFor="newEmail">New Email</label>
                     </div>
                     <Button
