@@ -139,7 +139,8 @@ class Goals extends React.Component {
         .then(() => {
             M.toast({ html: 'Goal deleted.'})
             this.setState({
-                selectedGoal: ''
+                selectedGoal: '',
+                showGoalDeleteConfirmationModal: false
             })
             this.props.updateGoals()
         })
@@ -153,7 +154,7 @@ class Goals extends React.Component {
         })
     }
 
-    handleUserSelection = (userSelection) => {
+    closeConfirmationDialog = () => {
         this.setState({
             showGoalDeleteConfirmationModal: false
         })
@@ -255,7 +256,7 @@ class Goals extends React.Component {
                         <DialogActions>
                         <Button 
                             variant="outlined" 
-                            onClick={() => this.setState({showGoalDeleteConfirmationModal: false})}>
+                            onClick={this.closeConfirmationDialog}>
                             Cancel
                         </Button>
                         <Button 

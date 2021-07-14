@@ -3,6 +3,7 @@
 
 @import './variables.scss';
 
+
 * {
   margin: 0;
   box-sizing: border-box;
@@ -75,6 +76,10 @@ button:not(.btn-flat, .MuiButton-text, .MuiButton-root, .datepicker-day-button, 
 
 .MuiButton-containedPrimary:focus {
   background-color: $pink;
+}
+
+.Muibutton-containedSecondary:focus {
+  background-color: $green!important;
 }
 
 .MuiButton-outlinedPrimary:focus,
