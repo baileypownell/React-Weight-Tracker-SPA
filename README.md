@@ -4,7 +4,7 @@ Simply a web app to track your weight. Built with React, Material-UI, Firebase, 
 
 #### Try it yourself!
 
-### https://weight-tracker-react.herokuapp.com/
+### https://happy-balance.herokuapp.com/
 
 <img src="mobile.jpg" width="300">
 
