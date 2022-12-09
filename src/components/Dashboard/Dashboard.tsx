@@ -1,18 +1,22 @@
 import { Box, Snackbar, Stack, Tab, Tabs, Typography, useTheme } from '@mui/material'
+import { useWindowWidth } from '@react-hook/window-size'
 import { getAuth } from 'firebase/auth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { calculateTodaysWeight } from '../../calculate-todays-weight'
-import { compare, compareGoals } from '../../compare'
-import { determineGoalStatus } from '../../determine-goal-status'
+import { calculateTodaysWeight } from '../../utils/calculate-todays-weight'
+import { compareWeights } from '../../utils/compare-weights'
+import { determineGoalStatus } from '../../utils/determine-goal-status'
 import firebase from '../../firebase-config'
 import Goals from './Goals'
 import LineGraph from './LineGraph'
 import RecentWeightLogs from './RecentWeightLogs'
 import Settings from './Settings'
 import WeightLogger from './WeightLogger'
+import Weight from '../../types/weight'
+import LegacyWeight from '../../types/legacy-weight'
+import { compareGoals } from '../../utils/compare-goals'
 
 enum DisplayOptions {
   History,
@@ -28,16 +32,17 @@ const formattedGoalDate = (targetDate: string) => {
 
 const Dashboard = (props) => {
   const [snackBarMessage, setSnackBarMessage] = useState('')
-  const [sortedWeights, setSortedWeights] = useState<number[]>([])
+  const [sortedWeights, setSortedWeights] = useState<(Weight | LegacyWeight)[]>([])
   const [loaded, setLoaded] = useState(false) 
   const [goals, setGoals] = useState<any[]>([])
-  // const [primaryGoal, setPrimaryGoal] = useState(null)
   const [tabValue, setTabValue] = useState(DisplayOptions.History)
+  const theme = useTheme()
+  const width = useWindowWidth()
+  const auth = getAuth(firebase)
 
   const evaluateDashboardData = async () => {
     const db = getFirestore(firebase);
     const docRef = doc(db, 'users', props.uid);
-    console.log(getAuth(firebase))
     try {
       const docSnap = await getDoc(docRef);
       const weightHistory = docSnap.data()?.weights;
@@ -46,27 +51,24 @@ const Dashboard = (props) => {
         : [];
 
       if (weightHistory) {
-        const sortedAllWeightsRecorded = weightHistory.sort(compare)
+        const sortedAllWeightsRecorded = weightHistory.sort(compareWeights)
         setSortedWeights(sortedAllWeightsRecorded)
       }
-      if (goalHistory) {
+      if (goalHistory.length) {
         const sortedGoals = goalHistory.sort(compareGoals)
         setGoals(sortedGoals)
       }
 
       try {
-        const lastWeight = sortedWeights.length ? sortedWeights[0].weight : null
-        const goalStatus = await determineGoalStatus(goals, lastWeight, props.uid)
-        setLoaded(true)
-
-        if (goalStatus.updatedGoals) {
-          const futureGoals = goalStatus.updatedGoals.filter(goal => !goal.complete && !goal.incomplete)
-          setGoals(goalStatus.updatedGoals)
-          // setPrimaryGoal(futureGoals[0])
-        } else {
-          const futureGoals = goals.filter(goal => !goal.complete && !goal.incomplete)
-          // setPrimaryGoal(futureGoals[0])
+        const lastWeight = sortedWeights.length ? Number(sortedWeights[0].weight) : null
+        if (lastWeight !== null) {
+          const goalStatus = await determineGoalStatus(goals, lastWeight, props.uid)
+          if (goalStatus.updatedGoals) {
+            setGoals(goalStatus.updatedGoals)
+          }
         }
+        
+        setLoaded(true)
       } catch (error) {
         setSnackBarMessage('There was an error.')
         console.log(`Error: ${error}`) 
@@ -89,25 +91,38 @@ const Dashboard = (props) => {
 
   return (
     <Stack 
-      direction="row" 
-      sx={{ boxShadow: 10, backgroundColor: 'grey.main' }} 
-      padding={5} 
+      direction={width > 700 ? "row" : "column"}
       width={'100%'} 
       height={'100%'}>
       <Tabs
-        orientation="vertical"
+        orientation={width > 700 ? "vertical" : "horizontal"}
         variant="scrollable"
         value={tabValue}
         onChange={handleTabChange}
-        sx={{ borderRight: 1, borderColor: 'divider' }}
-      >
+        sx={{ 
+          borderRight: 1, 
+          borderColor: 'divider', 
+          backgroundColor: theme.palette.grey.dark,
+          width: width > 700 ? '200px' : '100%',
+          'button': {
+            color: 'white'
+          },
+          '.MuiTab-root:empty': {
+            textAlign: 'left', 
+            width: '100%',
+          }
+        }}>
         <Tab label="History" />
         <Tab label="Goals" />
         <Tab label="Settings" />
       </Tabs>
-      <Box flexGrow={1}>
+      <Stack 
+        sx={{ boxShadow: 10, backgroundColor: 'grey.main' }} 
+        padding={5} 
+        width={'100%'} 
+        height={'100%'}>
         <TabPanel value={tabValue} index={0}>
-          <Stack spacing={5} direction="row">
+          <Stack spacing={5} direction={width > 700 ?"row" : "column"} >
             <Box>
               <WeightLogger 
                 weights={sortedWeights} 
@@ -121,21 +136,22 @@ const Dashboard = (props) => {
               <RecentWeightLogs weights={sortedWeights} /> 
             </Box>
           </Stack> 
-        </TabPanel>
-        <TabPanel value={tabValue} index={1}>
-          { sortedWeights.length ? <Goals 
-                updateGoals={evaluateDashboardData} 
-                goals={goals} 
-                weights={sortedWeights} /> 
-            : <Stack>
-                <Typography variant="h5">Goals</Typography>
-                <Typography marginTop={3}>Record at least one weight to add a goal.</Typography>
-              </Stack> }
-        </TabPanel>
-        <TabPanel value={tabValue} index={2}>
-          <Settings />
-        </TabPanel>
-      </Box>
+      </TabPanel>
+      <TabPanel value={tabValue} index={1}>
+        { sortedWeights.length ? 
+          <Goals 
+            updateGoals={evaluateDashboardData} 
+            goals={goals} 
+            mostRecentWeight={sortedWeights[0]} /> : 
+          <Stack>
+            <Typography variant="h5">Goals</Typography>
+            <Typography marginTop={3}>Record at least one weight to add a goal.</Typography>
+          </Stack> }
+      </TabPanel>
+      <TabPanel value={tabValue} index={2}>
+        <Settings />
+      </TabPanel>
+      </Stack>
       <Snackbar
         open={!!snackBarMessage.length}
         autoHideDuration={6000}

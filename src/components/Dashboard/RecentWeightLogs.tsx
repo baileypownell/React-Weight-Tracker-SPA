@@ -1,12 +1,19 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
 import { DateTime } from 'luxon'
 import { useState } from 'react';
+import LegacyWeight from '../../types/legacy-weight';
+import Weight from '../../types/weight';
 
 const RecentWeightLogs = (props) => {
-  const weights = props.weights.map(el => ({...el, 
-    parsedDate: DateTime.fromSeconds(el.date.date.seconds).toLocaleString() 
-  }))
+  const weights = props.weights.map((weightEntry: Weight | LegacyWeight) => {
+    const parsedDate: string = (weightEntry as LegacyWeight).date.date ? 
+      DateTime.fromSeconds((weightEntry as LegacyWeight).date.date.seconds).toLocaleString() : 
+      DateTime.fromMillis((weightEntry as Weight).date).toLocaleString()
+    return ({...weightEntry, 
+      parsedDate
+    })
+})
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -34,11 +41,9 @@ const RecentWeightLogs = (props) => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead sx={{
-            // backgroundColor: lighten($green, 15%),
             'th': {
               textTransform: 'uppercase',
               fontWeight: 'bold',
-              // color: $white,
             },
             'span': {
               textTransform: 'none',

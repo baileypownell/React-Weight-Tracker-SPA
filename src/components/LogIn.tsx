@@ -1,6 +1,6 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import SendIcon from '@mui/icons-material/Send'
-import { Box, Button, Divider, Snackbar, TextField, Typography } from '@mui/material'
+import { Box, Button, Divider, Snackbar, Stack, TextField, Typography, useTheme } from '@mui/material'
 import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
@@ -14,6 +14,7 @@ const LogIn = (props) => {
   const [snackBarMessage, setSnackBarMessage] = useState('')
   const navigate = useNavigate()
   const auth = getAuth()
+  const theme = useTheme()
 
   const validationSchema = yup.object({
     email: yup
@@ -55,8 +56,15 @@ const LogIn = (props) => {
       boxShadow={10}
       borderRadius={1} 
       padding={3}
-      sx={{ backgroundColor: 'grey.main' }}>
-      <Typography variant="h6">Log In</Typography>
+      sx={{ 
+        backgroundColor: 'grey.main',
+        minWidth: '100%',
+        [theme.breakpoints.up('sm')]: {
+          minWidth: 500,
+          borderRadius: 1,
+        },
+      }}>
+      <Typography marginBottom={2} variant="h6">Log In</Typography>
       <Formik
         initialValues={{
           email: '',
@@ -67,64 +75,68 @@ const LogIn = (props) => {
         render={formik => (
           <>
             <Form>
-              <TextField
-                variant="standard" 
-                label="Email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                onBlur={formik.handleBlur}
-                type="email"
-                id="email"
-                name="email"/>
-              <TextField
-                variant="standard" 
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
-                onBlur={formik.handleBlur}
-                type="password"
-                label="Password"
-                id="password"
-                name="password"/>
+              <Stack spacing={2}>
+                <TextField
+                  variant="filled" 
+                  label="Email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                  onBlur={formik.handleBlur}
+                  type="email"
+                  id="email"
+                  name="email"/>
+                <TextField
+                  variant="filled" 
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
+                  onBlur={formik.handleBlur}
+                  type="password"
+                  label="Password"
+                  id="password"
+                  name="password"/>
+              </Stack>
               <Button 
                 disabled={!formik.values.email || !formik.values.password} 
                 color="primary"
                 type="submit"
                 variant="contained"
                 sx={{
-                  marginTop: '10px'
+                  marginTop: '20px'
                 }}>
                   Log In
               </Button>
             </Form>
 
-            {authError ? 
-              <Box padding={'1 0'}>
+            { authError ? 
+              <Box paddingTop={2} textAlign="right">
                 <Typography marginBottom={1} >Forgot password? Receive a link to reset your password.</Typography>
                   <Button 
+                    color="secondary"
                     variant="outlined"
-                    onClick={() => sendEmail(formik.values.email)}>
-                    Send link 
-                    <SendIcon sx={{ marginLeft: 1 }} />
+                    onClick={() => sendEmail(formik.values.email)}
+                    sx={{
+                      marginTop: 1
+                    }}>
+                      <SendIcon sx={{ marginRight: 1 }} />
+                      Send link 
                   </Button>
                 </Box>
-                : null
-              }
+                : null }
               <Divider sx={{ margin: '20px 0' }} />
               <Box textAlign='right' paddingTop={1}>
                 <Typography variant='h6'>Don't have an account?</Typography>
                 <Button  
                   onClick={() => navigate('/signup')} 
                   variant="outlined"
-                  color="secondary"
                   sx={{
-                    marginTop: '10px'
+                    marginTop: 1
                   }}>
-                  Sign Up 
-                  <ArrowForwardIcon sx={{ marginLeft: 1 }} />
+                    <ArrowForwardIcon sx={{ marginRight: 1 }} />
+                    Sign Up 
                 </Button>
               </Box>
           </>

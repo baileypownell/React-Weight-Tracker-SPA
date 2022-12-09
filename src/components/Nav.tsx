@@ -3,7 +3,7 @@ import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material'
+import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, useTheme } from '@mui/material'
 import { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, useNavigate } from "react-router-dom"
@@ -13,6 +13,7 @@ import * as actions from '../store/actionCreators'
 const Nav = (props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const theme = useTheme()
 
   const logout = () => {
     props.logoutUser()
@@ -27,9 +28,8 @@ const Nav = (props) => {
         alignItems='center' 
         alignContent='center' 
         justifyContent='space-between'
-        // marginBottom={5}
         sx={{ 
-          backgroundColor: 'white',
+          backgroundColor: theme.palette.white.main,
           '& button ': {
             backgroundColor: 'transparent !important',
             marginTop: '0 !important',
@@ -76,14 +76,6 @@ const Nav = (props) => {
                       <ListItemText primary='Dashboard' />
                     </ListItemButton>
                   </ListItem>
-                  {/* <ListItem disablePadding>
-                    <ListItemButton onClick={() => navigate('/settings')}>
-                      <ListItemIcon>
-                        <ManageAccountsIcon />
-                      </ListItemIcon>
-                      <ListItemText primary='Settings' />
-                    </ListItemButton>
-                  </ListItem> */}
                 </> : (
                   <>
                     <ListItem disablePadding>

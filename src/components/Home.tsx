@@ -1,10 +1,11 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Home = (props) => {
   const navigate = useNavigate()
+  const theme = useTheme()
   
   const directUser = (): void => {
     navigate(props.userLoggedIn ? '/dashboard' : '/login');
@@ -13,9 +14,14 @@ const Home = (props) => {
   return (
     <Box 
       boxShadow={10}
-      borderRadius={1} 
       padding={3}
-      sx={{ backgroundColor: 'grey.main' }}>
+      sx={{ 
+        backgroundColor: 'grey.main',
+        [theme.breakpoints.up('md')]: {
+          minWidth: 500,
+          borderRadius: 1
+        },
+      }}>
       <Typography variant='h5'>It's never been <br/>
       <span 
         style={{ 
@@ -35,20 +41,16 @@ const Home = (props) => {
           }}>happy balance</Typography>
         <Stack paddingBottom={'2rem'}>
           <Stack direction="row">
+            <CheckCircleIcon sx={{ marginRight: 1 }} />
             <Typography>is simple to use</Typography>
-            <CheckCircleIcon sx={{ marginLeft: 1 }} /></Stack>
+          </Stack>
           <Stack direction="row">
+            <CheckCircleIcon sx={{ marginRight: 1 }} />
             <Typography>enables you to set goals for yourself</Typography>
-            <CheckCircleIcon sx={{ marginLeft: 1 }} /></Stack>
+          </Stack>
           <Stack direction="row" alignItems="center">
-            <Typography>and most importantly, is completely
-              <span style={{
-                fontSize: '1.5rem',
-                fontFamily: "'Caveat', cursive",
-                marginLeft: '5px'
-              }}>free</span>
-            </Typography>
-            <CheckCircleIcon sx={{ marginLeft: 1 }} />
+            <CheckCircleIcon sx={{ marginRight: 1 }} />
+            <Typography>and most importantly, is completely free</Typography>
           </Stack>
         </Stack>
       </Box>

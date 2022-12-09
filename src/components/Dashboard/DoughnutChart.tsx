@@ -1,6 +1,7 @@
-import { Chip, Stack, Typography, useTheme } from '@mui/material'
-import { useEffect, useRef } from 'react'
 import DoneIcon from '@mui/icons-material/Done'
+import { Chip, Stack, Typography, useTheme } from '@mui/material'
+import { useWindowWidth } from '@react-hook/window-size'
+import { useEffect, useRef } from 'react'
 
 interface Goal {
     baseWeight: string
@@ -16,6 +17,7 @@ const DoughnutChart = (props: { selectedGoal: Goal | null, lastWeight: number })
     const goalGraph = useRef(null)
     const { selectedGoal, lastWeight } = props
     const theme = useTheme()
+    const width = useWindowWidth()
  
     useEffect(() => {
         if (selectedGoal) {
@@ -52,10 +54,12 @@ const DoughnutChart = (props: { selectedGoal: Goal | null, lastWeight: number })
 
     return (
         <Stack 
-            padding={1.5}
+            padding={3}
             borderRadius={.5}
+            boxShadow={10}
+            width={width > 700 ?"auto" : "100%"}
             sx={{
-                backgroundColor: 'white',
+                backgroundColor: 'white.main',
                 color: 'grey.main',
             }}>
             <Typography variant="overline">Target Weight</Typography>

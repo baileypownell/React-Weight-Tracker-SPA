@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react'
+import { Box, Tab, Tabs, Typography, useTheme } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
-import { Box, Tab, Tabs, Typography } from '@mui/material'
+import LegacyWeight from '../../types/legacy-weight'
+import Weight from '../../types/weight'
+import { DateTime } from 'luxon'
 
 enum TimePeriod {
   Week = 'week',
@@ -8,30 +11,32 @@ enum TimePeriod {
   Year = 'year',
 }
 
-let myChart
+let myChart: any
 
-const LineGraph = (props: {weights: number[]}) => {
+const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
   const [value, setValue] = useState(0);
-  const [noHistoryMessageDisplay, setNoHistoryMessageDisplay] = useState(false)
   const [graphTimePeriod, setGraphTimePeriod] = useState<TimePeriod | null>(null)
+  const theme = useTheme()
+  const ref = useRef()
 
-  useEffect(() => graphData(), [graphTimePeriod])
+  useEffect(() => {
+    graphData()
+  }, [props.weights, graphTimePeriod])
 
   useEffect(() => {
     setGraphTimePeriod(TimePeriod.Week)
 
     const data = {
       datasets: [{
-          data: props.weights,
-          backgroundColor: [
-              '#B6C757',
-          ],
-          borderWidth: 1
+        data: props.weights,
+        backgroundColor: [
+            theme.palette.secondary.main,
+        ],
+        borderWidth: 1
       }]
     }
 
-    const ctx = document.getElementById('myChart');
-    myChart = new Chart(ctx, {
+    myChart = new Chart(ref.current, {
       type: 'line', 
       data, 
       options: {
@@ -46,17 +51,17 @@ const LineGraph = (props: {weights: number[]}) => {
     })
   }, [])
 
-  const drawChart = (labels, filteredWeights) => {
+  const drawChart = (labels: string[], filteredWeights: number[]) => {
     Chart.defaults.global.legend.display = false;
     let data = {
       labels: labels,
       datasets: [{
           label: 'Pounds',
           data: filteredWeights,
-          backgroundColor: '#B6C757',
-          hoverBackgroundColor: '#B6C757',
+          backgroundColor: theme.palette.secondary.main,
+          hoverBackgroundColor: theme.palette.primary.light,
           borderColor: [
-              '#e8ffb7'
+              theme.palette.secondary.dark,
           ],
           borderWidth: 2,
           spanGaps: true
@@ -68,40 +73,41 @@ const LineGraph = (props: {weights: number[]}) => {
     myChart.update()
   }
 
-  const prepareChartData = (num) => {
+  const prepareChartData = (secondsInTimePeriod: number) => {
     const { weights } = props
+
     if (!weights.length) {
       return
-    } 
-    let labels = [];
-    let data = [];
-    let newerThanTime = [];
-    for (let i = 0; i < weights.length; i++) {
-        const now = new Date()
-        const secondsSinceEpoch = Math.round(now.getTime() / 1000);
-        let timeLengthAgo = secondsSinceEpoch - num;
-        if (weights[i].date.date.seconds > timeLengthAgo) {
-          newerThanTime.push(weights[i]);
-        }
     }
 
-    newerThanTime.forEach((item) => {
-        data.push(item.weight);
-        let date = new Date(item.date.date.seconds * 1000);
-        labels.push(date)
+    const now = new Date()
+    const secondsSinceEpoch = Math.round(now.getTime() / 1000);
+    const timeLengthAgo = secondsSinceEpoch - secondsInTimePeriod;
+    const newerThanTime: (Weight | LegacyWeight)[] = weights.filter((weightEntry) => {
+        const weightRecordedDateInSeconds = (weightEntry as LegacyWeight).date.date ? 
+          (weightEntry as LegacyWeight).date.date.seconds : 
+          DateTime.fromMillis((weightEntry as Weight).date).toSeconds()
+
+        return weightRecordedDateInSeconds > timeLengthAgo
+    })
+
+    const { labels, data} = newerThanTime.reduce((acc: { labels: string[], data: number[] }, item) => {
+      acc.data.push(Number(item.weight));
+      const date = (item as LegacyWeight).date.date ?
+          DateTime.fromSeconds((item as LegacyWeight).date.date.seconds) :
+          DateTime.fromMillis((item as Weight).date)
+      acc.labels.push(date.toLocaleString(DateTime.DATE_MED))
+
+      return acc
+    }, {
+      labels: [],
+      data: [],
     })
 
     labels.reverse()
     data.reverse()
 
-    let labelsParsed = [];
-    labels.forEach(date => {
-        let day = date.toUTCString().split(' ')[1];
-        let month = date.toUTCString().split(' ')[2];
-        let fulldate = [month, day].join(' ');
-        labelsParsed.push(fulldate);
-    })
-    drawChart(labelsParsed, data) 
+    drawChart(labels, data)
   }
 
   const graphData = (): void => {
@@ -117,12 +123,19 @@ const LineGraph = (props: {weights: number[]}) => {
   return (     
     <>
       { props.weights.length ? 
-        <Box id="charts" sx={{ backgroundColor: 'white', boxShadow: 10 }} borderRadius={1} padding={2}>
+        <Box id="charts" sx={{ backgroundColor: theme.palette.white.main, boxShadow: 10 }} borderRadius={1} padding={2}>
           <Typography variant="overline" color='gray'>Your weight over the past</Typography>
           <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs value={value} onChange={(e, val) => setValue(val)}>
-                <Tab onClick={() => setGraphTimePeriod(TimePeriod.Week)} sx={{ flexGrow: '1' }} label="Week" {...a11yProps(0)} />
+              <Tabs 
+                sx={{ 
+                  button: {
+                    color: theme.palette.grey.main
+                  } 
+                }} 
+                value={value} 
+                onChange={(e, val) => setValue(val)}>
+                <Tab color="" onClick={() => setGraphTimePeriod(TimePeriod.Week)} sx={{ flexGrow: '1' }} label="Week" {...a11yProps(0)} />
                 <Tab onClick={() => setGraphTimePeriod(TimePeriod.Month)} sx={{ flexGrow: '1' }} label="Month" {...a11yProps(1)} />
                 <Tab onClick={() => setGraphTimePeriod(TimePeriod.Year)} sx={{ flexGrow: '1' }} label="Year" {...a11yProps(2)} />
               </Tabs>
@@ -133,7 +146,7 @@ const LineGraph = (props: {weights: number[]}) => {
             width: '100%',
             paddingTop: 1.5,
           }}>
-            <canvas id="myChart" width="400" height="400"></canvas>
+            <canvas ref={ref} width="400" height="400"></canvas>
           </Box>
         </Box>
         : null }

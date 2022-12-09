@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import firebase from '../../firebase-config';
 import * as actions from '../../store/actionCreators';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 
 const db = getFirestore(firebase);
 
@@ -116,7 +117,7 @@ const Settings = (props) => {
   return (
     <>
       <Dialog open={showUserConfirmationModal}>
-          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogTitle>Confirm Account Deletion</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 Are you sure you want to delete your account? This action is irreversible.
@@ -134,11 +135,13 @@ const Settings = (props) => {
             variant="outlined"  
             color="warning"
             onClick={deleteAccount}>
-            Yes, delete my account
+            <WarningAmberRoundedIcon sx={{
+              marginRight: 1
+            }}></WarningAmberRoundedIcon>Yes, delete my account
           </Button>
           </DialogActions>
       </Dialog>
-      <Box maxWidth={'500px'}>
+      <Box maxWidth={'500px'} boxShadow={10}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} >
             <Typography>Update Name</Typography>
@@ -155,8 +158,9 @@ const Settings = (props) => {
                 <Form>
                   <Stack spacing={3}>
                     <TextField
-                      variant="standard" 
+                      variant="filled" 
                       label="First name"
+                      className="subvariant-dark"
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                       error={formik.touched.firstName && Boolean(formik.errors.firstName)}
@@ -166,7 +170,8 @@ const Settings = (props) => {
                       id="firstName"
                       name="firstName"/>
                     <TextField
-                      variant="standard" 
+                      variant="filled" 
+                      className="subvariant-dark"
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                       error={formik.touched.lastName && Boolean(formik.errors.lastName)}
@@ -179,7 +184,7 @@ const Settings = (props) => {
                   </Stack>
                   <Button 
                     variant="contained" 
-                    color="secondary" 
+                    color="primary" 
                     type="submit"
                     onClick={() => handleNameSubmission(formik.values)}
                     disabled={!formik.values.firstName || !formik.values.lastName}
@@ -205,18 +210,21 @@ const Settings = (props) => {
               onSubmit={handleEmailUpdate}
               render={formik => (
                 <Form>
-                  <TextField
-                    variant="standard" 
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    onBlur={formik.handleBlur}
-                    type="email"
-                    label="Email"
-                    id="email"
-                    name="email"/>
+                  <Stack spacing={3}>
+                    <TextField
+                      variant="filled" 
+                      className="subvariant-dark"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      onBlur={formik.handleBlur}
+                      type="email"
+                      label="Email"
+                      id="email"
+                      name="email"/>
+                  </Stack>
                   <Button
-                    color="secondary"
+                    color="primary"
                     variant="contained"
                     disabled={Boolean(formik.errors.email)}
                     sx={{ marginTop: 2 }}
@@ -241,7 +249,7 @@ const Settings = (props) => {
               <Typography variant="body1">Click the button below to receive an email with a link to reset your password. You may need to check your Spam folder.</Typography>
               <Button 
                 variant="contained" 
-                color="secondary" 
+                color="primary" 
                 onClick={changePassword} 
                 sx={{ marginTop: 2 }}>
                   Email my link

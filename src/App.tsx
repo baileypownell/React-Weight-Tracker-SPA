@@ -19,7 +19,7 @@ import Home from './components/Home';
 import LogIn from './components/LogIn';
 
 import { Box } from '@mui/material';
-import './scss/main.scss';
+import './app.scss';
 import RequireAuthComponent from './components/RequireAuthComponent';
 import theme from './theme';
 

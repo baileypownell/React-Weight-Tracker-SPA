@@ -1,34 +1,46 @@
 
 
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, Snackbar, Stack, TextField, Typography, useTheme } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Stack, TextField, Typography, useTheme } from '@mui/material'
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { useWindowWidth } from '@react-hook/window-size'
 import { doc, getFirestore, setDoc } from 'firebase/firestore'
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import firebase from '../../firebase-config'
+import { FormattedGoal } from '../../types/goal'
+import LegacyWeight from '../../types/legacy-weight'
+import Weight from '../../types/weight'
 import DoughnutChart from './DoughnutChart'
 
 const DEFAULT_DATE_PICKER_VALUE = DateTime.now().plus({ weeks: 4 })
 
 const Goals = (props:  {
     updateGoals: any,
-    goals: any[], 
-    weights: any[],
+    goals: FormattedGoal[], 
+    mostRecentWeight: Weight | LegacyWeight,
 }) => {
     const [snackBarMessage, setSnackBarMessage] = useState('');
     const [goalWeight, setGoalWeight] = useState('')
     const [goalTarget, setGoalTarget] = useState(DEFAULT_DATE_PICKER_VALUE) 
     const [goalToDeleteId, setGoalToDeleteId] = useState('')
-    const [selectedGoal, setSelectedGoal] = useState(null)
+    const [selectedGoal, setSelectedGoal] = useState<FormattedGoal | null>(null)
     const [showGoalDeleteConfirmationModal, setShowGoalDeleteConfirmationModal] = useState(false)
+    const width = useWindowWidth()
 
-    useEffect(() => {
-        setSelectedGoal(props.goals[0])
-    }, [])
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleChange = (e)  => {
         if (e.target.value > 0 || e.target.value === '') {
@@ -40,9 +52,9 @@ const Goals = (props:  {
         const db = getFirestore(firebase);
         try {
             const newWeight = {
-                goalWeight, 
+                goalWeight: Number(goalWeight), 
                 goalTarget: new Date(goalTarget.ts).toISOString(),
-                baseWeight: props.weights[0].weight,
+                baseWeight: props.mostRecentWeight.weight,
                 complete: false, 
                 incomplete: false,
                 id: uuidv4(),
@@ -68,7 +80,6 @@ const Goals = (props:  {
                 goals: updatedGoals
             }, { merge: true })
             setSnackBarMessage('Goal deleted.')
-            setSelectedGoal(null)
             setShowGoalDeleteConfirmationModal(false)
             props.updateGoals()
         } catch(error) {
@@ -87,25 +98,22 @@ const Goals = (props:  {
     }
 
     const showGraph = (goalId: string): void => {
-        const goal = props.goals.find(goal => goal.id === goalId)
+        const goal: FormattedGoal = props.goals.find(goal => goal.id === goalId) as FormattedGoal
         setSelectedGoal(goal)
     }
 
-    useEffect(() => {
-        if (props.goals.length === 1) {
-            setSelectedGoal(props.goals[0])
-        }
-    }, [props.goals])
+    useEffect(() => setSelectedGoal(props.goals[0]), [props.goals])
 
     const theme = useTheme()
 
     return (
-        <Stack alignItems="flex-start"  direction="row" justifyContent="flex-start" spacing={4}>
-            <Box minWidth="400px">
+        <Stack alignItems="flex-start"  direction={ width > 700 ? "row" : "column" } justifyContent="flex-start" spacing={4}>
+            <Box width="100%" maxWidth={width > 700 ? "400px" : "none"} minWidth="300px">
                 <Stack direction="column" spacing={2} >
                     <Typography variant="overline">Add a goal</Typography>
                     <LocalizationProvider dateAdapter={AdapterLuxon}>
                         <DesktopDatePicker
+                            disablePast
                             label="Select goal target date"
                             value={goalTarget}
                             onChange={(e) => setGoalTarget(e)}
@@ -138,7 +146,7 @@ const Goals = (props:  {
                         alignItems="baseline"
                         sx={{
                             transition: 'all .4s',
-                            backgroundColor: 'white',
+                            backgroundColor: theme.palette.white.main,
                             cursor: 'pointer',
                             position: 'relative',
                             color: 'grey.main',
@@ -157,43 +165,37 @@ const Goals = (props:  {
                                 {goal.formattedGoalDate}
                             </Typography>
                             { goal.incomplete ? <Chip label="Incomplete" variant="outlined" /> : null }
-                            { goal.complete ? <Chip icon={<DoneIcon />} color="secondary" label="Complete" variant="outlined" /> : null }
+                            { goal.complete ? <Chip icon={<CheckRoundedIcon />} color="secondary" label="Complete" variant="outlined" /> : null }
                         </Stack>
-                        
-                        <Button 
-                            variant="contained" 
+                    
+                        <IconButton
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
                             sx={{
                                 position: 'absolute',
-                                borderTopRightRadius: '5px',
-                                borderBottomRightRadius: '5px',
-                                borderBottomLeftRadius: '0',
-                                borderTopLeftRadius: '0',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                top: 0,
-                                bottom: 0, 
-                                right: 0,
-                                height: '100%',
-                                transition: 'background-color .3s',
-                                // background-color: $warning;
-                                // &:hover: {
-                                //     backgroundColor: lighten($warning, 5%);
-                                // }
-                                i: {
-                                    cursor: 'pointer',
-                                    color: 'white',
-                                    fontSize: '20px',
-                                }
-                            }}
-                            onClick={() => openConfirmationDialog(goal.id)}>
-                            <DeleteIcon />
-                        </Button>
+                                right: '10px'
+                            }}>
+                            <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}>
+                            <MenuItem onClick={() => openConfirmationDialog(goal.id)}>
+                                <ListItemIcon>
+                                    <DeleteIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Delete</ListItemText>
+                            </MenuItem>
+                        </Menu>
                     </Stack>
                 ))
             }
             </Box>
-            <DoughnutChart selectedGoal={selectedGoal} lastWeight={Number(props.weights[0].weight)} />
+            <DoughnutChart selectedGoal={selectedGoal} lastWeight={Number(props.mostRecentWeight.weight)} />
             <Dialog open={showGoalDeleteConfirmationModal}>
                 <DialogTitle>Confirm Goal Deletion</DialogTitle>
                 <DialogContent>

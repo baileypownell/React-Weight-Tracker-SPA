@@ -1,7 +1,7 @@
 
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { DateTime } from 'luxon';
-import firebase from './firebase-config';
+import firebase from '../firebase-config';
 
 export const determineGoalStatus = async (goals: any[], lastWeight: number, userID: string) => {
 

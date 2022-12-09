@@ -1,6 +1,3 @@
-@import 'UI/Form';
-@import 'UI/Input';
-@import './variables.scss';
 
 * {
   margin: 0;
@@ -13,7 +10,7 @@ input {
 }
 
 body {
-  background: url("../assets/scales.jpg"), rgba(232, 156, 26, 0.3);
+  background: url("assets/scales.jpg"), rgba(232, 156, 26, 0.3);
   min-height: 100vh;
   background-blend-mode: hard-light;
   background-position: center;
