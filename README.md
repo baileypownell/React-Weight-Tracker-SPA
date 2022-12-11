@@ -4,4 +4,4 @@ Simply a web app to track your weight. Built with React, Material-UI, Firebase, 
 
 #### Try it yourself!
 
-### https://happy-balance.herokuapp.com/
+### https://candid-shortbread-74b74d.netlify.app/
