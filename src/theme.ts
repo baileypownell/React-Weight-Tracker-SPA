@@ -1,11 +1,18 @@
-import { Color, createTheme, PaletteColor } from "@mui/material";
+import { createTheme } from "@mui/material";
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface Palette {
-    grey: Color;
+    gray: Palette['primary'];
   }
   interface PaletteOptions {
-    grey: PaletteColor;
+    gray: PaletteOptions['primary'];
+  }
+
+  interface Palette {
+    white: Palette['primary'];
+  }
+  interface PaletteOptions {
+    white: PaletteOptions['primary'];
   }
 }
 
@@ -22,7 +29,7 @@ let theme = createTheme({
     warning: {
       main: '#f54848'
     },
-    grey: {
+    gray: {
       main: '#595758',
       light: '#595758',
       dark: '#474646',
@@ -83,7 +90,7 @@ theme = createTheme(theme, {
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          color: theme.palette.grey.dark,
+          color: theme.palette.gray.dark,
         }
       }
     },
@@ -94,10 +101,10 @@ theme = createTheme(theme, {
           // dark inputs 
           "&.subvariant-dark": {
             'input, svg, .MuiInputAdornment-root p': {
-              color: theme.palette.grey.main,
+              color: theme.palette.gray.main,
             },
             'label:not(.Mui-focused, .Mui-error)': {
-              color: theme.palette.grey.main,
+              color: theme.palette.gray.main,
             }
           }
         }

@@ -16,7 +16,7 @@ const Home = (props) => {
       boxShadow={10}
       padding={3}
       sx={{ 
-        backgroundColor: 'grey.main',
+        backgroundColor: 'gray.main',
         [theme.breakpoints.up('md')]: {
           minWidth: 500,
           borderRadius: 1

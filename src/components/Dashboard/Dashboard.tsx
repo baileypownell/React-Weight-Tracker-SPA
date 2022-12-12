@@ -17,6 +17,7 @@ import WeightLogger from './WeightLogger'
 import Weight from '../../types/weight'
 import LegacyWeight from '../../types/legacy-weight'
 import { compareGoals } from '../../utils/compare-goals'
+import ReduxProps from '../../types/redux-props'
 
 enum DisplayOptions {
   History,
@@ -30,7 +31,7 @@ const formattedGoalDate = (targetDate: string) => {
   return DateTime.fromISO(forceToISO).toLocaleString(DateTime.DATE_FULL)
 }
 
-const Dashboard = (props) => {
+const Dashboard = (props: ReduxProps) => {
   const [snackBarMessage, setSnackBarMessage] = useState('')
   const [sortedWeights, setSortedWeights] = useState<(Weight | LegacyWeight)[]>([])
   const [loaded, setLoaded] = useState(false) 
@@ -102,7 +103,7 @@ const Dashboard = (props) => {
         sx={{ 
           borderRight: 1, 
           borderColor: 'divider', 
-          backgroundColor: theme.palette.grey.dark,
+          backgroundColor: theme.palette.gray.dark,
           width: width > 700 ? '200px' : '100%',
           'button': {
             color: 'white'
@@ -117,7 +118,7 @@ const Dashboard = (props) => {
         <Tab label="Settings" />
       </Tabs>
       <Stack 
-        sx={{ boxShadow: 10, backgroundColor: 'grey.main' }} 
+        sx={{ boxShadow: 10, backgroundColor: 'gray.main' }} 
         padding={5} 
         width={'100%'} 
         height={'100%'}>
@@ -129,7 +130,7 @@ const Dashboard = (props) => {
                 todaysWeight={todaysWeight}
                 updateWeightHistory={evaluateDashboardData}
               />
-            { sortedWeights.length ? <LineGraph weights={sortedWeights} /> : null }
+              <LineGraph weights={sortedWeights} />
             </Box>
 
             <Box flexGrow={1}>

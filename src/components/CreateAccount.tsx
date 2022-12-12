@@ -63,7 +63,7 @@ const CreateAccount = (props) => {
       boxShadow={10}
       padding={3}
       sx={{ 
-        backgroundColor: 'grey.main',
+        backgroundColor: 'gray.main',
         minWidth: '100%',
         [theme.breakpoints.up('sm')]: {
           minWidth: 500,

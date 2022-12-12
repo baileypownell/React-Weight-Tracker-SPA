@@ -111,7 +111,7 @@ const Settings = (props) => {
   }
 
   if (!user) {
-    return
+    return null
   }
 
   return (
@@ -164,7 +164,7 @@ const Settings = (props) => {
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                       error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                      helperText={formik.touched.firstName && formik.errors.firstName}
+                      helperText={(formik.touched.firstName && formik.errors.firstName) as boolean}
                       onBlur={formik.handleBlur}
                       type="text"
                       id="firstName"
@@ -175,7 +175,7 @@ const Settings = (props) => {
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                       error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                      helperText={formik.touched.lastName && formik.errors.lastName}
+                      helperText={(formik.touched.lastName && formik.errors.lastName) as boolean}
                       onBlur={formik.handleBlur}
                       type="text"
                       label="Last name"

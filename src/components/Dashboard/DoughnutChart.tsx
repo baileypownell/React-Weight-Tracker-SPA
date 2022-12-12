@@ -1,20 +1,12 @@
 import DoneIcon from '@mui/icons-material/Done'
 import { Chip, Stack, Typography, useTheme } from '@mui/material'
 import { useWindowWidth } from '@react-hook/window-size'
+import { Chart, ChartItem } from 'chart.js/auto'
 import { useEffect, useRef } from 'react'
+import { FormattedGoal } from '../../types/goal'
 
-interface Goal {
-    baseWeight: string
-    complete: boolean 
-    formattedGoalDate: string 
-    goalTarget: string
-    goalWeight: string 
-    id: string 
-    incomplete: boolean
-}
-
-const DoughnutChart = (props: { selectedGoal: Goal | null, lastWeight: number }) => {
-    const goalGraph = useRef(null)
+const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: number }) => {
+    const goalGraph = useRef<any>(null)
     const { selectedGoal, lastWeight } = props
     const theme = useTheme()
     const width = useWindowWidth()
@@ -30,18 +22,20 @@ const DoughnutChart = (props: { selectedGoal: Goal | null, lastWeight: number })
                     data: [lastWeight, goalWeightDifference],
                     backgroundColor: [
                         theme.palette.secondary.main,
-                        theme.palette.grey.main,
+                        theme.palette.gray.main,
                     ],
                     borderWidth: 0.5
                 }]
             }
 
-            new Chart(goalGraph.current, {
+            new Chart(goalGraph.current as ChartItem, {
                 type: 'doughnut',
                 data,
                 options: {
-                    legend: {
-                        onClick: (e) => e.stopPropagation()
+                    plugins: {
+                        legend: {
+                            onClick: (e) => (e as any).stopPropagation()
+                        }
                     }
                 }
             })
@@ -60,7 +54,7 @@ const DoughnutChart = (props: { selectedGoal: Goal | null, lastWeight: number })
             width={width > 700 ?"auto" : "100%"}
             sx={{
                 backgroundColor: 'white.main',
-                color: 'grey.main',
+                color: 'gray.main',
             }}>
             <Typography variant="overline">Target Weight</Typography>
             <Typography variant="h3">{ Number(selectedGoal.goalWeight).toFixed(1) } lbs. </Typography>

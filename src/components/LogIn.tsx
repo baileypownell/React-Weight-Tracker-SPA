@@ -57,7 +57,7 @@ const LogIn = (props) => {
       borderRadius={1} 
       padding={3}
       sx={{ 
-        backgroundColor: 'grey.main',
+        backgroundColor: 'gray.main',
         minWidth: '100%',
         [theme.breakpoints.up('sm')]: {
           minWidth: 500,

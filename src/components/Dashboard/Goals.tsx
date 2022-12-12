@@ -13,21 +13,24 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import firebase from '../../firebase-config'
-import { FormattedGoal } from '../../types/goal'
+import Goal, { FormattedGoal } from '../../types/goal'
 import LegacyWeight from '../../types/legacy-weight'
 import Weight from '../../types/weight'
 import DoughnutChart from './DoughnutChart'
+import ReduxProps from '../../types/redux-props'
 
 const DEFAULT_DATE_PICKER_VALUE = DateTime.now().plus({ weeks: 4 })
 
-const Goals = (props:  {
+interface Props extends ReduxProps {
     updateGoals: any,
-    goals: FormattedGoal[], 
+    goals: (FormattedGoal | Goal)[], 
     mostRecentWeight: Weight | LegacyWeight,
-}) => {
+}
+
+const Goals = (props: Props) => {
     const [snackBarMessage, setSnackBarMessage] = useState('');
     const [goalWeight, setGoalWeight] = useState('')
-    const [goalTarget, setGoalTarget] = useState(DEFAULT_DATE_PICKER_VALUE) 
+    const [goalTarget, setGoalTarget] = useState<DateTime | null>(DEFAULT_DATE_PICKER_VALUE) 
     const [goalToDeleteId, setGoalToDeleteId] = useState('')
     const [selectedGoal, setSelectedGoal] = useState<FormattedGoal | null>(null)
     const [showGoalDeleteConfirmationModal, setShowGoalDeleteConfirmationModal] = useState(false)
@@ -51,16 +54,16 @@ const Goals = (props:  {
     const addGoal = async () => {
         const db = getFirestore(firebase);
         try {
-            const newWeight = {
+            const newGoal: Goal = {
                 goalWeight: Number(goalWeight), 
-                goalTarget: new Date(goalTarget.ts).toISOString(),
-                baseWeight: props.mostRecentWeight.weight,
+                goalTarget: new Date((goalTarget! as any).ts).toISOString(),
+                baseWeight: Number(props.mostRecentWeight.weight),
                 complete: false, 
                 incomplete: false,
                 id: uuidv4(),
             }
             await setDoc(doc(db, 'users', props.uid), {
-                goals: props.goals.concat(newWeight)
+                goals: props.goals.concat(newGoal)
             }, { merge: true });
             setSnackBarMessage('Goal added!')
             setGoalWeight('')
@@ -102,7 +105,7 @@ const Goals = (props:  {
         setSelectedGoal(goal)
     }
 
-    useEffect(() => setSelectedGoal(props.goals[0]), [props.goals])
+    useEffect(() => setSelectedGoal(props.goals[0] as FormattedGoal), [props.goals])
 
     const theme = useTheme()
 
@@ -149,7 +152,7 @@ const Goals = (props:  {
                             backgroundColor: theme.palette.white.main,
                             cursor: 'pointer',
                             position: 'relative',
-                            color: 'grey.main',
+                            color: 'gray.main',
                             boxShadow: selectedGoal && selectedGoal.id === goal.id ? 
                                 `${theme.palette.secondary.main} 3px 3px 20px` : 
                                 `none`
@@ -164,7 +167,7 @@ const Goals = (props:  {
                                 <Box>
                                     <Typography variant="overline">Goal Date</Typography>
                                     <Typography variant="h6" sx={{ padding: 0 }}>
-                                        {goal.formattedGoalDate}
+                                        {(goal as FormattedGoal).formattedGoalDate}
                                     </Typography>
                                 </Box>
 

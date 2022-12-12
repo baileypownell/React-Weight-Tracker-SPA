@@ -1,9 +1,10 @@
 import { Box, Tab, Tabs, Typography, useTheme } from '@mui/material'
+import { Chart } from 'chart.js/auto'
+import { DateTime } from 'luxon'
 import { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import LegacyWeight from '../../types/legacy-weight'
 import Weight from '../../types/weight'
-import { DateTime } from 'luxon'
 
 enum TimePeriod {
   Week = 'week',
@@ -17,7 +18,7 @@ const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
   const [value, setValue] = useState(0);
   const [graphTimePeriod, setGraphTimePeriod] = useState<TimePeriod | null>(null)
   const theme = useTheme()
-  const ref = useRef()
+  const ref = useRef<any>()
 
   useEffect(() => {
     graphData()
@@ -36,32 +37,37 @@ const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
       }]
     }
 
+    myChart?.destroy()
     myChart = new Chart(ref.current, {
       type: 'line', 
       data, 
       options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
           }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grace: 10
+          }
+        }
       }
     })
   }, [])
 
   const drawChart = (labels: string[], filteredWeights: number[]) => {
-    Chart.defaults.global.legend.display = false;
-    let data = {
+    const data = {
       labels: labels,
       datasets: [{
-          label: 'Pounds',
+          label: `Your weight over the past ${graphTimePeriod}`,
           data: filteredWeights,
           backgroundColor: theme.palette.secondary.main,
           hoverBackgroundColor: theme.palette.primary.light,
           borderColor: [
-              theme.palette.secondary.dark,
+            theme.palette.secondary.dark,
           ],
           borderWidth: 2,
           spanGaps: true
@@ -121,36 +127,29 @@ const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
   }
 
   return (     
-    <>
-      { props.weights.length ? 
-        <Box id="charts" sx={{ backgroundColor: theme.palette.white.main, boxShadow: 10 }} borderRadius={1} padding={2}>
-          <Typography variant="overline" color='gray'>Your weight over the past</Typography>
-          <Box>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs 
-                sx={{ 
-                  button: {
-                    color: theme.palette.grey.main
-                  } 
-                }} 
-                value={value} 
-                onChange={(e, val) => setValue(val)}>
-                <Tab color="" onClick={() => setGraphTimePeriod(TimePeriod.Week)} sx={{ flexGrow: '1' }} label="Week" {...a11yProps(0)} />
-                <Tab onClick={() => setGraphTimePeriod(TimePeriod.Month)} sx={{ flexGrow: '1' }} label="Month" {...a11yProps(1)} />
-                <Tab onClick={() => setGraphTimePeriod(TimePeriod.Year)} sx={{ flexGrow: '1' }} label="Year" {...a11yProps(2)} />
-              </Tabs>
-            </Box>
-          </Box>
-          <Box sx={{
-            position: 'relative',
-            width: '100%',
-            paddingTop: 1.5,
-          }}>
-            <canvas ref={ref} width="400" height="400"></canvas>
-          </Box>
-        </Box>
-        : null }
-    </>
+    <Box sx={{ backgroundColor: theme.palette.white.main, boxShadow: 10 }} borderRadius={1} padding={2}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs 
+          sx={{ 
+            button: {
+              color: theme.palette.gray.main
+            } 
+          }} 
+          value={value} 
+          onChange={(e, val) => setValue(val)}>
+          <Tab color="" onClick={() => setGraphTimePeriod(TimePeriod.Week)} sx={{ flexGrow: '1' }} label="Week" {...a11yProps(0)} />
+          <Tab onClick={() => setGraphTimePeriod(TimePeriod.Month)} sx={{ flexGrow: '1' }} label="Month" {...a11yProps(1)} />
+          <Tab onClick={() => setGraphTimePeriod(TimePeriod.Year)} sx={{ flexGrow: '1' }} label="Year" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
+      <Box sx={{
+        position: 'relative',
+        width: '100%',
+        paddingTop: 1.5,
+      }}>
+        <canvas ref={ref} width="400" height="400"></canvas>
+      </Box>
+    </Box>
   )
 }
 
