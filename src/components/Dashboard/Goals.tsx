@@ -155,17 +155,22 @@ const Goals = (props:  {
                                 `none`
                         }}
                         onClick={() => showGraph(goal.id)}>
-                        <Stack alignItems="flex-start">
+                        <Stack alignItems="flex-start" width="100%">
                             <Typography variant="overline">Target Weight</Typography>
                             <Typography variant="h6" sx={{ padding: 0 }}>
                                 { Number(goal.goalWeight).toFixed(1) } lbs.
                             </Typography>
-                            <Typography variant="overline">Goal Date</Typography>
-                            <Typography variant="h6" sx={{ padding: 0 }}>
-                                {goal.formattedGoalDate}
-                            </Typography>
-                            { goal.incomplete ? <Chip label="Incomplete" variant="outlined" /> : null }
-                            { goal.complete ? <Chip icon={<CheckRoundedIcon />} color="secondary" label="Complete" variant="outlined" /> : null }
+                            <Stack direction="row" alignItems="flex-end" justifyContent="space-between" width="100%">
+                                <Box>
+                                    <Typography variant="overline">Goal Date</Typography>
+                                    <Typography variant="h6" sx={{ padding: 0 }}>
+                                        {goal.formattedGoalDate}
+                                    </Typography>
+                                </Box>
+
+                                { goal.incomplete ? <Chip color="warning" label="Incomplete" variant="outlined" /> : null }
+                                { goal.complete ? <Chip icon={<CheckRoundedIcon />} color="secondary" label="Complete" variant="outlined" /> : null }
+                            </Stack>
                         </Stack>
                     
                         <IconButton
