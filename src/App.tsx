@@ -36,12 +36,6 @@ const store = createStore(persistedReducer, composeEnhancers(
 
 let persistor = persistStore(store)
 
-// console.log('VITE_FIREBASE_API_KEY: ', process.env.
-console.log('FIREBASE_API_KEY: ', process.env.FIREBASE_API_KEY)
-console.log('VITE_FIREBASE_API_KEY: ', process.env.VITE_FIREBASE_API_KEY)
-console.log('FIREBASE_API_KEY: ', import.meta.env.FIREBASE_API_KEY)
-console.log('VITE_FIREBASE_API_KEY: ', import.meta.env.VITE_FIREBASE_API_KEY)
-
 const App = () => {
   return (
     <Box display="grid" sx={{
