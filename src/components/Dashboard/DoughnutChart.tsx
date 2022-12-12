@@ -1,9 +1,11 @@
 import DoneIcon from '@mui/icons-material/Done'
-import { Chip, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Chip, Stack, Typography, useTheme } from '@mui/material'
 import { useWindowWidth } from '@react-hook/window-size'
 import { Chart, ChartItem } from 'chart.js/auto'
 import { useEffect, useRef } from 'react'
 import { FormattedGoal } from '../../types/goal'
+
+let chart
 
 const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: number }) => {
     const goalGraph = useRef<any>(null)
@@ -27,23 +29,27 @@ const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: 
                     borderWidth: 0.5
                 }]
             }
-
-            new Chart(goalGraph.current as ChartItem, {
-                type: 'doughnut',
-                data,
-                options: {
-                    plugins: {
-                        legend: {
-                            onClick: (e) => (e as any).stopPropagation()
+            if (!chart) {
+                chart = new Chart(goalGraph.current as ChartItem, {
+                    type: 'doughnut',
+                    data,
+                    options: {
+                        plugins: {
+                            legend: {
+                                onClick: (e) => (e as any).stopPropagation()
+                            }
                         }
                     }
-                }
-            })
+                })
+            } else{
+                chart.data = data 
+                chart.update()
+            }
         }
     }, [selectedGoal])
 
     if (!selectedGoal || !lastWeight) {
-        return <div></div>
+        return null
     }
 
     return (
@@ -56,19 +62,25 @@ const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: 
                 backgroundColor: 'white.main',
                 color: 'gray.main',
             }}>
-            <Typography variant="overline">Target Weight</Typography>
-            <Typography variant="h3">{ Number(selectedGoal.goalWeight).toFixed(1) } lbs. </Typography>
-            <span>
-                { selectedGoal.incomplete ? 
-                    <Chip label="Incomplete" variant="outlined" />
-                : null }
-            </span>
-            <span>
-                { selectedGoal.complete ?  
-                    <Chip icon={<DoneIcon />} label="Complete" color="secondary" variant="outlined" />
-                : null }
-            </span>
-            <canvas ref={goalGraph} width="300" height="300"></canvas>
+            <Stack direction="row" justifyContent="space-between" alignItems="flex-end" spacing={5}>
+                <Box>
+                    <Typography variant="overline">Target Weight</Typography>
+                    <Typography variant="h3">{ Number(selectedGoal.goalWeight).toFixed(1) } lbs. </Typography>
+                </Box>
+                <Box sx={{ marginBottom: '10px!important' }}>
+                    <span>
+                        { selectedGoal.incomplete ? 
+                            <Chip color="warning" label="Incomplete" variant="outlined" />
+                        : null }
+                    </span>
+                    <span>
+                        { selectedGoal.complete ?  
+                            <Chip icon={<DoneIcon />} label="Complete" color="secondary" variant="outlined" />
+                        : null }
+                    </span>
+                </Box>
+            </Stack>
+            <canvas ref={goalGraph}></canvas>
         </Stack> 
     )
 }
