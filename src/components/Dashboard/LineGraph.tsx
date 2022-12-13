@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs, Typography, useTheme } from '@mui/material'
+import { Box, Tab, Tabs, useTheme } from '@mui/material'
 import { Chart } from 'chart.js/auto'
 import { DateTime } from 'luxon'
 import { useEffect, useRef, useState } from 'react'
@@ -12,7 +12,7 @@ enum TimePeriod {
   Year = 'year',
 }
 
-let myChart: any
+let myChart
 
 const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
   const [value, setValue] = useState(0);

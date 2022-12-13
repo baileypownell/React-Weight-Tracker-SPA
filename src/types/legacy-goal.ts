@@ -1,3 +1,4 @@
+import { GoalStatus } from "./goal"
 
 export default interface LegacyGoal {
     baseWeight: string 
@@ -7,4 +8,5 @@ export default interface LegacyGoal {
     goalWeight: string 
     id: string 
     incomplete: boolean
+    status?: GoalStatus
 }

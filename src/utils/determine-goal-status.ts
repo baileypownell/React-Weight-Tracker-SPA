@@ -2,52 +2,54 @@
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { DateTime } from 'luxon';
 import firebase from '../firebase-config';
+import { FormattedGoal, GoalStatus } from '../types/goal';
+import LegacyGoal from '../types/legacy-goal';
 
-export const determineGoalStatus = async (goals: any[], lastWeight: number, userID: string) => {
+enum GoalObjective {
+    Lose,
+    Gain
+}
 
+const determineGoalStatus = (goal, goalObjective: GoalObjective, lastWeight: number): GoalStatus => {
+    if (goalObjective === GoalObjective.Gain) {
+        return lastWeight >= goal.goalWeight ? GoalStatus.Complete : GoalStatus.Incomplete
+    } else if (goalObjective === GoalObjective.Lose) {
+        return lastWeight <= goal.goalWeight ? GoalStatus.Complete : GoalStatus.Incomplete
+    } else {
+        return GoalStatus.InProgress
+    }
+}
+
+export const updateGoalStatuses = async (
+    goals: (FormattedGoal | LegacyGoal)[], 
+    lastWeight: number, 
+    userID: string
+) => {
     let shouldUpdate = false
 
     const db = getFirestore(firebase);
-    let goalsToUpdate = goals;
+    const goalsToUpdate = goals;
 
-    goals.forEach(goal => {
-        // first, if the goal is already marked as incomplete, return as this means that there is no reason to recalculate 
-        if (goal.incomplete) {
-            return 
-        }
-        let goalID = goal.id
-        let today = DateTime.fromISO(new Date().toISOString())
-        let targetCompletionDate = DateTime.fromISO(new Date(goal.goalTarget).toISOString())
+    goals.filter(goal => goal.status !== GoalStatus.Incomplete).forEach(goal => {
+        const goalID = goal.id
+        const today = DateTime.fromISO(new Date().toISOString())
+        const targetCompletionDate = DateTime.fromISO(new Date(goal.goalTarget).toISOString())
     
-        let goalExpiresToday = targetCompletionDate.startOf('day') <= today.startOf('day')
-        // first and foremost this should account for time 
-        // if today is before the goal, both incomplete and complete should be false 
-        // in other words, do nothing
-        // else, if the goal expires today, determine the status and update accordingly 
+        const goalExpiresToday = targetCompletionDate.startOf('day') <= today.startOf('day')
+   
         if (goalExpiresToday) {
             shouldUpdate = true
-                const determineGainingGoalStatus = () => {
-                    return lastWeight >= goal.goalWeight ? true : false
-                }
-    
-                const determineLosingGoalStatus = () =>  {
-                    return lastWeight <= goal.goalWeight ? true : false
-                }
-                let gaining, losing;
-                gaining = goal.goalWeight > goal.baseWeight;
-                losing = goal.goalWeight < goal.baseWeight;
-        
-                let complete, incomplete; 
-    
-                complete = gaining ? determineGainingGoalStatus() : determineLosingGoalStatus() 
-                incomplete = !complete
+            let goalObjective: GoalObjective | null = null
+            if (goal.goalWeight > goal.baseWeight) {
+                goalObjective = GoalObjective.Gain
+            } else if (goal.goalWeight < goal.baseWeight) {
+                goalObjective = GoalObjective.Lose
+            }
 
-                let goalToUpdateIndex = goals.findIndex(goal => goal.id === goalID)
-                goalsToUpdate[goalToUpdateIndex].incomplete = incomplete 
-                goalsToUpdate[goalToUpdateIndex].complete = complete 
-                
-        } else {
-            return
+            const status: GoalStatus = determineGoalStatus(goal, goalObjective as GoalObjective, lastWeight)
+
+            const goalToUpdateIndex = goals.findIndex(goal => goal.id === goalID)
+            goalsToUpdate[goalToUpdateIndex].status = status 
         }
     })
 

@@ -1,9 +1,9 @@
-import DoneIcon from '@mui/icons-material/Done'
-import { Box, Chip, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Stack, Typography, useTheme } from '@mui/material'
 import { useWindowWidth } from '@react-hook/window-size'
 import { Chart, ChartItem } from 'chart.js/auto'
 import { useEffect, useRef } from 'react'
 import { FormattedGoal } from '../../types/goal'
+import GoalChip from './GoalChip'
 
 let chart
 
@@ -41,7 +41,8 @@ const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: 
                         }
                     }
                 })
-            } else{
+            } else {
+                console.log('chart', goalGraph.current)
                 chart.data = data 
                 chart.update()
             }
@@ -68,16 +69,7 @@ const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: 
                     <Typography variant="h3">{ Number(selectedGoal.goalWeight).toFixed(1) } lbs. </Typography>
                 </Box>
                 <Box sx={{ marginBottom: '10px!important' }}>
-                    <span>
-                        { selectedGoal.incomplete ? 
-                            <Chip color="warning" label="Incomplete" variant="outlined" />
-                        : null }
-                    </span>
-                    <span>
-                        { selectedGoal.complete ?  
-                            <Chip icon={<DoneIcon />} label="Complete" color="secondary" variant="outlined" />
-                        : null }
-                    </span>
+                    <GoalChip goalStatus={selectedGoal.status} />
                 </Box>
             </Stack>
             <canvas ref={goalGraph}></canvas>

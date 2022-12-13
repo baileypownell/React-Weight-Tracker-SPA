@@ -1,13 +1,16 @@
 
-// TO-DO: eliminate complete/incomplete properties and replace with status with enum values
+export enum GoalStatus {
+    Complete,
+    Incomplete, 
+    InProgress
+}
 
 export default interface Goal {
     baseWeight: number
-    complete: boolean
     goalTarget: string // ISO format
     goalWeight: number 
     id: string 
-    incomplete: boolean
+    status: GoalStatus
 }
 
 export interface FormattedGoal extends Goal {

@@ -5,19 +5,22 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { calculateTodaysWeight } from '../../utils/calculate-todays-weight'
-import { compareWeights } from '../../utils/compare-weights'
-import { determineGoalStatus } from '../../utils/determine-goal-status'
 import firebase from '../../firebase-config'
+import { FormattedGoal } from '../../types/goal'
+import LegacyGoal from '../../types/legacy-goal'
+import LegacyWeight from '../../types/legacy-weight'
+import ReduxProps from '../../types/redux-props'
+import Weight from '../../types/weight'
+import { calculateTodaysWeight } from '../../utils/calculate-todays-weight'
+import { compareGoals } from '../../utils/compare-goals'
+import { compareWeights } from '../../utils/compare-weights'
+import { updateGoalStatuses } from '../../utils/determine-goal-status'
+import determineLegacyGoalStatus from '../../utils/determine-legacy-goal-status'
 import Goals from './Goals'
 import LineGraph from './LineGraph'
 import RecentWeightLogs from './RecentWeightLogs'
 import Settings from './Settings'
 import WeightLogger from './WeightLogger'
-import Weight from '../../types/weight'
-import LegacyWeight from '../../types/legacy-weight'
-import { compareGoals } from '../../utils/compare-goals'
-import ReduxProps from '../../types/redux-props'
 
 enum DisplayOptions {
   History,
@@ -35,7 +38,7 @@ const Dashboard = (props: ReduxProps) => {
   const [snackBarMessage, setSnackBarMessage] = useState('')
   const [sortedWeights, setSortedWeights] = useState<(Weight | LegacyWeight)[]>([])
   const [loaded, setLoaded] = useState(false) 
-  const [goals, setGoals] = useState<any[]>([])
+  const [goals, setGoals] = useState<(LegacyGoal | FormattedGoal)[]>([])
   const [tabValue, setTabValue] = useState(DisplayOptions.History)
   const theme = useTheme()
   const width = useWindowWidth()
@@ -47,10 +50,14 @@ const Dashboard = (props: ReduxProps) => {
     try {
       const docSnap = await getDoc(docRef);
       const weightHistory = docSnap.data()?.weights;
-      const goalHistory = docSnap.data()?.goals?.length ? 
-        docSnap.data()?.goals.map(goal => ({...goal, formattedGoalDate: formattedGoalDate(goal.goalTarget)}))
-        : [];
-
+      const goalHistory: (FormattedGoal | LegacyGoal)[] = docSnap.data()?.goals?.length ? 
+        docSnap.data()?.goals.map(goal => ({
+          ...goal, 
+          formattedGoalDate: formattedGoalDate(goal.goalTarget),
+          status: goal.status ?? determineLegacyGoalStatus(goal)
+        }))
+      : [];
+      
       if (weightHistory) {
         const sortedAllWeightsRecorded = weightHistory.sort(compareWeights)
         setSortedWeights(sortedAllWeightsRecorded)
@@ -63,7 +70,7 @@ const Dashboard = (props: ReduxProps) => {
       try {
         const lastWeight = sortedWeights.length ? Number(sortedWeights[0].weight) : null
         if (lastWeight !== null) {
-          const goalStatus = await determineGoalStatus(goals, lastWeight, props.uid)
+          const goalStatus = await updateGoalStatuses(goals, lastWeight, props.uid)
           if (goalStatus.updatedGoals) {
             setGoals(goalStatus.updatedGoals)
           }

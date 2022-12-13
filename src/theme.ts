@@ -14,6 +14,13 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     white: PaletteOptions['primary'];
   }
+
+  interface Palette {
+    green: Palette['primary'];
+  }
+  interface PaletteOptions {
+    green: PaletteOptions['primary'];
+  }
 }
 
 let theme = createTheme({
@@ -38,6 +45,9 @@ let theme = createTheme({
     white: {
       main: '#ffffff',
       dark: '#F8F8F8',
+    },
+    green: {
+      main: '#6dbd5c',
     },
 
     text: {

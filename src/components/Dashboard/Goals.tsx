@@ -1,29 +1,29 @@
 
-
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Stack, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Stack, TextField, Typography, useTheme } from '@mui/material'
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { useWindowWidth } from '@react-hook/window-size'
 import { doc, getFirestore, setDoc } from 'firebase/firestore'
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import firebase from '../../firebase-config'
-import Goal, { FormattedGoal } from '../../types/goal'
+import Goal, { FormattedGoal, GoalStatus } from '../../types/goal'
+import LegacyGoal from '../../types/legacy-goal'
 import LegacyWeight from '../../types/legacy-weight'
+import ReduxProps from '../../types/redux-props'
 import Weight from '../../types/weight'
 import DoughnutChart from './DoughnutChart'
-import ReduxProps from '../../types/redux-props'
+import { GoalChip } from './GoalChip'
 
 const DEFAULT_DATE_PICKER_VALUE = DateTime.now().plus({ weeks: 4 })
 
 interface Props extends ReduxProps {
     updateGoals: any,
-    goals: (FormattedGoal | Goal)[], 
+    goals: (FormattedGoal | LegacyGoal)[], 
     mostRecentWeight: Weight | LegacyWeight,
 }
 
@@ -58,12 +58,11 @@ const Goals = (props: Props) => {
                 goalWeight: Number(goalWeight), 
                 goalTarget: new Date((goalTarget! as any).ts).toISOString(),
                 baseWeight: Number(props.mostRecentWeight.weight),
-                complete: false, 
-                incomplete: false,
+                status: GoalStatus.InProgress,
                 id: uuidv4(),
             }
             await setDoc(doc(db, 'users', props.uid), {
-                goals: props.goals.concat(newGoal)
+                goals: props.goals.concat(newGoal as any)
             }, { merge: true });
             setSnackBarMessage('Goal added!')
             setGoalWeight('')
@@ -170,9 +169,7 @@ const Goals = (props: Props) => {
                                         {(goal as FormattedGoal).formattedGoalDate}
                                     </Typography>
                                 </Box>
-
-                                { goal.incomplete ? <Chip color="warning" label="Incomplete" variant="outlined" /> : null }
-                                { goal.complete ? <Chip icon={<CheckRoundedIcon />} color="secondary" label="Complete" variant="outlined" /> : null }
+                                <GoalChip goalStatus={goal.status as GoalStatus} />
                             </Stack>
                         </Stack>
                     
