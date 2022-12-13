@@ -12,33 +12,40 @@ enum TimePeriod {
   Year = 'year',
 }
 
-let myChart
+let lineChart
 
 const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
   const [value, setValue] = useState(0);
-  const [graphTimePeriod, setGraphTimePeriod] = useState<TimePeriod | null>(null)
+  const [graphTimePeriod, setGraphTimePeriod] = useState<TimePeriod>(TimePeriod.Week)
   const theme = useTheme()
   const ref = useRef<any>()
 
   useEffect(() => {
+    if (!props.weights.length) {
+      return 
+    }
+
     graphData()
   }, [props.weights, graphTimePeriod])
 
-  useEffect(() => {
-    setGraphTimePeriod(TimePeriod.Week)
-
+  const drawChart = (labels: string[], filteredWeights: number[]) => {
     const data = {
+      labels: labels,
       datasets: [{
-        data: props.weights,
-        backgroundColor: [
-            theme.palette.secondary.main,
-        ],
-        borderWidth: 1
-      }]
+          label: `Your weight over the past ${graphTimePeriod}`,
+          data: filteredWeights,
+          backgroundColor: theme.palette.secondary.main,
+          hoverBackgroundColor: theme.palette.primary.light,
+          borderColor: [
+            theme.palette.secondary.dark,
+          ],
+          borderWidth: 2,
+          spanGaps: true
+      }]          
     }
 
-    myChart?.destroy()
-    myChart = new Chart(ref.current, {
+    lineChart?.destroy()
+    lineChart = new Chart(ref.current, {
       type: 'line', 
       data, 
       options: {
@@ -56,36 +63,10 @@ const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
         }
       }
     })
-  }, [])
-
-  const drawChart = (labels: string[], filteredWeights: number[]) => {
-    const data = {
-      labels: labels,
-      datasets: [{
-          label: `Your weight over the past ${graphTimePeriod}`,
-          data: filteredWeights,
-          backgroundColor: theme.palette.secondary.main,
-          hoverBackgroundColor: theme.palette.primary.light,
-          borderColor: [
-            theme.palette.secondary.dark,
-          ],
-          borderWidth: 2,
-          spanGaps: true
-      }]          
-    }
-    myChart.data.labels = data.labels
-    myChart.data.datasets = data.datasets 
-
-    myChart.update()
   }
 
   const prepareChartData = (secondsInTimePeriod: number) => {
     const { weights } = props
-
-    if (!weights.length) {
-      return
-    }
-
     const now = new Date()
     const secondsSinceEpoch = Math.round(now.getTime() / 1000);
     const timeLengthAgo = secondsSinceEpoch - secondsInTimePeriod;
@@ -124,6 +105,12 @@ const LineGraph = (props: {weights: (Weight | LegacyWeight)[]}) => {
     } else if (graphTimePeriod === TimePeriod.Year) {
       prepareChartData(31556952)
     }
+  }
+
+  if (!props.weights.length) {
+    return (
+      null
+    )
   }
 
   return (     

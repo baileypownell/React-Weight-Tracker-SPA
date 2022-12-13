@@ -62,10 +62,8 @@ const Dashboard = (props: ReduxProps) => {
         const sortedAllWeightsRecorded = weightHistory.sort(compareWeights)
         setSortedWeights(sortedAllWeightsRecorded)
       }
-      if (goalHistory.length) {
-        const sortedGoals = goalHistory.sort(compareGoals)
-        setGoals(sortedGoals)
-      }
+
+      setGoals(goalHistory.length ? goalHistory.sort(compareGoals) : goalHistory)
 
       try {
         const lastWeight = sortedWeights.length ? Number(sortedWeights[0].weight) : null
