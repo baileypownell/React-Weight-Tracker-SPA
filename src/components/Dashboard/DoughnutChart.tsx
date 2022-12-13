@@ -29,23 +29,19 @@ const DoughnutChart = (props: { selectedGoal: FormattedGoal | null, lastWeight: 
                     borderWidth: 0.5
                 }]
             }
-            if (!chart) {
-                chart = new Chart(goalGraph.current as ChartItem, {
-                    type: 'doughnut',
-                    data,
-                    options: {
-                        plugins: {
-                            legend: {
-                                onClick: (e) => (e as any).stopPropagation()
-                            }
+            
+            chart?.destroy()
+            chart = new Chart(goalGraph.current as ChartItem, {
+                type: 'doughnut',
+                data,
+                options: {
+                    plugins: {
+                        legend: {
+                            onClick: (e) => (e as any).stopPropagation()
                         }
                     }
-                })
-            } else {
-                console.log('chart', goalGraph.current)
-                chart.data = data 
-                chart.update()
-            }
+                }
+            })
         }
     }, [selectedGoal])
 

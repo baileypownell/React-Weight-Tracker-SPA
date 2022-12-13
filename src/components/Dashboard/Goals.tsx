@@ -1,7 +1,6 @@
 
-import DeleteIcon from '@mui/icons-material/Delete'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Stack, TextField, Typography, useTheme } from '@mui/material'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, InputAdornment, Snackbar, Stack, TextField, Tooltip, Typography, useTheme } from '@mui/material'
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { useWindowWidth } from '@react-hook/window-size'
@@ -22,7 +21,7 @@ import { GoalChip } from './GoalChip'
 const DEFAULT_DATE_PICKER_VALUE = DateTime.now().plus({ weeks: 4 })
 
 interface Props extends ReduxProps {
-    updateGoals: any,
+    updateGoals: () => void,
     goals: (FormattedGoal | LegacyGoal)[], 
     mostRecentWeight: Weight | LegacyWeight,
 }
@@ -35,15 +34,6 @@ const Goals = (props: Props) => {
     const [selectedGoal, setSelectedGoal] = useState<FormattedGoal | null>(null)
     const [showGoalDeleteConfirmationModal, setShowGoalDeleteConfirmationModal] = useState(false)
     const width = useWindowWidth()
-
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const handleChange = (e)  => {
         if (e.target.value > 0 || e.target.value === '') {
@@ -173,29 +163,16 @@ const Goals = (props: Props) => {
                             </Stack>
                         </Stack>
                     
-                        <IconButton
-                            aria-controls={open ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                            sx={{
-                                position: 'absolute',
-                                right: '10px'
-                            }}>
-                            <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}>
-                            <MenuItem onClick={() => openConfirmationDialog(goal.id)}>
-                                <ListItemIcon>
-                                    <DeleteIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Delete</ListItemText>
-                            </MenuItem>
-                        </Menu>
+                        <Tooltip title="Delete this goal">
+                            <IconButton
+                                onClick={() => openConfirmationDialog(goal.id)}
+                                sx={{
+                                    position: 'absolute',
+                                    right: '10px'
+                                }}>
+                                <DeleteRoundedIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Stack>
                 ))
             }
@@ -217,7 +194,8 @@ const Goals = (props: Props) => {
                 <Button 
                     variant="contained" 
                     color="secondary" 
-                    onClick={deleteGoal} autoFocus>
+                    onClick={deleteGoal} 
+                    autoFocus>
                     Confirm
                 </Button>
                 </DialogActions>
