@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import firebase from '../../firebase-config'
-import { FormattedGoal } from '../../types/goal'
+import { FormattedGoal, GoalStatus } from '../../types/goal'
 import LegacyGoal from '../../types/legacy-goal'
 import LegacyWeight from '../../types/legacy-weight'
 import ReduxProps from '../../types/redux-props'
@@ -16,6 +16,7 @@ import { compareGoals } from '../../utils/compare-goals'
 import { compareWeights } from '../../utils/compare-weights'
 import { updateGoalStatuses } from '../../utils/determine-goal-status'
 import determineLegacyGoalStatus from '../../utils/determine-legacy-goal-status'
+import GoalNotifier from './GoalNotifier'
 import Goals from './Goals'
 import LineGraph from './LineGraph'
 import RecentWeightLogs from './RecentWeightLogs'
@@ -38,6 +39,7 @@ const Dashboard = (props: ReduxProps) => {
   const [snackBarMessage, setSnackBarMessage] = useState('')
   const [sortedWeights, setSortedWeights] = useState<(Weight | LegacyWeight)[]>([])
   const [loaded, setLoaded] = useState(false) 
+  const [upcomingGoal, setUpcomingGoal] = useState<FormattedGoal | LegacyGoal | null>(null)
   const [goals, setGoals] = useState<(LegacyGoal | FormattedGoal)[]>([])
   const [tabValue, setTabValue] = useState(DisplayOptions.History)
   const theme = useTheme()
@@ -64,6 +66,11 @@ const Dashboard = (props: ReduxProps) => {
       }
 
       setGoals(goalHistory.length ? goalHistory.sort(compareGoals) : goalHistory)
+
+      if (goalHistory.length) {
+        const upcomingGoal = goalHistory.sort(compareGoals).filter(goal => goal.status === GoalStatus.InProgress)[0]
+        setUpcomingGoal(upcomingGoal)
+      }
 
       try {
         const lastWeight = sortedWeights.length ? Number(sortedWeights[0].weight) : null
@@ -157,6 +164,9 @@ const Dashboard = (props: ReduxProps) => {
       <TabPanel value={tabValue} index={2}>
         <Settings />
       </TabPanel>
+
+      <GoalNotifier upcomingGoal={upcomingGoal} />
+
       </Stack>
       <Snackbar
         open={!!snackBarMessage.length}
