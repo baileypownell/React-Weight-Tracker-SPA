@@ -44,7 +44,7 @@ const GoalNotifier = (props: { upcomingGoal: FormattedGoal | LegacyGoal | null})
                     backgroundColor: theme.palette.secondary.main,
                     width: '600px',
                     height: '600px',
-                    position: 'absolute',
+                    position: 'fixed',
                     bottom: '-300px',
                     right: '-100px',
                     boxShadow: `10px 10px 30px black`
